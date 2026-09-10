@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Send } from "lucide-react";
+import { AtSign, MapPinned, SendHorizontal, Smartphone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
@@ -53,9 +53,9 @@ const Contact = () => {
       <section className="container-full py-20 grid gap-12 lg:grid-cols-5">
         <div className="lg:col-span-2 space-y-8">
           {[
-            { icon: MapPin, title: "Address", body: <>P.O. Box 771, Mbale, Uganda<br />Mbale Industrial City Division Council<br />Bilinda Village, Bumateba Parish, Sironko District</> },
-            { icon: Phone, title: "Phone / WhatsApp", body: <><a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a><a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a></> },
-            { icon: Mail, title: "Email", body: <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent break-all">elgonvanillacoffee@gmail.com</a> },
+            { icon: MapPinned, title: "Address", body: <>P.O. Box 771, Mbale, Uganda<br />Mbale Industrial City Division Council<br />Bilinda Village, Bumateba Parish, Sironko District</> },
+            { icon: Smartphone, title: "Phone / WhatsApp", body: <><a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a><a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a></> },
+            { icon: AtSign, title: "Email", body: <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent break-all">elgonvanillacoffee@gmail.com</a> },
           ].map((c, i) => (
             <motion.div
               key={i}
@@ -124,7 +124,7 @@ const Contact = () => {
             disabled={submitting}
             className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
           >
-            {submitting ? "Sending..." : "Send Message"} <Send className="w-4 h-4" />
+            {submitting ? "Sending..." : "Send Message"} <SendHorizontal className="w-4 h-4" />
           </button>
         </form>
       </section>

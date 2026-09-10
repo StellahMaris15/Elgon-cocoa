@@ -1,6 +1,6 @@
 import { SiteImage } from "@/components/SiteImage";
 import { motion } from "framer-motion";
-import { Leaf, ShieldCheck, Users, Target, Compass, HeartHandshake } from "lucide-react";
+import { BadgeCheck, Compass, Goal, HeartHandshake, Sprout, UsersRound } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
@@ -32,7 +32,7 @@ const About = () => (
     <section className="container-full py-24 grid gap-12 md:grid-cols-3">
       {[
         { icon: Compass, title: "Vision", body: "Building farmers with sustainable farming skills, cohesive, self-reliant communities." },
-        { icon: Target, title: "Mission", body: "To contribute to the betterment of agro-business Ugandan communities." },
+        { icon: Goal, title: "Mission", body: "To contribute to the betterment of agro-business Ugandan communities." },
         { icon: HeartHandshake, title: "Philosophy", body: "Inclusive programs addressing the needs of women and youth all along the vanilla, coffee and cocoa supply chain." },
       ].map((v, i) => (
         <motion.div
@@ -98,9 +98,9 @@ const About = () => (
       </div>
       <div className="grid gap-8 md:grid-cols-3">
         {[
-          { icon: Leaf, title: "Sustainability", body: "Commitment to environmentally responsible farming practices." },
-          { icon: ShieldCheck, title: "Quality", body: "Unwavering dedication to high-grade cocoa, coffee, and vanilla." },
-          { icon: Users, title: "Community Development", body: "Uplifting local communities through employment, training and sustainable practice." },
+          { icon: Sprout, title: "Sustainability", body: "Commitment to environmentally responsible farming practices." },
+          { icon: BadgeCheck, title: "Quality", body: "Unwavering dedication to high-grade cocoa, coffee, and vanilla." },
+          { icon: UsersRound, title: "Community Development", body: "Uplifting local communities through employment, training and sustainable practice." },
         ].map((v, i) => (
           <div key={i} className="p-8 bg-card border border-border rounded-sm hover-lift">
             <v.icon className="w-8 h-8 text-accent mb-4" />

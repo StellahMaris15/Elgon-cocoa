@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Mail, Phone, Globe, Building2 } from "lucide-react";
+import { AtSign, Building2, Globe2, Smartphone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminCard, AdminHeading, inputCls } from "./ui";
 
@@ -77,10 +77,10 @@ const AdminInquiries = () => {
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2 text-sm text-foreground/85 mb-4">
-              <p className="flex items-center gap-2"><Mail className="w-4 h-4 text-accent" /> <a className="hover:text-primary" href={`mailto:${r.email}`}>{r.email}</a></p>
-              {r.phone && <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-accent" /> {r.phone}</p>}
+              <p className="flex items-center gap-2"><AtSign className="w-4 h-4 text-accent" /> <a className="hover:text-primary" href={`mailto:${r.email}`}>{r.email}</a></p>
+              {r.phone && <p className="flex items-center gap-2"><Smartphone className="w-4 h-4 text-accent" /> {r.phone}</p>}
               {r.company && <p className="flex items-center gap-2"><Building2 className="w-4 h-4 text-accent" /> {r.company}</p>}
-              {r.country && <p className="flex items-center gap-2"><Globe className="w-4 h-4 text-accent" /> {r.country}</p>}
+              {r.country && <p className="flex items-center gap-2"><Globe2 className="w-4 h-4 text-accent" /> {r.country}</p>}
             </div>
 
             {r.product_slugs.length > 0 && (

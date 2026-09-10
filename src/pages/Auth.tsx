@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2, ShieldCheck } from "lucide-react";
+import { BadgeCheck, Eye, EyeOff, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Seo } from "@/components/Seo";
@@ -153,7 +153,7 @@ const Auth = () => {
           </button>
 
           <p className="mt-6 pt-6 border-t border-border text-xs text-muted-foreground flex gap-2">
-            <ShieldCheck className="w-4 h-4 text-accent shrink-0" />
+            <BadgeCheck className="w-4 h-4 text-accent shrink-0" />
             The first account to sign in becomes the workspace administrator. All later accounts must be granted the admin role.
           </p>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import { Send } from "lucide-react";
+import { SendHorizontal } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
@@ -143,7 +143,7 @@ const Inquire = () => {
             disabled={submitting}
             className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
           >
-            {submitting ? "Sending..." : "Submit Inquiry"} <Send className="w-4 h-4" />
+            {submitting ? "Sending..." : "Submit Inquiry"} <SendHorizontal className="w-4 h-4" />
           </button>
         </form>
       </section>

@@ -2,7 +2,7 @@ import { cropHero } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Leaf, ShieldCheck, Users, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, Globe2, HandCoins, PackageCheck, Sprout, UsersRound } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { CollectionCard } from "@/components/CollectionCard";
 import { PageHero, heroBtn } from "@/components/PageHero";
@@ -11,7 +11,12 @@ import { PageHero, heroBtn } from "@/components/PageHero";
 import { ProductCard } from "@/components/ProductCard";
 import { categories, getFeaturedProducts } from "@/data/products";
 
-const PRINCIPLES = ["Sustainability", "Traceability", "Consistency", "Community Powered"];
+const PRINCIPLES = [
+  { label: "Sustainability", icon: Sprout },
+  { label: "Traceability", icon: Globe2 },
+  { label: "Consistency", icon: PackageCheck },
+  { label: "Community Powered", icon: UsersRound },
+];
 
 const Index = () => {
   const featured = getFeaturedProducts();
@@ -28,7 +33,7 @@ const Index = () => {
         bleedTop
       >
         <Link to="/products" className={heroBtn("solid")}>
-          <Leaf className="w-4 h-4" /> Explore Products
+          <PackageCheck className="w-4 h-4" /> Explore Products
         </Link>
         <Link to="/farmers" className={heroBtn("gold")}>
           Meet Our Farmers
@@ -40,7 +45,7 @@ const Index = () => {
           <div className="marquee-content gap-16 pr-16">
             {[...PRINCIPLES, ...PRINCIPLES, ...PRINCIPLES].map((p, i) => (
               <span key={i} className="btn-label text-sm inline-flex items-center gap-4">
-                <Leaf className="w-4 h-4" /> {p}
+                <p.icon className="w-4 h-4" /> {p.label}
               </span>
             ))}
           </div>
@@ -108,9 +113,9 @@ const Index = () => {
       <section className="bg-muted/40">
         <div className="container-full py-24 md:py-28 grid gap-12 md:grid-cols-3">
           {[
-            { icon: Leaf, title: "Sustainability", body: "Environmentally responsible farming practices, from soil to shipment." },
-            { icon: ShieldCheck, title: "Quality", body: "Unwavering dedication to high-grade vanilla, coffee and cocoa." },
-            { icon: Users, title: "Community", body: "Uplifting women, youth and vulnerable groups through training and fair trade." },
+            { icon: Sprout, title: "Sustainability", body: "Environmentally responsible farming practices, from soil to shipment." },
+            { icon: BadgeCheck, title: "Quality", body: "Unwavering dedication to high-grade vanilla, coffee and cocoa." },
+            { icon: UsersRound, title: "Community", body: "Uplifting women, youth and vulnerable groups through training and fair trade." },
           ].map((v, i) => (
             <motion.div
               key={i}
@@ -147,7 +152,7 @@ const Index = () => {
             communities across Uganda's Elgon region.
           </p>
           <div className="flex items-center gap-2 mb-8 text-primary">
-            <Sparkles className="w-5 h-5 text-accent" />
+            <HandCoins className="w-5 h-5 text-accent" />
             <span className="btn-label text-xs">3,000+ farmers across 6 districts</span>
           </div>
           <Link

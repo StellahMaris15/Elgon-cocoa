@@ -1,7 +1,7 @@
 import { SiteImage } from "@/components/SiteImage";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Leaf, GraduationCap, Handshake, ArrowRight, MapPin, Search, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, HandCoins, MapPinned, Search, Sprout, UsersRound, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
@@ -56,7 +56,7 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
         {farmer.role && <p className="btn-label text-[11px] text-accent mt-1">{farmer.role}</p>}
         {farmer.district && (
           <p className="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-            <MapPin className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
+            <MapPinned className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
           </p>
         )}
         {(farmer.crops?.length ?? 0) > 0 && (
@@ -264,10 +264,10 @@ const Farmers = () => {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: Leaf, title: "Organic training", body: "Best-practice organic farming for vanilla, coffee and cocoa." },
-            { icon: Handshake, title: "Collective marketing", body: "Fair prices through pooled harvests and shared export channels." },
-            { icon: GraduationCap, title: "Sustainability skills", body: "On-farm visits and continuous training on productivity." },
-            { icon: Users, title: "Community focus", body: "Women, youth and vulnerable groups at the center." },
+            { icon: Sprout, title: "Organic training", body: "Best-practice organic farming for vanilla, coffee and cocoa." },
+            { icon: HandCoins, title: "Collective marketing", body: "Fair prices through pooled harvests and shared export channels." },
+            { icon: BadgeCheck, title: "Sustainability skills", body: "On-farm visits and continuous training on productivity." },
+            { icon: UsersRound, title: "Community focus", body: "Women, youth and vulnerable groups at the center." },
           ].map((v, i) => (
             <motion.div
               key={i}

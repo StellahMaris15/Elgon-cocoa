@@ -2,7 +2,7 @@ import { cropHero } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, MapPin, Package, Layers, Box, Images } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Boxes, Cuboid, Image, MapPinned, PackageCheck } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Product3DViewer } from "@/components/Product3DViewer";
 import { ProductGallery } from "@/components/ProductGallery";
@@ -55,8 +55,8 @@ const ProductDetail = () => {
             className="inline-flex p-1 rounded-full bg-muted border border-border"
           >
             {([
-              { id: "3d", label: "3D Model", Icon: Box },
-              { id: "photos", label: "Photos", Icon: Images },
+              { id: "3d", label: "3D Model", Icon: Cuboid },
+              { id: "photos", label: "Photos", Icon: Image },
             ] as const).map(({ id, label, Icon }) => (
               <button
                 key={id}
@@ -97,21 +97,21 @@ const ProductDetail = () => {
 
           <div className="space-y-5 border-t border-border pt-6">
             <div className="flex gap-4">
-              <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <MapPinned className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <p className="btn-label text-xs text-primary mb-1">Origin</p>
                 <p className="text-sm text-foreground/80">{product.origin}</p>
               </div>
             </div>
             <div className="flex gap-4">
-              <Layers className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <BadgeCheck className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <p className="btn-label text-xs text-primary mb-1">Grades</p>
                 <p className="text-sm text-foreground/80">{product.grades.join(" / ")}</p>
               </div>
             </div>
             <div className="flex gap-4">
-              <Package className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <Boxes className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <p className="btn-label text-xs text-primary mb-1">Capacity</p>
                 <p className="text-sm text-foreground/80">{product.capacity}</p>
@@ -138,7 +138,7 @@ const ProductDetail = () => {
               to={`/inquire?product=${product.slug}`}
               className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2"
             >
-              Request Quote <ArrowRight className="w-4 h-4" />
+              Request Quote <PackageCheck className="w-4 h-4" />
             </Link>
             <a
               href="mailto:elgonvanillacoffee@gmail.com"

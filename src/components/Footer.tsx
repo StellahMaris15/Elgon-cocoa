@@ -1,6 +1,6 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { AtSign, MapPinned, Smartphone } from "lucide-react";
 import { logoImage } from "@/data/cropImages";
 
 export const Footer = () => {
@@ -47,7 +47,7 @@ export const Footer = () => {
             <h4 className="eyebrow text-accent mb-5">Contact</h4>
             <ul className="space-y-4 text-sm text-primary-foreground/70">
               <li className="flex gap-3">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+                <MapPinned className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
                 <span>
                   P.O. Box 771, Mbale, Uganda<br />
                   Bilinda Village, Bumateba Parish,<br />
@@ -55,14 +55,14 @@ export const Footer = () => {
                 </span>
               </li>
               <li className="flex gap-3">
-                <Phone className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+                <Smartphone className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
                 <div className="space-y-0.5">
                   <a href="tel:+256782528476" className="block hover:text-accent transition-colors">+256 782 528 476</a>
                   <a href="tel:+256706613980" className="block hover:text-accent transition-colors">+256 706 613 980</a>
                 </div>
               </li>
               <li className="flex gap-3">
-                <Mail className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+                <AtSign className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
                 <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent transition-colors break-all">
                   elgonvanillacoffee@gmail.com
                 </a>

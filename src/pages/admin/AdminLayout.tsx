@@ -2,17 +2,16 @@ import { SiteImage } from "@/components/SiteImage";
 import { useState } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
 import {
-  Package,
-  Users,
+  BadgeCheck,
   Inbox,
-  Settings,
   LogOut,
-  LayoutDashboard,
-  Globe,
+  PanelsTopLeft,
+  Globe2,
+  PackageCheck,
   PanelLeftClose,
   PanelLeftOpen,
   Menu,
-  X,
+  UsersRound,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Seo } from "@/components/Seo";
@@ -20,11 +19,11 @@ import { logoImage } from "@/data/cropImages";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { to: "/admin", end: true, label: "Overview", icon: LayoutDashboard },
-  { to: "/admin/products", label: "Products", icon: Package },
-  { to: "/admin/farmers", label: "Farmers", icon: Users },
+  { to: "/admin", end: true, label: "Overview", icon: PanelsTopLeft },
+  { to: "/admin/products", label: "Products", icon: PackageCheck },
+  { to: "/admin/farmers", label: "Farmers", icon: UsersRound },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
-  { to: "/admin/settings", label: "Inquiry settings", icon: Settings },
+  { to: "/admin/settings", label: "Inquiry settings", icon: BadgeCheck },
 ];
 
 export const AdminLayout = () => {
@@ -77,7 +76,7 @@ export const AdminLayout = () => {
           )}
           title={collapsed ? "View website" : undefined}
         >
-          <Globe className="w-4 h-4 shrink-0" aria-hidden />
+          <Globe2 className="w-4 h-4 shrink-0" aria-hidden />
           {!collapsed && <span>View website</span>}
         </Link>
         <button

@@ -1,7 +1,7 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail, MapPin, MessageCircle, Phone, Sprout } from "lucide-react";
+import { ArrowLeft, AtSign, MapPinned, MessageCircle, PackageCheck, Smartphone, Sprout } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Seo } from "@/components/Seo";
 import { Product3DViewer } from "@/components/Product3DViewer";
@@ -94,7 +94,7 @@ const FarmerDetail = () => {
           <div className="flex flex-wrap gap-3 mt-6">
             {farmer.district && (
               <span className="btn-label text-[11px] inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-border">
-                <MapPin className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
+                <MapPinned className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
               </span>
             )}
             {crops.map((c) => (
@@ -112,12 +112,12 @@ const FarmerDetail = () => {
           <div className="mt-8 border-t border-border pt-6 flex flex-wrap gap-3">
             {farmer.email && (
               <a href={`mailto:${farmer.email}`} className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm bg-primary text-primary-foreground hover:bg-secondary transition-colors">
-                <Mail className="w-3.5 h-3.5" /> Email
+                <AtSign className="w-3.5 h-3.5" /> Email
               </a>
             )}
             {farmer.phone && (
               <a href={`tel:${farmer.phone.replace(/\s/g, "")}`} className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-border hover:border-primary hover:text-primary transition-colors">
-                <Phone className="w-3.5 h-3.5 text-accent" /> {farmer.phone}
+                <Smartphone className="w-3.5 h-3.5 text-accent" /> {farmer.phone}
               </a>
             )}
             {farmer.whatsapp && (
@@ -126,7 +126,7 @@ const FarmerDetail = () => {
               </a>
             )}
             <Link to="/inquire" className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-border hover:border-primary hover:text-primary transition-colors">
-              Inquire about their harvest
+              <PackageCheck className="w-3.5 h-3.5 text-accent" /> Inquire about their harvest
             </Link>
           </div>
         </div>

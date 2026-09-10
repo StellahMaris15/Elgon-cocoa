@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import {
-  Package,
-  Users,
+  BadgeCheck,
+  BellRing,
   Inbox,
   ArrowRight,
-  Sparkles,
   Plus,
   Settings,
-  TrendingUp,
+  PackageCheck,
+  UsersRound,
 } from "lucide-react";
 import {
   Area,
@@ -71,14 +71,14 @@ const AdminOverview = () => {
       value: products.length,
       sub: `${products.filter((p) => p.published).length} published`,
       to: "/admin/products",
-      icon: Package,
+      icon: PackageCheck,
     },
     {
       label: "Farmer profiles",
       value: farmers.length,
       sub: `${farmers.filter((f) => f.published).length} live on site`,
       to: "/admin/farmers",
-      icon: Users,
+      icon: UsersRound,
     },
     {
       label: "Total inquiries",
@@ -92,7 +92,7 @@ const AdminOverview = () => {
       value: newInquiries,
       sub: "marked as new",
       to: "/admin/inquiries",
-      icon: TrendingUp,
+      icon: BellRing,
     },
   ];
 
@@ -296,12 +296,12 @@ const AdminOverview = () => {
 
         <AdminCard>
           <h2 className="font-heading font-semibold text-lg text-primary mb-3 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-accent" aria-hidden /> Quick actions
+            <BadgeCheck className="w-4 h-4 text-accent" aria-hidden /> Quick actions
           </h2>
           <div className="space-y-2">
             {[
               { to: "/admin/products", label: "Add or edit a product", icon: Plus },
-              { to: "/admin/farmers", label: "Publish a farmer profile", icon: Users },
+              { to: "/admin/farmers", label: "Publish a farmer profile", icon: UsersRound },
               { to: "/admin/settings", label: "Notification recipients", icon: Settings },
               { to: "/", label: "Preview the live website", icon: ArrowRight },
             ].map((a) => (
