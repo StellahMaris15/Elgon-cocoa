@@ -31,10 +31,10 @@ export const Header = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all duration-500",
+        "sticky top-0 z-50 border-b border-border/70 transition-all duration-300",
         scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-[0_8px_24px_hsl(var(--clay-shadow-outer)/0.18)]"
-          : "bg-background/85 backdrop-blur-sm"
+          ? "bg-background/95 backdrop-blur-md shadow-[0_12px_32px_hsl(221_39%_11%/0.08)]"
+          : "bg-background/92 backdrop-blur-sm"
       )}
     >
       <nav className="container-full">
@@ -46,11 +46,11 @@ export const Header = () => {
               width={48} height={48} className="w-11 h-11 md:w-12 md:h-12 object-contain shrink-0"
             />
             <span className="flex flex-col leading-none">
-              <span className="font-heading font-bold text-base md:text-lg text-primary group-hover:text-accent transition-colors">
+              <span className="font-heading text-base md:text-lg text-primary group-hover:text-accent transition-colors">
                 Elgon Cooperative
               </span>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
-                Vanilla · Coffee · Cocoa
+              <span className="text-[10px] uppercase text-muted-foreground">
+                Vanilla / Coffee / Cocoa
               </span>
             </span>
           </Link>
@@ -76,12 +76,12 @@ export const Header = () => {
           <div className="flex items-center gap-3">
             <Link
               to="/inquire"
-              className="hidden sm:inline-flex btn-label text-xs bg-primary text-primary-foreground px-5 py-2.5 rounded-md neo-action hover:bg-accent hover:text-accent-foreground"
+              className="hidden sm:inline-flex btn-label text-xs bg-primary text-primary-foreground px-5 py-2.5 rounded-md shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Request Quote
             </Link>
             <button
-              className="lg:hidden p-2 rounded-md neo-action hover:text-primary"
+              className="lg:hidden p-2 rounded-md border border-border bg-card hover:text-primary transition-colors"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
             >

@@ -11,7 +11,7 @@ import type { CategorySlug } from "@/data/products";
 
 const CropViewer = ({ crop, value, name }: { crop: CategorySlug; value?: string | null; name: string }) => {
   const backdrop = useMediaUrl(value);
-  return <Product3DViewer category={crop} name={`${name} — ${crop}`} backdrop={backdrop || undefined} />;
+  return <Product3DViewer category={crop} name={`${name} - ${crop}`} backdrop={backdrop || undefined} />;
 };
 
 const FarmerPortrait = ({ src, alt }: { src?: string | null; alt: string }) => {

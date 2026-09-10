@@ -43,13 +43,13 @@ const AdminSettings = () => {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  if (!form) return <AdminCard><p className="text-sm text-muted-foreground">Loading…</p></AdminCard>;
+  if (!form) return <AdminCard><p className="text-sm text-muted-foreground">Loading...</p></AdminCard>;
 
   return (
     <>
       <AdminHeading title="Inquiry settings" subtitle="Who gets notified, and what buyers receive back." />
       <AdminCard className="max-w-2xl space-y-5">
-        <Labeled label="Notification recipients" hint="One email address per line — each gets a copy of every new inquiry.">
+        <Labeled label="Notification recipients" hint="One email address per line - each gets a copy of every new inquiry.">
           <textarea
             rows={3}
             className={`${inputCls} h-auto py-3`}

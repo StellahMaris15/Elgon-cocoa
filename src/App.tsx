@@ -31,7 +31,7 @@ const queryClient = new QueryClient({
 
 const RouteFallback = () => (
   <div className="min-h-[60vh] grid place-items-center" role="status" aria-live="polite">
-    <span className="btn-label text-[11px] text-muted-foreground">Loading…</span>
+    <span className="btn-label text-[11px] text-muted-foreground">Loading...</span>
   </div>
 );
 

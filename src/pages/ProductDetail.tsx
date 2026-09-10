@@ -52,7 +52,7 @@ const ProductDetail = () => {
           <div
             role="tablist"
             aria-label="Product media view"
-            className="inline-flex p-1 rounded-sm bg-muted border border-border"
+            className="inline-flex p-1 rounded-full bg-muted border border-border"
           >
             {([
               { id: "3d", label: "3D Model", Icon: Box },
@@ -65,7 +65,7 @@ const ProductDetail = () => {
                 type="button"
                 onClick={() => setView(id)}
                 className={cn(
-                  "btn-label text-xs inline-flex items-center gap-2 px-4 py-2 rounded-sm transition-colors",
+                  "btn-label text-xs inline-flex items-center gap-2 px-4 py-2 rounded-full transition-colors",
                   view === id
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-primary"
@@ -107,7 +107,7 @@ const ProductDetail = () => {
               <Layers className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <p className="btn-label text-xs text-primary mb-1">Grades</p>
-                <p className="text-sm text-foreground/80">{product.grades.join(" · ")}</p>
+                <p className="text-sm text-foreground/80">{product.grades.join(" / ")}</p>
               </div>
             </div>
             <div className="flex gap-4">
@@ -124,7 +124,7 @@ const ProductDetail = () => {
               <p className="eyebrow mb-4">Value-Added Forms</p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {product.variants.map((v) => (
-                  <div key={v.name} className="p-4 border border-border rounded-sm bg-card">
+                  <div key={v.name} className="p-4 border border-border rounded-md bg-card shadow-sm">
                     <p className="font-heading font-semibold text-primary text-sm mb-1">{v.name}</p>
                     <p className="text-sm text-foreground/75">{v.description}</p>
                   </div>
@@ -136,13 +136,13 @@ const ProductDetail = () => {
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               to={`/inquire?product=${product.slug}`}
-              className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2"
+              className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2"
             >
               Request Quote <ArrowRight className="w-4 h-4" />
             </Link>
             <a
               href="mailto:elgonvanillacoffee@gmail.com"
-              className="btn-label text-xs border border-border px-8 py-4 rounded-sm hover:border-primary hover:text-primary transition-colors"
+              className="btn-label text-xs border border-border px-8 py-4 rounded-full hover:border-primary hover:text-primary transition-colors"
             >
               Email Us
             </a>

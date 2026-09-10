@@ -33,7 +33,7 @@ export const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const sidebar = (
-    <div className="flex h-full flex-col bg-background text-foreground lg:m-4 lg:mr-0 lg:rounded-lg neo-surface overflow-hidden">
+    <div className="flex h-full flex-col bg-card text-foreground lg:m-4 lg:mr-0 lg:rounded-lg border border-border shadow-sm overflow-hidden">
       <div className="h-16 flex items-center gap-3 px-4 border-b border-border/60">
         <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={36} height={36} className="w-9 h-9 object-contain shrink-0" />
         {!collapsed && (
@@ -57,8 +57,8 @@ export const AdminLayout = () => {
                 "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-colors",
                 collapsed && "justify-center px-2",
                 isActive
-                  ? "neo-inset text-primary font-semibold"
-                  : "text-muted-foreground hover:text-primary hover:neo-surface-sm",
+                  ? "bg-tertiary text-primary font-semibold"
+                  : "text-muted-foreground hover:bg-muted hover:text-primary",
               )
             }
           >
@@ -122,17 +122,17 @@ export const AdminLayout = () => {
       )}
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="h-16 bg-background/90 backdrop-blur-md flex items-center justify-between gap-4 px-4 md:px-6 sticky top-0 z-30 shadow-[0_8px_24px_hsl(var(--clay-shadow-outer)/0.16)]">
+        <header className="h-16 bg-background/95 backdrop-blur-md flex items-center justify-between gap-4 px-4 md:px-6 sticky top-0 z-30 border-b border-border">
           <div className="flex items-center gap-3">
             <button
-              className="lg:hidden p-2 rounded-md neo-action text-foreground"
+              className="lg:hidden p-2 rounded-md border border-border bg-card text-foreground"
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen ? <Menu className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
             <button
-              className="hidden lg:inline-flex p-2 rounded-md neo-action text-foreground hover:text-primary"
+              className="hidden lg:inline-flex p-2 rounded-md border border-border bg-card text-foreground hover:text-primary"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               onClick={() => setCollapsed((v) => !v)}
             >
@@ -142,7 +142,7 @@ export const AdminLayout = () => {
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden sm:block text-xs text-muted-foreground truncate max-w-[220px]">{user?.email}</span>
-            <span className="w-9 h-9 rounded-full neo-surface-sm text-primary grid place-items-center text-xs font-semibold">
+            <span className="w-9 h-9 rounded-full border border-border bg-card text-primary grid place-items-center text-xs font-semibold">
               {user?.email?.[0]?.toUpperCase() ?? "A"}
             </span>
           </div>

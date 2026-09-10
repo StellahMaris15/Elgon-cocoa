@@ -15,10 +15,10 @@ export const Footer = () => {
                 alt="Elgon Vanilla Coffee & Cocoa Growers Cooperative logo"
                 width={56} height={56} className="w-14 h-14 shrink-0 object-contain rounded-full bg-primary-foreground/95 p-0.5"
               />
-              <span className="font-heading font-bold text-lg">Elgon Cooperative</span>
+              <span className="font-heading text-lg">Elgon Cooperative</span>
             </div>
             <p className="text-sm text-primary-foreground/70 leading-relaxed max-w-md">
-              Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society —
+              Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society -
               13+ years building sustainable farming skills and cohesive,
               self-reliant communities across Uganda's Elgon region.
             </p>
@@ -49,7 +49,7 @@ export const Footer = () => {
               <li className="flex gap-3">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
                 <span>
-                  P.O. Box 771, Mbale — Uganda<br />
+                  P.O. Box 771, Mbale, Uganda<br />
                   Bilinda Village, Bumateba Parish,<br />
                   Sironko District
                 </span>
@@ -75,15 +75,15 @@ export const Footer = () => {
       <div className="border-t border-primary-foreground/10">
         <div className="container-full py-6 flex flex-col md:flex-row justify-between items-center gap-3">
           <p className="text-xs text-primary-foreground/50">
-            © {new Date().getFullYear()} Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society. All rights reserved.
+            Copyright {new Date().getFullYear()} Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society. All rights reserved.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3">
-            <p className="text-xs text-primary-foreground/50">Mbale Industrial City · Uganda</p>
+            <p className="text-xs text-primary-foreground/50">Mbale Industrial City, Uganda</p>
             <Link
               to="/auth"
               className="btn-label text-[11px] border border-primary-foreground/25 text-primary-foreground px-4 py-2 rounded-md hover:border-accent hover:bg-accent hover:text-accent-foreground transition-colors"
             >
-              STUDIO
+              Admin
             </Link>
           </div>
         </div>

@@ -22,10 +22,10 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="group neo-surface p-3 md:p-4 transition-transform duration-500 hover:-translate-y-1"
+      className="group overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
       <Link to={`/products/${product.slug}`} className="block">
-        <div className="relative overflow-hidden bg-muted/40 aspect-[4/5] rounded-md mb-5">
+        <div className="relative overflow-hidden bg-muted/40 aspect-[4/5]">
           <SiteImage
             src={images[0]} fallbackSrc={cropHero[product.category]}
             alt={product.name}
@@ -37,29 +37,29 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           {hasSecondImage && (
             <SiteImage
               src={images[1]} fallbackSrc={cropHero[product.category]}
-              alt={`${product.name} — alternate view`}
+              alt={`${product.name} - alternate view`}
               className="absolute inset-0 w-full h-full object-cover opacity-0 scale-105 transition-all [transition-duration:1s] ease-out group-hover:opacity-100 group-hover:scale-100"
             />
           )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
           {category && (
-            <span className="absolute top-4 left-4 px-3 py-1.5 btn-label text-[10px] bg-primary text-primary-foreground rounded-sm">
+            <span className="absolute top-4 left-4 px-3 py-1.5 btn-label text-[10px] bg-primary text-primary-foreground rounded-full">
               {category.name}
             </span>
           )}
 
           {product.featured && (
-            <span className="absolute top-4 right-4 px-3 py-1.5 btn-label text-[10px] bg-accent text-accent-foreground rounded-sm">
+            <span className="absolute top-4 right-4 px-3 py-1.5 btn-label text-[10px] bg-accent text-accent-foreground rounded-full">
               Featured
             </span>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 p-5 md:p-6">
           <p className="eyebrow">{category?.name}</p>
-          <h3 className="font-heading font-semibold text-xl text-foreground transition-colors duration-300 group-hover:text-primary leading-snug">
+          <h3 className="font-heading text-xl text-foreground transition-colors duration-300 group-hover:text-primary leading-snug">
             {product.name}
           </h3>
           <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">

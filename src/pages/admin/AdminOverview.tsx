@@ -151,7 +151,7 @@ const AdminOverview = () => {
                 <div>
                   <p className="text-xs text-muted-foreground">{s.label}</p>
                   <p className="font-heading font-bold text-3xl text-primary mt-2">
-                    {isLoading ? "—" : s.value}
+                    {isLoading ? "..." : s.value}
                   </p>
                   <p className="text-xs text-muted-foreground mt-1">{s.sub}</p>
                 </div>

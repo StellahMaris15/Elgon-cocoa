@@ -13,6 +13,7 @@ export default {
     extend: {
       fontFamily: {
         heading: ["var(--font-heading)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
         button: ["var(--font-button)", "system-ui", "sans-serif"],
         sans: ["var(--font-body)", "system-ui", "sans-serif"],

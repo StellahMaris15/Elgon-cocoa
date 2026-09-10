@@ -63,11 +63,10 @@ const Inquire = () => {
     }
     setErrors({});
     setSubmitting(true);
-    // TODO: wire to Cloud edge function (submit-inquiry) in M5
     setTimeout(() => {
       setSubmitting(false);
       setForm({ name: "", company: "", country: "", email: "", phone: "", productIds: [], volume: "", message: "" });
-      toast.success("Inquiry received — we'll respond within 2 business days.");
+      toast.success("Inquiry received - we'll respond within 2 business days.");
     }, 900);
   };
 
@@ -77,14 +76,14 @@ const Inquire = () => {
         eyebrow="From Our Farms to the World"
         title="Request a"
         titleAccent="quote."
-        subtitle="Tell us what you need — product, volume, destination — and we'll respond with pricing, lead times, and shipping details."
+        subtitle="Tell us what you need - product, volume, destination - and we'll respond with pricing, lead times, and shipping details."
         image={cropHero.vanilla}
         imageAlt="Bundles of cured Ugandan vanilla beans"
       />
 
 
       <section className="container-full py-20 max-w-4xl">
-        <form onSubmit={onSubmit} className="p-8 md:p-12 bg-card border border-border rounded-sm space-y-8" noValidate>
+        <form onSubmit={onSubmit} className="p-8 md:p-12 bg-card border border-border rounded-lg shadow-sm space-y-8" noValidate>
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Name" error={errors.name}>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
@@ -102,7 +101,7 @@ const Inquire = () => {
               <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className={inputCls} />
             </Field>
             <Field label="Volume estimate" error={errors.volume}>
-              <input placeholder="e.g. 1 × 19.2t container / month" value={form.volume} onChange={(e) => setForm({ ...form, volume: e.target.value })} className={inputCls} />
+              <input placeholder="e.g. 1 x 19.2t container / month" value={form.volume} onChange={(e) => setForm({ ...form, volume: e.target.value })} className={inputCls} />
             </Field>
           </div>
 
@@ -119,7 +118,7 @@ const Inquire = () => {
                       type="button"
                       onClick={() => toggleProduct(p.id)}
                       className={cn(
-                        "text-left p-4 border rounded-sm transition-all",
+                        "text-left p-4 border rounded-md transition-all",
                         selected
                           ? "border-primary bg-primary text-primary-foreground"
                           : "border-border bg-background hover:border-primary"
@@ -142,9 +141,9 @@ const Inquire = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
+            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
           >
-            {submitting ? "Sending…" : "Submit Inquiry"} <Send className="w-4 h-4" />
+            {submitting ? "Sending..." : "Submit Inquiry"} <Send className="w-4 h-4" />
           </button>
         </form>
       </section>
@@ -153,7 +152,7 @@ const Inquire = () => {
 };
 
 const inputCls =
-  "w-full h-12 px-4 bg-background border border-border rounded-sm focus:border-primary focus:outline-none transition-colors";
+  "w-full h-12 px-4 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors";
 
 const Field = ({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) => (
   <div>

@@ -50,7 +50,7 @@ export const categories: Category[] = [
     name: "Coffee",
     tagline: "Expertly grown. Responsibly sourced. Globally cherished.",
     description:
-      "Uganda coffee is ranked 2nd in Africa. We focus on Arabica — smooth, sweet, with flavor notes of chocolate and berries.",
+      "Uganda coffee is ranked 2nd in Africa. We focus on Arabica - smooth, sweet, with flavor notes of chocolate and berries.",
     image: cropHero.coffee,
     accentColor: "primary",
   },
@@ -76,7 +76,7 @@ export const products: Product[] = [
     shortDescription:
       "Long, oily, aromatic pods cured through our traditional sweat-and-dry process.",
     description:
-      "Our cured vanilla beans are hand-harvested at peak maturity by 3,000+ smallholder farmers across the Elgon region, then sorted, blanched, sweated, and slow-dried in our curing houses. The result is a plump, oily, deeply aromatic pod with a bold earthy profile and hints of fig and raisin — the signature of Ugandan vanilla.",
+      "Our cured vanilla beans are hand-harvested at peak maturity by 3,000+ smallholder farmers across the Elgon region, then sorted, blanched, sweated, and slow-dried in our curing houses. The result is a plump, oily, deeply aromatic pod with a bold earthy profile and hints of fig and raisin - the signature of Ugandan vanilla.",
     origin: "Sironko, Bulambuli, Mbale, Manafwa, Bududa, Kapchorwa districts",
     grades: ["Grade A (Gourmet)", "Grade B (Extract)", "Cuts"],
     variants: [
@@ -98,8 +98,8 @@ export const products: Product[] = [
     shortDescription:
       "Washed and sun-dried Arabica in export-ready grades, smooth with notes of chocolate and berries.",
     description:
-      "Grown at 1,500–2,300m on the volcanic slopes of Mt. Elgon, our Arabica is wet-processed at farmer washing stations, sun-dried on raised beds, and hulled and screened at our central store. Cup profile: bright acidity, medium body, chocolate and dried-berry finish.",
-    origin: "Mt. Elgon slopes — Sironko, Bulambuli, Kapchorwa",
+      "Grown at 1,500-2,300m on the volcanic slopes of Mt. Elgon, our Arabica is wet-processed at farmer washing stations, sun-dried on raised beds, and hulled and screened at our central store. Cup profile: bright acidity, medium body, chocolate and dried-berry finish.",
+    origin: "Mt. Elgon slopes - Sironko, Bulambuli, Kapchorwa",
     grades: ["Screen 18+", "Screen 15/16", "Screen 12/14"],
     variants: [
       { name: "Washed Arabica", description: "Fully washed, sun-dried" },
@@ -118,7 +118,7 @@ export const products: Product[] = [
     shortDescription:
       "Well-fermented, sun-dried cocoa beans ready for chocolate makers and processors.",
     description:
-      "Cocoa from the shaded, rainy Elgon foothills is fermented for 6–7 days in wooden boxes and slow sun-dried on raised platforms. Beans are sorted, moisture-tested, and bagged in jute for export. Ideal for craft and industrial chocolate.",
+      "Cocoa from the shaded, rainy Elgon foothills is fermented for 6-7 days in wooden boxes and slow sun-dried on raised platforms. Beans are sorted, moisture-tested, and bagged in jute for export. Ideal for craft and industrial chocolate.",
     origin: "Bududa, Manafwa, Mbale lowlands",
     grades: ["Grade I", "Grade II"],
     variants: [

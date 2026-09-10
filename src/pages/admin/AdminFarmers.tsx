@@ -301,14 +301,14 @@ const AdminFarmers = () => {
             </tr>
           </thead>
           <tbody>
-            {isLoading && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">Loading…</td></tr>}
+            {isLoading && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">Loading...</td></tr>}
             {!isLoading && rows.length === 0 && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">No farmer profiles yet.</td></tr>}
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
                 <td className="px-4 py-3 text-foreground font-medium">{r.name}</td>
                 <td className="px-4 py-3 text-foreground/70">{r.role}</td>
                 <td className="px-4 py-3 text-foreground/70">{r.district}</td>
-                <td className="px-4 py-3 text-foreground/70 capitalize">{(r.crops ?? []).join(", ") || "—"}</td>
+                <td className="px-4 py-3 text-foreground/70 capitalize">{(r.crops ?? []).join(", ") || "Not set"}</td>
                 <td className="px-4 py-3 text-foreground/70">{r.published ? "Published" : "Draft"}</td>
                 <td className="px-4 py-3">
                   <div className="flex justify-end gap-2">

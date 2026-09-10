@@ -26,53 +26,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Elgon Vanilla, Coffee & Cocoa Growers' Cooperative
-   Palette: Dark Green, Brown, Gold, Light Green, Cream/White
-*/
+/* Elgon Vanilla, Coffee & Cocoa Growers' Cooperative brand system */
 
 @layer base {
   :root {
-    /* Mist and emerald neumorphic system */
-    --background: 150 18% 92%;
-    --foreground: 155 24% 16%;
+    --background: 220 14% 96%;
+    --foreground: 221 39% 11%;
 
-    --card: 150 18% 92%;
-    --card-foreground: 155 24% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 221 39% 11%;
 
-    --popover: 150 18% 92%;
-    --popover-foreground: 155 24% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 221 39% 11%;
 
-    /* Dark Green primary */
-    --primary: 161 65% 22%;
-    --primary-foreground: 150 18% 96%;
+    --primary: 142 64% 24%;
+    --primary-foreground: 220 14% 96%;
 
-    /* Brown secondary */
-    --secondary: 158 10% 41%;
-    --secondary-foreground: 150 18% 96%;
+    --secondary: 143 61% 20%;
+    --secondary-foreground: 220 14% 96%;
 
-    --muted: 150 14% 86%;
-    --muted-foreground: 158 10% 36%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 215 16% 35%;
 
-    /* Gold accent */
-    --accent: 43 62% 52%;
-    --accent-foreground: 155 24% 14%;
+    --accent: 45 93% 47%;
+    --accent-foreground: 221 39% 11%;
 
-    /* Light Green support */
-    --tertiary: 150 16% 70%;
-    --tertiary-foreground: 155 24% 14%;
+    --tertiary: 142 44% 88%;
+    --tertiary-foreground: 143 61% 20%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 42 38% 96%;
 
-    --border: 150 13% 78%;
-    --input: 150 14% 86%;
-    --ring: 161 65% 22%;
+    --border: 220 13% 86%;
+    --input: 220 13% 91%;
+    --ring: 142 64% 24%;
 
     --radius: 0.5rem;
 
-    /* Claymorphism */
-    --clay-surface: 150 18% 92%;
-    --clay-shadow-outer: 153 10% 57%;
+    --clay-surface: 0 0% 100%;
+    --clay-shadow-outer: 215 16% 55%;
     --clay-shadow: 
       10px 10px 24px hsl(var(--clay-shadow-outer) / 0.32),
       -10px -10px 24px hsl(0 0% 100% / 0.7);
@@ -87,25 +79,26 @@
       inset -5px -5px 11px hsl(0 0% 100% / 0.7);
 
     /* Extra tokens */
-    --dark-green: 140 32% 18%;
-    --brown: 25 47% 24%;
-    --gold: 44 68% 47%;
-    --light-green: 128 22% 65%;
-    --cream: 42 38% 96%;
+    --dark-green: 143 61% 20%;
+    --brown: 24 48% 22%;
+    --gold: 45 93% 47%;
+    --light-green: 142 44% 88%;
+    --cream: 220 14% 96%;
 
     /* Typography */
-    --font-heading: 'Instrument Serif', Georgia, serif;
+    --font-heading: 'Work Sans', 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+    --font-display: 'Instrument Serif', 'Playfair Display', Georgia, serif;
     --font-body: 'Work Sans', system-ui, sans-serif;
     --font-button: 'Work Sans', system-ui, sans-serif;
 
-    --sidebar-background: 42 38% 96%;
-    --sidebar-foreground: 140 15% 12%;
-    --sidebar-primary: 140 32% 18%;
-    --sidebar-primary-foreground: 42 38% 96%;
-    --sidebar-accent: 130 20% 88%;
-    --sidebar-accent-foreground: 140 15% 12%;
-    --sidebar-border: 130 15% 82%;
-    --sidebar-ring: 44 68% 47%;
+    --sidebar-background: 220 14% 96%;
+    --sidebar-foreground: 221 39% 11%;
+    --sidebar-primary: 142 64% 24%;
+    --sidebar-primary-foreground: 220 14% 96%;
+    --sidebar-accent: 142 44% 88%;
+    --sidebar-accent-foreground: 143 61% 20%;
+    --sidebar-border: 220 13% 86%;
+    --sidebar-ring: 45 93% 47%;
   }
 
   .dark {
@@ -169,7 +162,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    @apply font-normal text-foreground;
+    @apply font-bold text-foreground;
     letter-spacing: 0;
   }
 
@@ -225,26 +218,26 @@
 
   .btn-label {
     font-family: var(--font-button);
-    @apply font-semibold uppercase text-sm;
+    @apply font-semibold text-sm;
     letter-spacing: 0;
   }
 
   .eyebrow {
-    font-family: var(--font-button);
-    @apply text-[11px] font-semibold uppercase text-accent;
+    font-family: var(--font-body);
+    @apply text-[11px] font-semibold uppercase text-primary;
     letter-spacing: 0;
   }
 
   .neo-surface {
     background: hsl(var(--card));
-    box-shadow: var(--clay-shadow);
-    @apply rounded-lg border border-background;
+    box-shadow: 0 18px 45px hsl(221 39% 11% / 0.08);
+    @apply rounded-lg border border-border;
   }
 
   .neo-surface-sm {
     background: hsl(var(--card));
-    box-shadow: var(--clay-shadow-sm);
-    @apply rounded-md border border-background;
+    box-shadow: 0 10px 28px hsl(221 39% 11% / 0.07);
+    @apply rounded-md border border-border;
   }
 
   .neo-inset {
@@ -266,8 +259,7 @@
   .admin-shell select,
   .auth-shell input {
     background: hsl(var(--background));
-    box-shadow: var(--neo-inset);
-    border-color: transparent;
+    border-color: hsl(var(--border));
   }
 
   .admin-shell button,
@@ -286,7 +278,7 @@
     @apply transition-all duration-500 ease-out;
   }
   .hover-lift:hover {
-    @apply -translate-y-1 shadow-lg;
+    @apply -translate-y-1 shadow-xl;
   }
 
   .divider-ornament { @apply flex items-center gap-6; }
@@ -303,6 +295,7 @@
 @layer utilities {
   .text-balance { text-wrap: balance; }
   .font-heading { font-family: var(--font-heading); }
+  .font-display { font-family: var(--font-display); }
   .font-body { font-family: var(--font-body); }
   .font-button { font-family: var(--font-button); }
   .aspect-editorial { aspect-ratio: 3/4; }

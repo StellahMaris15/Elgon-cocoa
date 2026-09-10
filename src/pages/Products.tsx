@@ -39,7 +39,7 @@ const Products = () => {
         eyebrow="From Our Farms to the World"
         title="Vanilla. Coffee."
         titleAccent="Cocoa."
-        subtitle="Explore our organically grown, expertly processed exports — available in raw and value-added forms, from container-scale to bespoke quantities."
+        subtitle="Explore our organically grown, expertly processed exports - available in raw and value-added forms, from container-scale to bespoke quantities."
         image={cropHero.coffee}
         imageAlt="Ripe red coffee cherries on the branch"
       />
@@ -52,7 +52,7 @@ const Products = () => {
               key={opt.id}
               onClick={() => handleFilter(opt.id as Filter)}
               className={cn(
-                "btn-label text-xs px-5 py-2.5 rounded-sm border transition-all",
+                "btn-label text-xs px-5 py-2.5 rounded-full border transition-all",
                 filter === opt.id
                   ? "bg-primary text-primary-foreground border-primary"
                   : "border-border text-muted-foreground hover:text-primary hover:border-primary"

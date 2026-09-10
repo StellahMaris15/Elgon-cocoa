@@ -50,7 +50,7 @@ const AdminInquiries = () => {
     <>
       <AdminHeading title="Inquiries" subtitle="Buyer requests submitted through the website." />
 
-      {isLoading && <AdminCard><p className="text-muted-foreground text-sm">Loading…</p></AdminCard>}
+      {isLoading && <AdminCard><p className="text-muted-foreground text-sm">Loading...</p></AdminCard>}
       {!isLoading && rows.length === 0 && (
         <AdminCard><p className="text-muted-foreground text-sm">No inquiries yet.</p></AdminCard>
       )}
@@ -62,7 +62,7 @@ const AdminInquiries = () => {
               <div>
                 <h2 className="font-heading font-semibold text-lg text-primary">{r.name}</h2>
                 <p className="text-xs text-muted-foreground">
-                  {new Date(r.created_at).toLocaleString()} · via {r.source}
+                  {new Date(r.created_at).toLocaleString()} / via {r.source}
                 </p>
               </div>
               <select
@@ -91,7 +91,7 @@ const AdminInquiries = () => {
 
             <textarea
               rows={2}
-              placeholder="Internal notes…"
+              placeholder="Internal notes..."
               defaultValue={r.admin_notes ?? ""}
               onBlur={(e) => {
                 if (e.target.value !== (r.admin_notes ?? "")) {

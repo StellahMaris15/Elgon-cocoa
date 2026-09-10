@@ -17,7 +17,6 @@ const Index = () => {
   const featured = getFeaturedProducts();
   return (
     <Layout>
-      {/* HERO */}
       <PageHero
         eyebrow="From Our Farms to the World"
         title="Premium Ugandan"
@@ -36,9 +35,6 @@ const Index = () => {
           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </PageHero>
-
-
-      {/* Mission strip */}
       <section className="bg-accent text-accent-foreground">
         <div className="container-full py-6 marquee">
           <div className="marquee-content gap-16 pr-16">
@@ -50,12 +46,10 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Products */}
-      <section className="container-full py-24 md:py-32">
-        <div className="max-w-2xl mb-16">
+      <section className="container-full py-20 md:py-28">
+        <div className="max-w-2xl mb-12">
           <p className="eyebrow mb-3">Our Products</p>
-          <h2 className="font-heading font-bold text-4xl md:text-5xl text-primary mb-4">
+          <h2 className="font-heading text-4xl md:text-5xl text-primary mb-4 leading-tight">
             Three crops. One cooperative. One promise.
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -69,8 +63,6 @@ const Index = () => {
           ))}
         </div>
       </section>
-
-      {/* Stats band */}
       <section className="bg-primary text-primary-foreground">
         <div className="container-full py-20 grid gap-10 md:grid-cols-4">
           {[
@@ -86,19 +78,17 @@ const Index = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <p className="font-heading font-bold text-5xl md:text-6xl text-accent mb-2">{s.n}</p>
+              <p className="font-heading text-5xl md:text-6xl text-accent mb-2">{s.n}</p>
               <p className="text-sm text-primary-foreground/70">{s.l}</p>
             </motion.div>
           ))}
         </div>
       </section>
-
-      {/* Featured products */}
-      <section className="container-full py-24 md:py-32">
+      <section className="container-full py-20 md:py-28">
         <div className="flex items-end justify-between mb-12">
           <div>
             <p className="eyebrow mb-3">Featured</p>
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary">
+            <h2 className="font-heading text-3xl md:text-4xl text-primary">
               Signature exports
             </h2>
           </div>
@@ -115,8 +105,6 @@ const Index = () => {
           ))}
         </div>
       </section>
-
-      {/* Values */}
       <section className="bg-muted/40">
         <div className="container-full py-24 md:py-28 grid gap-12 md:grid-cols-3">
           {[
@@ -134,16 +122,14 @@ const Index = () => {
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-sm bg-primary text-primary-foreground mb-5">
                 <v.icon className="w-5 h-5" />
               </span>
-              <h3 className="font-heading font-semibold text-2xl text-primary mb-3">{v.title}</h3>
+              <h3 className="font-heading text-2xl text-primary mb-3">{v.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{v.body}</p>
             </motion.div>
           ))}
         </div>
       </section>
-
-      {/* Farmers teaser */}
-      <section className="container-full py-24 md:py-32 grid gap-12 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+      <section className="container-full py-20 md:py-28 grid gap-12 lg:grid-cols-2 items-center">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-xl">
           <SiteImage
             src={cropHero.coffee}
             alt="Green and roasted coffee beans spilling from a burlap sack"
@@ -152,12 +138,12 @@ const Index = () => {
         </div>
         <div>
           <p className="eyebrow mb-3">Our Farmers</p>
-          <h2 className="font-heading font-bold text-4xl md:text-5xl text-primary mb-6 leading-tight">
+          <h2 className="font-heading text-4xl md:text-5xl text-primary mb-6 leading-tight">
             Women, youth, and communities at the heart of every bean.
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-6">
             We support women and vulnerable groups with organic farming training,
-            collective marketing, and profit-sharing — building self-reliant
+            collective marketing, and profit-sharing - building self-reliant
             communities across Uganda's Elgon region.
           </p>
           <div className="flex items-center gap-2 mb-8 text-primary">
@@ -166,18 +152,16 @@ const Index = () => {
           </div>
           <Link
             to="/farmers"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-sm hover:bg-secondary transition-colors"
+            className="btn-label text-xs inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-secondary transition-colors"
           >
             Meet the farmers <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
-
-      {/* CTA */}
       <section className="bg-secondary text-secondary-foreground">
         <div className="container-full py-24 text-center">
-          <p className="eyebrow text-accent mb-4">Buyers · Importers · Roasters</p>
-          <h2 className="font-heading font-bold text-4xl md:text-5xl mb-6 max-w-3xl mx-auto leading-tight">
+          <p className="eyebrow text-accent mb-4">Buyers / Importers / Roasters</p>
+          <h2 className="font-heading text-4xl md:text-5xl mb-6 max-w-3xl mx-auto leading-tight">
             Ready to source from Uganda's Elgon region?
           </h2>
           <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto mb-10">
@@ -185,7 +169,7 @@ const Index = () => {
           </p>
           <Link
             to="/inquire"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-sm hover:bg-accent/90 transition-colors"
+            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
           >
             Request a Quote <ArrowRight className="w-4 h-4" />
           </Link>

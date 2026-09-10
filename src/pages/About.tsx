@@ -74,8 +74,8 @@ const About = () => (
               Bulambuli, Mbale City, Mbale, Manafwa, Bududa and Kapchorwa.
             </p>
             <p>
-              We support women who are vulnerable — including those violated
-              domestically — reconciling them with their spouses on the farm and
+              We support women who are vulnerable - including those violated
+              domestically - reconciling them with their spouses on the farm and
               improving livelihoods through small-scale business.
             </p>
             <p>

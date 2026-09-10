@@ -187,7 +187,7 @@ export const Product3DViewer = ({ category, name, backdrop }: Props) => {
   return (
     <div className="rounded-sm border border-border overflow-hidden bg-card">
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-border bg-muted/40">
-        <p className="btn-label text-xs text-primary">Interactive 3D — {name}</p>
+        <p className="btn-label text-xs text-primary">Interactive 3D - {name}</p>
         <button
           type="button"
           onClick={() => setAutoRotate((v) => !v)}
@@ -210,7 +210,7 @@ export const Product3DViewer = ({ category, name, backdrop }: Props) => {
           <Suspense
             fallback={
               <Html center>
-                <span className="text-xs text-muted-foreground">Loading 3D model…</span>
+                <span className="text-xs text-muted-foreground">Loading 3D model...</span>
               </Html>
             }
           >

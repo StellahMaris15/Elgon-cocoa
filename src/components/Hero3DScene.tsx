@@ -4,7 +4,7 @@ import { Float, ContactShadows } from "@react-three/drei";
 import { motion } from "framer-motion";
 import type { Group } from "three";
 
-/* Lightweight abstract crop forms — no external model files, tiny payload. */
+
 
 const Pod = ({ position, rotation, color }: { position: [number, number, number]; rotation: [number, number, number]; color: string }) => (
   <mesh position={position} rotation={rotation} castShadow>

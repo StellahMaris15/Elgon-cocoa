@@ -23,7 +23,7 @@ const initials = (name: string) =>
     .join("");
 
 const chip = (active: boolean) =>
-  `btn-label text-[11px] px-4 py-2 rounded-sm border capitalize transition-colors ${
+  `btn-label text-[11px] px-4 py-2 rounded-full border capitalize transition-colors ${
     active ? "bg-primary text-primary-foreground border-primary" : "border-border text-foreground hover:border-primary"
   }`;
 
@@ -35,7 +35,7 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: Math.min(index, 5) * 0.06 }}
-      className="group bg-card border border-border rounded-sm overflow-hidden flex flex-col hover:border-primary transition-colors"
+      className="group bg-card border border-border rounded-lg shadow-sm overflow-hidden flex flex-col hover:border-primary/35 hover:shadow-xl transition-all"
     >
       <div className="aspect-[4/3] bg-muted overflow-hidden">
         {photo ? (
@@ -127,7 +127,7 @@ const Farmers = () => {
         eyebrow="From Our Farms to the World"
         title="3,000+ smallholders."
         titleAccent="One cooperative."
-        subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative is powered by over 3,000 organic farmers — mostly women — across seven districts of the Elgon region."
+        subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative is powered by over 3,000 organic farmers - mostly women - across seven districts of the Elgon region."
         image={cropHero.vanilla}
         imageAlt="Cured vanilla beans bundled on natural linen"
       />
@@ -145,15 +145,15 @@ const Farmers = () => {
         </div>
 
         {/* Search + filters */}
-        <div className="border border-border rounded-sm p-5 mb-10 bg-card">
+        <div className="border border-border rounded-lg p-5 mb-10 bg-card shadow-sm">
           <label className="relative block mb-5">
             <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" aria-hidden />
             <span className="sr-only">Search farmers</span>
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name, role, district or crop…"
-              className="w-full h-12 pl-11 pr-4 rounded-sm border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+              placeholder="Search by name, role, district or crop..."
+              className="w-full h-12 pl-11 pr-4 rounded-md border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
             />
           </label>
 
@@ -301,7 +301,7 @@ const Farmers = () => {
               </p>
               <p>
                 Continuous farmer training and consistent farm visits have increased
-                production and productivity year over year — while collective marketing
+                production and productivity year over year - while collective marketing
                 secures fair returns.
               </p>
             </div>
@@ -329,7 +329,7 @@ const Farmers = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      
       <section className="bg-secondary text-secondary-foreground">
         <div className="container-full py-20 text-center">
           <p className="eyebrow text-accent mb-4">Farmers</p>
@@ -342,7 +342,7 @@ const Farmers = () => {
           </p>
           <Link
             to="/contact"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-sm hover:bg-accent/90 transition-colors"
+            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
           >
             Contact the cooperative <ArrowRight className="w-4 h-4" />
           </Link>
