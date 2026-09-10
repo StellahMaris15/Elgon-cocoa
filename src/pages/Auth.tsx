@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Loader2, ShieldCheck } from "lucide-react";
+import { Eye, EyeOff, Loader2, ShieldCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Seo } from "@/components/Seo";
@@ -14,12 +14,15 @@ const schema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters").max(72),
 });
 
+const DEFAULT_ADMIN_EMAIL = "elgon@gmail.com";
+
 const Auth = () => {
   const navigate = useNavigate();
   const { user, isAdmin, loading } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(DEFAULT_ADMIN_EMAIL);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
@@ -82,11 +85,11 @@ const Auth = () => {
         path="/auth"
       />
       <div className="w-full max-w-md">
-        <Link to="/" className="flex items-center gap-3 justify-center mb-8 text-primary">
-          <span className="w-16 h-16 rounded-full neo-inset grid place-items-center">
-            <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={48} height={48} className="w-12 h-12 object-contain shrink-0" />
+        <Link to="/" className="flex flex-col items-center gap-3 justify-center mb-8 text-primary">
+          <span className="w-28 h-28 rounded-full neo-inset grid place-items-center bg-primary-foreground/80">
+            <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={96} height={96} className="w-24 h-24 object-contain shrink-0" />
           </span>
-          <span className="btn-label text-xs">Elgon Cooperative</span>
+          <span className="btn-label text-sm">Elgon Cooperative</span>
         </Link>
 
         <div className="neo-surface p-8 md:p-10">
@@ -110,14 +113,24 @@ const Auth = () => {
             </div>
             <div>
               <label htmlFor="password" className="btn-label text-xs text-primary block mb-2">Password</label>
-              <input
-                id="password"
-                type="password"
-                autoComplete={mode === "signin" ? "current-password" : "new-password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 px-5 rounded-md focus:outline-none focus:ring-2 focus:ring-ring/30"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full h-12 pl-5 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-ring/30"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-primary transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
               {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
             </div>
 

@@ -77,7 +77,15 @@ export const Footer = () => {
           <p className="text-xs text-primary-foreground/50">
             © {new Date().getFullYear()} Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society. All rights reserved.
           </p>
-          <p className="text-xs text-primary-foreground/50">Mbale Industrial City · Uganda</p>
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <p className="text-xs text-primary-foreground/50">Mbale Industrial City · Uganda</p>
+            <Link
+              to="/auth"
+              className="btn-label text-[11px] border border-primary-foreground/25 text-primary-foreground px-4 py-2 rounded-md hover:border-accent hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              STUDIO
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
