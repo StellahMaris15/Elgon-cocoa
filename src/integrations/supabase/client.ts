@@ -2,9 +2,10 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? '';
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? '';
 
+export const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY);
 
 function isNewSupabaseApiKey(value: string): boolean {
   return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_');
@@ -30,16 +31,44 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
   };
 }
 
+function getSafeSupabaseClient() {
+  if (!hasSupabaseConfig) {
+    return {
+      auth: {
+        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => undefined } } }),
+        getSession: async () => ({ data: { session: null } }),
+        signOut: async () => ({ error: null }),
+      },
+      from: () => ({
+        select: () => ({ eq: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }) }), order: async () => ({ data: [], error: null }), maybeSingle: async () => ({ data: null, error: null }) }),
+        update: () => ({ eq: async () => ({ data: null, error: null }) }),
+        insert: async () => ({ data: null, error: null }),
+        delete: () => ({ eq: async () => ({ data: null, error: null }) }),
+        upsert: async () => ({ data: null, error: null }),
+      }),
+      storage: {
+        from: () => ({
+          createSignedUrl: async () => ({ data: { signedUrl: '' }, error: null }),
+          upload: async () => ({ error: null }),
+        }),
+      },
+      rpc: async () => ({ data: null, error: null }),
+    } as any;
+  }
+
+  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    global: {
+      fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
+    },
+    auth: {
+      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+      persistSession: true,
+      autoRefreshToken: true,
+    }
+  });
+}
+
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  global: {
-    fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
-  },
-  auth: {
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-    persistSession: true,
-    autoRefreshToken: true,
-  }
-});
+export const supabase = getSafeSupabaseClient();
