@@ -135,16 +135,15 @@ const FarmerDetail = () => {
         <section className="bg-muted/40">
           <div className="container-full py-20">
             <div className="max-w-2xl mb-10">
-              <p className="eyebrow mb-3">3D crop gallery</p>
+              <p className="eyebrow mb-3">Crop gallery</p>
               <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary">
-                Explore {farmer.name.split(" ")[0]}'s crops in 3D
+                Explore {farmer.name.split(" ")[0]}'s crops
               </h2>
               <p className="text-muted-foreground mt-4 leading-relaxed">
-                Drag to rotate and scroll to zoom. Each scene uses the backdrop photography
-                published for this farmer.
+                Clear, full-width photography from the cooperative crop library and published farmer media.
               </p>
             </div>
-            <div className="grid gap-8 lg:grid-cols-2">
+            <div className="grid w-full gap-8">
               {crops.map((c) => (
                 <CropViewer key={c} crop={c} value={backdrops[c]} name={farmer.name} />
               ))}

@@ -7,6 +7,7 @@ import {
   type CategorySlug,
   type ProductVariant,
 } from "@/data/products";
+import { findStaticFarmer, staticFarmers } from "@/data/farmers";
 
 export interface FarmerRow {
   id: string;
@@ -43,6 +44,9 @@ const mapProduct = (row: Record<string, unknown>): Product => ({
   featured: Boolean(row.featured),
 });
 
+const isUuid = (value?: string | null) =>
+  Boolean(value && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value));
+
 /** Live catalog with a static fallback so the site never renders empty. */
 export const useProducts = () => {
   const query = useQuery({
@@ -67,14 +71,19 @@ export const useProducts = () => {
 export const useFarmers = () =>
   useQuery({
     queryKey: ["farmers", "public"],
+    placeholderData: staticFarmers as FarmerRow[],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("farmers")
-        .select("*")
-        .eq("published", true)
-        .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return (data ?? []) as unknown as FarmerRow[];
+      try {
+        const { data, error } = await supabase
+          .from("farmers")
+          .select("*")
+          .eq("published", true)
+          .order("sort_order", { ascending: true });
+        if (error) throw error;
+        return data && data.length > 0 ? ((data ?? []) as unknown as FarmerRow[]) : (staticFarmers as FarmerRow[]);
+      } catch {
+        return staticFarmers as FarmerRow[];
+      }
     },
     staleTime: 60_000,
     retry: 1,
@@ -85,15 +94,34 @@ export const useFarmer = (slug?: string) =>
   useQuery({
     queryKey: ["farmer", slug],
     enabled: Boolean(slug),
+    placeholderData: () => findStaticFarmer(slug) as unknown as FarmerRow | null,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("farmers")
-        .select("*")
-        .eq("slug", slug as string)
-        .eq("published", true)
-        .maybeSingle();
-      if (error) throw error;
-      return (data ?? null) as unknown as FarmerRow | null;
+      try {
+        const bySlug = await supabase
+          .from("farmers")
+          .select("*")
+          .eq("slug", slug as string)
+          .eq("published", true)
+          .maybeSingle();
+
+        if (bySlug.error) throw bySlug.error;
+        if (bySlug.data) return bySlug.data as unknown as FarmerRow;
+
+        if (isUuid(slug)) {
+          const byId = await supabase
+            .from("farmers")
+            .select("*")
+            .eq("id", slug as string)
+            .eq("published", true)
+            .maybeSingle();
+          if (byId.error) throw byId.error;
+          if (byId.data) return byId.data as unknown as FarmerRow;
+        }
+
+        return (findStaticFarmer(slug) ?? null) as unknown as FarmerRow | null;
+      } catch {
+        return findStaticFarmer(slug) as unknown as FarmerRow | null;
+      }
     },
     retry: 1,
   });

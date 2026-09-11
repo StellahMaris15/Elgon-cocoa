@@ -83,8 +83,8 @@ const Inquire = () => {
       />
 
 
-      <section className="container-full py-20 max-w-4xl">
-        <form onSubmit={onSubmit} className="p-8 md:p-12 bg-card border border-border rounded-2xl shadow-sm space-y-8" noValidate>
+      <section className="container-full max-w-4xl py-16 md:py-20">
+        <form onSubmit={onSubmit} className="neo-surface min-w-0 space-y-8 p-5 sm:p-8 md:p-12" noValidate>
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Name" error={errors.name}>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
@@ -114,15 +114,15 @@ const Inquire = () => {
                 return catProducts.map((p) => {
                   const selected = form.productIds.includes(p.id);
                   return (
-                    <button
-                      key={p.id}
+            <button
+              key={p.id}
                       type="button"
                       onClick={() => toggleProduct(p.id)}
                       className={cn(
-                        "flex h-full min-h-[6.75rem] flex-col text-left p-4 border rounded-2xl transition-all",
+                        "flex h-full min-h-[6.75rem] min-w-0 flex-col p-4 text-left transition-all",
                         selected
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-background hover:border-primary"
+                          ? "neo-inset text-primary"
+                          : "neo-surface-sm hover:text-primary"
                       )}
                     >
                       <p className="btn-label text-[10px] mb-2 opacity-70">{c.name}</p>
@@ -142,7 +142,7 @@ const Inquire = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center disabled:opacity-60"
+            className="neo-button btn-label inline-flex justify-center bg-primary px-6 py-4 text-xs text-primary-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-60 sm:px-8"
           >
             {submitting ? "Sending..." : "Submit Inquiry"}
           </button>
@@ -153,7 +153,7 @@ const Inquire = () => {
 };
 
 const inputCls =
-  "w-full h-12 px-4 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors";
+  "w-full h-12 px-4 bg-background border border-white/70 rounded-xl focus:outline-none transition-colors";
 
 const Field = ({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) => (
   <div>

@@ -157,7 +157,7 @@ const About = () => (
       src={siteVideos.sourcing}
       poster={pageHeroImages.about}
       label="Elgon cooperative sourcing and farming footage"
-      className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+      className="-mb-24 md:min-h-[calc(76svh+6rem)]"
       overlayClassName="bg-none"
     />
   </Layout>

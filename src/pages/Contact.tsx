@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { motion } from "framer-motion";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
@@ -49,83 +50,142 @@ const Contact = () => {
       />
 
 
-      <section className="container-full py-20 grid gap-12 lg:grid-cols-5">
-        <div className="lg:col-span-2 space-y-8">
-          {[
-            { title: "Address", body: <>P.O. Box 771, Mbale, Uganda<br />Mbale Industrial City Division Council<br />Bilinda Village, Bumateba Parish, Sironko District</> },
-            { title: "Phone / WhatsApp", body: <><a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a><a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a></> },
-            { title: "Email", body: <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent break-all">elgonvanillacoffee@gmail.com</a> },
-          ].map((c, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm"
-            >
-              <div>
-                <p className="btn-label min-h-[1rem] text-xs text-primary mb-2">{c.title}</p>
-                <div className="text-muted-foreground leading-relaxed text-sm">{c.body}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <form onSubmit={onSubmit} className="lg:col-span-3 p-8 md:p-10 bg-card border border-border rounded-2xl shadow-sm space-y-5" noValidate>
-          <div>
-            <label className="btn-label text-xs text-primary block mb-2">Name</label>
-            <input
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full h-12 px-4 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors"
-              placeholder="Your full name"
-            />
-            {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
-          </div>
-          <div>
-            <label className="btn-label text-xs text-primary block mb-2">Email</label>
-            <input
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full h-12 px-4 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors"
-              placeholder="you@company.com"
-            />
-            {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
-          </div>
-          <div>
-            <label className="btn-label text-xs text-primary block mb-2">Subject</label>
-            <input
-              value={form.subject}
-              onChange={(e) => setForm({ ...form, subject: e.target.value })}
-              className="w-full h-12 px-4 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors"
-              placeholder="Partnership, order, farming membership..."
-            />
-            {errors.subject && <p className="text-xs text-destructive mt-1">{errors.subject}</p>}
-          </div>
-          <div>
-            <label className="btn-label text-xs text-primary block mb-2">Message</label>
-            <textarea
-              rows={5}
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-              className="w-full px-4 py-3 bg-background border border-border rounded-md focus:border-primary focus:outline-none transition-colors resize-none"
-              placeholder="Tell us about your needs..."
-            />
-            {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
-          </div>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center disabled:opacity-60"
+      <section className="container-full py-16 md:py-20">
+        <div className="grid items-stretch gap-8 lg:grid-cols-[0.82fr_1.18fr] xl:gap-12">
+          <motion.aside
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="neo-surface flex h-full min-w-0 flex-col p-5 sm:p-6 md:p-8"
           >
-            {submitting ? "Sending..." : "Send Message"}
-          </button>
-        </form>
+            <p className="eyebrow mb-3">Contact details</p>
+            <h2 className="font-heading text-2xl leading-tight text-primary md:text-3xl">
+              Reach the cooperative office.
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              For export orders, partnerships, farmer membership, or visit coordination,
+              use the contacts below or send a message through the form.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              <ContactItem icon={MapPin} title="Address">
+                P.O. Box 771, Mbale, Uganda<br />
+                Mbale Industrial City Division Council<br />
+                Bilinda Village, Bumateba Parish,<br />
+                Sironko District
+              </ContactItem>
+              <ContactItem icon={Phone} title="Phone / WhatsApp">
+                <a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a>
+                <a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a>
+              </ContactItem>
+              <ContactItem icon={Mail} title="Email">
+                <a href="mailto:elgonvanillacoffee@gmail.com" className="break-all hover:text-accent">
+                  elgonvanillacoffee@gmail.com
+                </a>
+              </ContactItem>
+            </div>
+
+            <div className="mt-auto grid gap-3 pt-8 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <a
+                href="tel:+256782528476"
+                className="neo-button btn-label inline-flex justify-center px-5 py-3 text-xs text-primary hover:text-accent"
+              >
+                Call office
+              </a>
+              <a
+                href="mailto:elgonvanillacoffee@gmail.com"
+                className="neo-button btn-label inline-flex justify-center bg-primary px-5 py-3 text-xs text-primary-foreground hover:bg-accent hover:text-accent-foreground"
+              >
+                Email us
+              </a>
+            </div>
+          </motion.aside>
+
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.08 }}
+            onSubmit={onSubmit}
+            className="neo-surface flex h-full min-w-0 flex-col space-y-5 p-5 sm:p-6 md:p-8 lg:p-10"
+            noValidate
+          >
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <label className="btn-label text-xs text-primary block mb-2">Name</label>
+                <input
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="h-12 w-full rounded-xl border border-white/70 bg-background px-4 focus:outline-none"
+                  placeholder="Your full name"
+                />
+                {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
+              </div>
+              <div>
+                <label className="btn-label text-xs text-primary block mb-2">Email</label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="h-12 w-full rounded-xl border border-white/70 bg-background px-4 focus:outline-none"
+                  placeholder="you@company.com"
+                />
+                {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
+              </div>
+            </div>
+            <div>
+              <label className="btn-label text-xs text-primary block mb-2">Subject</label>
+              <input
+                value={form.subject}
+                onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                className="h-12 w-full rounded-xl border border-white/70 bg-background px-4 focus:outline-none"
+                placeholder="Partnership, order, farming membership..."
+              />
+              {errors.subject && <p className="text-xs text-destructive mt-1">{errors.subject}</p>}
+            </div>
+            <div>
+              <label className="btn-label text-xs text-primary block mb-2">Message</label>
+              <textarea
+                rows={7}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="w-full resize-none rounded-xl border border-white/70 bg-background px-4 py-3 focus:outline-none"
+                placeholder="Tell us about your needs..."
+              />
+              {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
+            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="neo-button btn-label inline-flex justify-center bg-primary px-6 py-4 text-xs text-primary-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-60 sm:px-8"
+            >
+              {submitting ? "Sending..." : "Send Message"}
+            </button>
+          </motion.form>
+        </div>
       </section>
     </Layout>
   );
 };
+
+const ContactItem = ({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: typeof MapPin;
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <div className="neo-inset flex min-w-0 gap-3 p-3 sm:gap-4 sm:p-4">
+    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-[var(--clay-shadow-sm)]">
+      <Icon className="h-4 w-4" aria-hidden="true" />
+    </span>
+    <div className="min-w-0">
+      <p className="btn-label mb-1 text-xs text-primary">{title}</p>
+      <div className="text-sm leading-relaxed text-muted-foreground">{children}</div>
+    </div>
+  </div>
+);
 
 export default Contact;

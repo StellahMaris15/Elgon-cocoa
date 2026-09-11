@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Plus, Save, Trash2, X, Upload, Loader2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { hasSupabaseConfig, supabase } from "@/integrations/supabase/client";
 import { AdminCard, AdminHeading, Labeled, ghostBtn, inputCls, primaryBtn } from "./ui";
 import { uploadFarmerMedia, useMediaUrl } from "@/lib/media";
 import type { FarmerRow } from "@/hooks/useCatalog";
@@ -30,6 +30,38 @@ const empty: Omit<FarmerRow, "id"> = {
 
 const slugify = (v: string) =>
   v.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const cleanText = (value?: string | null) => {
+  const trimmed = value?.trim() ?? "";
+  return trimmed || null;
+};
+
+const normalizeFarmerPayload = (row: Partial<FarmerRow>) => {
+  const payload = { ...empty, ...row };
+  const name = payload.name?.trim() ?? "";
+  if (!name) throw new Error("Name is required.");
+
+  const slug = slugify(payload.slug || name) || `farmer-${Date.now()}`;
+  const crops = Array.from(new Set((payload.crops ?? []).filter((crop) => CROPS.includes(crop as typeof CROPS[number]))));
+
+  return {
+    slug,
+    name,
+    role: payload.role?.trim() ?? "",
+    district: payload.district?.trim() ?? "",
+    story: payload.story?.trim() ?? "",
+    photo_url: cleanText(payload.photo_url),
+    crops,
+    email: cleanText(payload.email),
+    phone: cleanText(payload.phone),
+    whatsapp: cleanText(payload.whatsapp),
+    backdrop_vanilla: cleanText(payload.backdrop_vanilla),
+    backdrop_coffee: cleanText(payload.backdrop_coffee),
+    backdrop_cocoa: cleanText(payload.backdrop_cocoa),
+    published: Boolean(payload.published),
+    sort_order: Number.isFinite(Number(payload.sort_order)) ? Number(payload.sort_order) : 0,
+  };
+};
 
 /** Upload + preview control for a single image field. */
 const ImageField = ({
@@ -111,8 +143,9 @@ const AdminFarmers = () => {
   const qc = useQueryClient();
   const [editing, setEditing] = useState<Partial<FarmerRow> | null>(null);
 
-  const { data: rows = [], isLoading } = useQuery({
+  const { data: rows = [], isLoading, isError, error } = useQuery({
     queryKey: ["admin", "farmers"],
+    enabled: hasSupabaseConfig,
     queryFn: async () => {
       const { data, error } = await supabase.from("farmers").select("*").order("sort_order");
       if (error) throw error;
@@ -128,10 +161,8 @@ const AdminFarmers = () => {
 
   const save = useMutation({
     mutationFn: async (row: Partial<FarmerRow>) => {
-      const payload = { ...empty, ...row };
-      if (!payload.name.trim()) throw new Error("Name is required.");
-      const slug = slugify(payload.slug || payload.name) || `farmer-${Date.now()}`;
-      const { id, ...values } = { ...payload, slug } as FarmerRow;
+      if (!hasSupabaseConfig) throw new Error("Supabase is not configured for this frontend.");
+      const values = normalizeFarmerPayload(row);
       const { error } = row.id
         ? await supabase.from("farmers").update(values).eq("id", row.id)
         : await supabase.from("farmers").insert(values);
@@ -147,6 +178,7 @@ const AdminFarmers = () => {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
+      if (!hasSupabaseConfig) throw new Error("Supabase is not configured for this frontend.");
       const { error } = await supabase.from("farmers").delete().eq("id", id);
       if (error) throw error;
     },
@@ -159,6 +191,7 @@ const AdminFarmers = () => {
 
   const togglePublished = useMutation({
     mutationFn: async (row: FarmerRow) => {
+      if (!hasSupabaseConfig) throw new Error("Supabase is not configured for this frontend.");
       const { error } = await supabase.from("farmers").update({ published: !row.published }).eq("id", row.id);
       if (error) throw error;
     },
@@ -184,6 +217,24 @@ const AdminFarmers = () => {
           </button>
         }
       />
+
+      {!hasSupabaseConfig && (
+        <AdminCard className="mb-6 border-destructive/40 bg-destructive/5">
+          <p className="font-medium text-destructive">Supabase is not configured.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY to .env, then restart the dev server.
+          </p>
+        </AdminCard>
+      )}
+
+      {isError && (
+        <AdminCard className="mb-6 border-destructive/40 bg-destructive/5">
+          <p className="font-medium text-destructive">Could not load farmers from Supabase.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {error instanceof Error ? error.message : "Please check the farmers table and RLS policies."}
+          </p>
+        </AdminCard>
+      )}
 
       {editing && (
         <AdminCard className="mb-6">
@@ -282,7 +333,7 @@ const AdminFarmers = () => {
             </label>
           </div>
 
-          <button className={`${primaryBtn} mt-6`} disabled={save.isPending} onClick={() => save.mutate(editing)}>
+          <button className={`${primaryBtn} mt-6`} disabled={save.isPending || !hasSupabaseConfig} onClick={() => save.mutate(editing)}>
             <Save className="w-4 h-4" /> Save profile
           </button>
         </AdminCard>
@@ -302,10 +353,22 @@ const AdminFarmers = () => {
           </thead>
           <tbody>
             {isLoading && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">Loading...</td></tr>}
-            {!isLoading && rows.length === 0 && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">No farmer profiles yet.</td></tr>}
+            {!isLoading && !isError && rows.length === 0 && <tr><td colSpan={6} className="px-4 py-6 text-muted-foreground">No farmer profiles yet.</td></tr>}
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
-                <td className="px-4 py-3 text-foreground font-medium">{r.name}</td>
+                <td className="px-4 py-3">
+                  <div className="font-medium text-foreground">{r.name}</div>
+                  {(r.slug || r.id) && (
+                    <a
+                      href={`/farmers/${r.slug ?? r.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs text-muted-foreground hover:text-primary"
+                    >
+                      /farmers/{r.slug ?? r.id}
+                    </a>
+                  )}
+                </td>
                 <td className="px-4 py-3 text-foreground/70">{r.role}</td>
                 <td className="px-4 py-3 text-foreground/70">{r.district}</td>
                 <td className="px-4 py-3 text-foreground/70 capitalize">{(r.crops ?? []).join(", ") || "Not set"}</td>

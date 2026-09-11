@@ -47,8 +47,8 @@ export const PageHero = ({
         "relative isolate overflow-hidden bg-primary text-primary-foreground",
         bleedTop && "-mt-16 md:-mt-20",
         size === "full"
-          ? "min-h-[82svh] md:min-h-[86svh] flex items-center"
-          : "min-h-[46svh] md:min-h-[54svh] flex items-center"
+          ? "flex min-h-[clamp(36rem,88svh,46rem)] items-center sm:min-h-[82svh] md:min-h-[86svh]"
+          : "flex min-h-[26rem] items-center sm:min-h-[46svh] md:min-h-[54svh]"
       )}
     >
       <div className="absolute inset-0 -z-10">
@@ -92,10 +92,10 @@ export const PageHero = ({
           className={cn(
             "absolute inset-0",
             clearImage
-              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.42)_0%,hsl(221_39%_11%/0.24)_36%,hsl(221_39%_11%/0.06)_68%,transparent_100%)]"
+              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.48)_0%,hsl(221_39%_11%/0.28)_54%,hsl(221_39%_11%/0.10)_82%,transparent_100%)] md:bg-[linear-gradient(90deg,hsl(221_39%_11%/0.42)_0%,hsl(221_39%_11%/0.24)_36%,hsl(221_39%_11%/0.06)_68%,transparent_100%)]"
               : clearMotion
-              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.46)_0%,hsl(221_39%_11%/0.26)_36%,hsl(221_39%_11%/0.07)_68%,transparent_100%)]"
-              : "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.50)_0%,hsl(221_39%_11%/0.30)_36%,hsl(221_39%_11%/0.08)_68%,transparent_100%)]"
+              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.52)_0%,hsl(221_39%_11%/0.32)_54%,hsl(221_39%_11%/0.12)_82%,transparent_100%)] md:bg-[linear-gradient(90deg,hsl(221_39%_11%/0.46)_0%,hsl(221_39%_11%/0.26)_36%,hsl(221_39%_11%/0.07)_68%,transparent_100%)]"
+              : "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.56)_0%,hsl(221_39%_11%/0.36)_54%,hsl(221_39%_11%/0.14)_82%,transparent_100%)] md:bg-[linear-gradient(90deg,hsl(221_39%_11%/0.50)_0%,hsl(221_39%_11%/0.30)_36%,hsl(221_39%_11%/0.08)_68%,transparent_100%)]"
           )}
         />
         <div
@@ -112,17 +112,17 @@ export const PageHero = ({
 
       <div
         className={cn(
-          "relative container-full w-full",
-          size === "full" ? "pt-28 pb-16 md:pt-36 md:pb-24" : "pt-24 pb-16 md:pt-28 md:pb-20"
+          "container-full relative w-full min-w-0",
+          size === "full" ? "pb-10 pt-24 sm:pt-28 md:pb-24 md:pt-36" : "pb-12 pt-20 sm:pt-24 md:pb-20 md:pt-28"
         )}
       >
         <motion.h1
           {...fade(0)}
           className={cn(
-            "font-heading font-extrabold text-primary-foreground max-w-[15ch] text-balance",
+            "font-heading max-w-[16ch] text-balance break-words font-extrabold text-primary-foreground",
             size === "full"
-              ? "text-[2.75rem] leading-[0.98] sm:text-6xl md:text-7xl lg:text-8xl"
-              : "text-[2.35rem] leading-[1.02] sm:text-5xl md:text-6xl"
+              ? "text-[clamp(2.35rem,12vw,3.75rem)] leading-[1.02] md:text-7xl lg:text-8xl"
+              : "text-[clamp(1.9rem,10vw,3rem)] leading-[1.06] md:text-6xl"
           )}
         >
           {title}
@@ -137,14 +137,14 @@ export const PageHero = ({
         {subtitle && (
           <motion.p
             {...fade(0.12)}
-            className="mt-6 md:mt-8 max-w-xl md:max-w-2xl text-base md:text-lg text-primary-foreground/88 leading-relaxed"
+            className="mt-4 max-w-xl text-sm leading-relaxed text-primary-foreground/88 sm:mt-5 sm:text-base md:mt-8 md:max-w-2xl md:text-lg"
           >
             {subtitle}
           </motion.p>
         )}
 
         {children && (
-          <motion.div {...fade(0.22)} className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+          <motion.div {...fade(0.22)} className="mt-6 flex min-w-0 flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row sm:gap-4 md:mt-10">
             {children}
           </motion.div>
         )}
@@ -155,7 +155,7 @@ export const PageHero = ({
 
 export const heroBtn = (variant: "solid" | "gold" | "ghost" = "solid") =>
   cn(
-    "group inline-flex items-center justify-center gap-2.5 rounded-full px-6 sm:px-7 py-3.5 btn-label text-xs sm:text-[13px]",
+    "group inline-flex w-full items-center justify-center gap-2.5 rounded-full px-6 py-3.5 btn-label text-xs sm:w-auto sm:px-7 sm:text-[13px]",
     "transition-all duration-300 will-change-transform hover:-translate-y-0.5 active:translate-y-0",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
     variant === "solid" &&

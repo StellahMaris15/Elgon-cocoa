@@ -81,7 +81,7 @@ const Products = () => {
         src={siteVideos.harvest}
         poster={pageHeroImages.products}
         label="Elgon crop harvest and product handling"
-        className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+        className="-mb-24 md:min-h-[calc(76svh+6rem)]"
         overlayClassName="bg-none"
       />
     </Layout>

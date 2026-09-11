@@ -5,13 +5,19 @@ interface HeroVideoBandProps {
   poster: string;
   label: string;
   className?: string;
+  videoClassName?: string;
   overlayClassName?: string;
 }
 
-export const HeroVideoBand = ({ src, poster, label, className, overlayClassName }: HeroVideoBandProps) => (
-  <section className={cn("relative min-h-[58svh] w-full overflow-hidden bg-primary md:min-h-[72svh]", className)}>
+export const HeroVideoBand = ({ src, poster, label, className, videoClassName, overlayClassName }: HeroVideoBandProps) => (
+  <section
+    className={cn(
+      "relative h-[clamp(24rem,86svh,44rem)] w-full overflow-hidden bg-[#04051c] sm:aspect-video sm:h-auto md:min-h-[72svh] md:max-h-none",
+      className,
+    )}
+  >
     <video
-      className="absolute inset-0 h-full w-full object-cover"
+      className={cn("absolute inset-0 h-full w-full object-cover object-center", videoClassName)}
       autoPlay
       muted
       loop

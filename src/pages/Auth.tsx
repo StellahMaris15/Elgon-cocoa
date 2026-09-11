@@ -1,6 +1,7 @@
 import { SiteImage } from "@/components/SiteImage";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -150,9 +151,13 @@ const Auth = () => {
             {mode === "signin" ? "Need an account? Create one" : "Already registered? Sign in"}
           </button>
 
-          <p className="mt-6 pt-6 border-t border-border text-xs text-muted-foreground">
-            The first account to sign in becomes the workspace administrator. All later accounts must be granted the admin role.
-          </p>
+          <Link
+            to="/"
+            className="btn-label mt-6 inline-flex items-center gap-2 border-t border-border pt-6 text-xs text-primary transition-colors hover:text-accent"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back to Home
+          </Link>
         </div>
       </div>
     </main>

@@ -24,7 +24,7 @@ const initials = (name: string) =>
     .join("");
 
 const chip = (active: boolean) =>
-  `btn-label text-[11px] px-4 py-2 rounded-full border capitalize transition-colors ${
+  `btn-label text-[11px] px-3 py-2 sm:px-4 rounded-full border capitalize transition-colors ${
     active ? "bg-primary text-primary-foreground border-primary" : "border-border text-foreground hover:border-primary"
   }`;
 
@@ -36,47 +36,53 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: Math.min(index, 5) * 0.06 }}
-      className="group h-full bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col hover:border-primary/35 hover:shadow-xl transition-all"
+      className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
-      <div className="aspect-[4/3] bg-muted overflow-hidden">
-        {photo ? (
-          <SiteImage
-            src={photo}
-            alt={`${farmer.name}, ${farmer.role} in ${farmer.district}`}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          />
-        ) : (
-          <div className="w-full h-full grid place-items-center bg-secondary text-secondary-foreground">
-            <span className="font-heading font-bold text-4xl">{initials(farmer.name)}</span>
+      <Link to={`/farmers/${farmer.slug ?? farmer.id}`} className="block h-full">
+        <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden bg-muted sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
+          {photo ? (
+            <SiteImage
+              src={photo}
+              alt={`${farmer.name}, ${farmer.role} in ${farmer.district}`}
+              loading="lazy"
+              className="h-full w-full object-cover brightness-110 contrast-110 saturate-115 transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="grid h-full w-full place-items-center bg-secondary text-secondary-foreground">
+              <span className="font-heading text-4xl font-bold">{initials(farmer.name)}</span>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#062516]/18 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[28%]">
+            <div className="flex h-full w-full min-w-0 flex-col justify-center rounded-b-[1.75rem] border-t border-white/25 bg-[#062516]/50 px-4 py-2 text-primary-foreground shadow-2xl shadow-black/20 backdrop-blur-md backdrop-saturate-150 sm:px-5 md:px-6">
+              <h3 className="break-words font-heading text-[clamp(1.3rem,7.5vw,1.55rem)] font-semibold leading-none text-primary-foreground drop-shadow-sm md:text-[1.7rem]">
+                {farmer.name}
+              </h3>
+              {farmer.role && <p className="btn-label mt-1 text-[0.62rem] text-accent">{farmer.role}</p>}
+              {farmer.district && (
+                <p className="mt-1 text-[0.72rem] leading-snug text-primary-foreground/85">
+                  {farmer.district} District
+                </p>
+              )}
+              {(farmer.crops?.length ?? 0) > 0 && (
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {farmer.crops.slice(0, 2).map((c) => (
+                    <span
+                      key={c}
+                      className="btn-label rounded-full border border-white/20 bg-white/15 px-2.5 py-0.5 text-[0.58rem] capitalize text-primary-foreground"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <span className="mt-1.5 inline-flex text-[0.68rem] font-semibold text-accent transition-colors group-hover:text-primary-foreground">
+                View profile
+              </span>
+            </div>
           </div>
-        )}
-      </div>
-      <div className="p-6 flex-1 flex flex-col">
-        <h3 className="min-h-[3.25rem] font-heading font-semibold text-xl text-primary leading-snug">{farmer.name}</h3>
-        {farmer.role && <p className="min-h-[1rem] btn-label text-[11px] text-accent mt-1">{farmer.role}</p>}
-        {farmer.district && (
-          <p className="text-xs text-muted-foreground mt-3">
-            {farmer.district} District
-          </p>
-        )}
-        {(farmer.crops?.length ?? 0) > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3">
-            {farmer.crops.map((c) => (
-              <span key={c} className="btn-label text-[10px] px-3 py-1 rounded-full bg-muted text-primary capitalize">{c}</span>
-            ))}
-          </div>
-        )}
-        {farmer.story && (
-          <p className="min-h-[5.5rem] text-sm text-foreground/80 leading-relaxed mt-4 line-clamp-4">{farmer.story}</p>
-        )}
-        <Link
-          to={`/farmers/${farmer.slug ?? farmer.id}`}
-          className="btn-label text-[11px] text-primary hover:text-accent inline-flex items-center mt-auto pt-6 transition-colors"
-        >
-          View profile
-        </Link>
-      </div>
+        </div>
+      </Link>
     </motion.article>
   );
 };
@@ -146,7 +152,7 @@ const Farmers = () => {
         </div>
 
         {/* Search + filters */}
-        <div className="border border-border rounded-2xl p-5 mb-10 bg-card shadow-sm">
+        <div className="mb-10 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
           <label className="relative block mb-5">
             <span className="sr-only">Search farmers</span>
             <input
@@ -190,7 +196,7 @@ const Farmers = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4 mt-5 pt-4 border-t border-border">
+          <div className="mt-5 flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-muted-foreground">
               {results.length} {results.length === 1 ? "farmer" : "farmers"} shown
             </p>
@@ -353,7 +359,7 @@ const Farmers = () => {
         src={siteVideos.farmers}
         poster={pageHeroImages.farmers}
         label="Elgon cooperative farmers working in the fields"
-        className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+        className="-mb-24 md:min-h-[calc(76svh+6rem)]"
         overlayClassName="bg-none"
       />
     </Layout>

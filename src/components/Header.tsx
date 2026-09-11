@@ -37,24 +37,24 @@ export const Header = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-border bg-white transition-all duration-300",
-        scrolled && "shadow-[0_12px_32px_hsl(221_39%_11%/0.08)]",
+        "sticky top-0 z-50 border-b border-white/70 bg-background/90 backdrop-blur-xl transition-all duration-300",
+        scrolled && "shadow-[0_14px_34px_hsl(215_18%_62%/0.22),0_-12px_30px_hsl(0_0%_100%/0.65)]",
         hidden && "-translate-y-full"
       )}
     >
       <nav className="container-full">
-        <div className="flex items-center justify-between h-20 md:h-24">
-          <Link to="/" className="flex items-center gap-3 group">
+        <div className="flex h-16 min-w-0 items-center justify-between gap-3 sm:h-20 md:h-24">
+          <Link to="/" className="group flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
             <SiteImage
               src={logoImage} loading="eager"
               alt="Elgon Vanilla Coffee & Cocoa Growers Cooperative logo"
-              width={72} height={72} className="w-16 h-16 md:w-20 md:h-20 object-contain shrink-0 rounded-full bg-white p-1 shadow-sm"
+              width={72} height={72} className="neo-inset h-12 w-12 shrink-0 rounded-full bg-card object-contain p-1 sm:h-16 sm:w-16 md:h-20 md:w-20"
             />
-            <span className="flex flex-col leading-none">
-              <span className="font-heading text-base md:text-lg text-primary group-hover:text-accent transition-colors">
+            <span className="flex min-w-0 flex-col leading-none">
+              <span className="truncate font-heading text-sm text-primary transition-colors group-hover:text-accent sm:text-base md:text-lg">
                 Elgon Cooperative
               </span>
-              <span className="text-[10px] uppercase text-muted-foreground">
+              <span className="truncate text-[9px] uppercase text-muted-foreground sm:text-[10px]">
                 Vanilla / Coffee / Cocoa
               </span>
             </span>
@@ -78,15 +78,15 @@ export const Header = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
               to="/inquire"
-              className="hidden sm:inline-flex btn-label text-xs bg-primary text-primary-foreground px-5 py-2.5 rounded-md shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="neo-button hidden px-5 py-2.5 text-xs btn-label bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
             >
               Request Quote
             </Link>
             <button
-              className="lg:hidden btn-label text-xs px-4 py-2 rounded-full border border-border bg-card hover:text-primary transition-colors"
+              className="neo-button btn-label bg-card px-3 py-2 text-[11px] hover:text-primary sm:px-4 sm:text-xs lg:hidden"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
             >
@@ -129,7 +129,7 @@ export const Header = () => {
                         cn(
                           "block px-3 py-3 btn-label text-sm rounded-sm transition-colors",
                           isActive
-                            ? "text-primary bg-muted"
+                            ? "neo-inset text-primary"
                             : "text-muted-foreground hover:text-primary hover:bg-muted/50"
                         )
                       }
@@ -140,7 +140,7 @@ export const Header = () => {
                 ))}
                 <Link
                   to="/inquire"
-                  className="block mt-4 text-center btn-label text-xs bg-primary text-primary-foreground px-5 py-3 rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                  className="neo-button mt-4 block px-5 py-3 text-center text-xs btn-label bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
                 >
                   Request Quote
                 </Link>

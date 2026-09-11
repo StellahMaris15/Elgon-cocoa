@@ -18,24 +18,26 @@ export const CollectionCard = ({ category, index = 0 }: CategoryCardProps) => {
       className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
       <Link to={`/products?category=${category.slug}`} className="block h-full">
-        <div className="relative aspect-[4/5] min-h-[24rem] overflow-hidden md:min-h-[28rem] lg:min-h-[30rem]">
+        <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
           <SiteImage
             src={category.image}
             alt={category.name}
-            className="h-full w-full object-cover transition-transform [transition-duration:1.2s] ease-out group-hover:scale-105"
+            className="h-full w-full object-cover brightness-110 contrast-110 saturate-125 transition-transform [transition-duration:1.2s] ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0e3a2b]/95 via-[#0e3a2b]/45 to-[#0e3a2b]/10" />
-          <div className="absolute inset-x-0 bottom-0 flex min-h-[13rem] flex-col justify-end gap-2 p-5 md:p-6 lg:p-7">
-            <p className="eyebrow mb-1 text-accent">Product</p>
-            <h3 className="font-heading text-3xl leading-none text-primary-foreground md:text-[2.1rem]">
-              {category.name}
-            </h3>
-            <p className="max-w-xs text-sm leading-relaxed text-primary-foreground/90 md:text-[0.95rem]">
-              {category.tagline}
-            </p>
-            <span className="mt-2 inline-flex text-xs font-semibold text-accent transition-colors group-hover:text-primary-foreground">
-              Explore
-            </span>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#062516]/18 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[28%]">
+            <div className="flex h-full w-full min-w-0 flex-col justify-center rounded-b-[1.75rem] border-t border-white/25 bg-[#062516]/50 px-4 py-2 text-primary-foreground shadow-2xl shadow-black/20 backdrop-blur-md backdrop-saturate-150 sm:px-5 md:px-6 lg:px-7">
+              <p className="eyebrow mb-0.5 text-[0.58rem] text-accent">Product</p>
+              <h3 className="break-words font-heading text-[clamp(1.35rem,8vw,1.7rem)] leading-none text-primary-foreground drop-shadow-sm md:text-[1.85rem]">
+                {category.name}
+              </h3>
+              <p className="mt-1 max-w-sm overflow-hidden text-[0.78rem] leading-snug text-primary-foreground/95 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] md:text-[0.86rem]">
+                {category.tagline}
+              </p>
+              <span className="mt-1.5 inline-flex text-[0.68rem] font-semibold text-accent transition-colors group-hover:text-primary-foreground">
+                Explore
+              </span>
+            </div>
           </div>
         </div>
       </Link>

@@ -6,10 +6,10 @@ import { Layout } from "@/components/Layout";
 import { CollectionCard } from "@/components/CollectionCard";
 import { PageHero, heroBtn } from "@/components/PageHero";
 import { siteVideos } from "@/data/videos";
-
-
-import { ProductCard } from "@/components/ProductCard";
-import { categories, getFeaturedProducts } from "@/data/products";
+import { HeroVideoBand } from "@/components/HeroVideoBand";
+import { useFarmers, type FarmerRow } from "@/hooks/useCatalog";
+import { useMediaUrl } from "@/lib/media";
+import { categories, type CategorySlug } from "@/data/products";
 
 const PRINCIPLES = [
   { label: "Sustainability" },
@@ -18,8 +18,78 @@ const PRINCIPLES = [
   { label: "Community Powered" },
 ];
 
+const initials = (name: string) =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase())
+    .join("");
+
+const FeaturedFarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => {
+  const photo = useMediaUrl(farmer.photo_url);
+  const fallback = cropHero[(farmer.crops?.[0] as CategorySlug) ?? "coffee"] ?? cropHero.coffee;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.08 }}
+      className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
+    >
+      <Link to={`/farmers/${farmer.slug ?? farmer.id}`} className="block h-full">
+        <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden bg-muted sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
+          {photo || fallback ? (
+            <SiteImage
+              src={photo || fallback}
+              fallbackSrc={fallback}
+              alt={`${farmer.name}, ${farmer.role}`}
+              loading="lazy"
+              className="h-full w-full object-cover brightness-110 contrast-110 saturate-115 transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="grid h-full w-full place-items-center bg-secondary text-secondary-foreground">
+              <span className="font-heading text-4xl font-bold">{initials(farmer.name)}</span>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#062516]/18 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-[28%]">
+            <div className="flex h-full w-full min-w-0 flex-col justify-center rounded-b-[1.75rem] border-t border-white/25 bg-[#062516]/50 px-4 py-2 text-primary-foreground shadow-2xl shadow-black/20 backdrop-blur-md backdrop-saturate-150 sm:px-5 md:px-6">
+              <h3 className="break-words font-heading text-[clamp(1.3rem,7.5vw,1.55rem)] font-semibold leading-none text-primary-foreground drop-shadow-sm md:text-[1.7rem]">
+                {farmer.name}
+              </h3>
+              {farmer.role && <p className="btn-label mt-1 text-[0.62rem] text-accent">{farmer.role}</p>}
+              {farmer.district && (
+                <p className="mt-1 text-[0.72rem] leading-snug text-primary-foreground/85">{farmer.district} District</p>
+              )}
+              {(farmer.crops?.length ?? 0) > 0 && (
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {farmer.crops.slice(0, 2).map((crop) => (
+                    <span
+                      key={crop}
+                      className="btn-label rounded-full border border-white/20 bg-white/15 px-2.5 py-0.5 text-[0.58rem] capitalize text-primary-foreground"
+                    >
+                      {crop}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <span className="mt-1.5 inline-flex text-[0.68rem] font-semibold text-accent transition-colors group-hover:text-primary-foreground">
+                View profile
+              </span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.article>
+  );
+};
+
 const Index = () => {
-  const featured = getFeaturedProducts();
+  const { data: farmers = [] } = useFarmers();
+  const featuredFarmers = farmers.slice(0, 3);
+
   return (
     <Layout>
       <PageHero
@@ -90,23 +160,27 @@ const Index = () => {
         </div>
       </section>
       <section className="container-full py-20 md:py-28">
-        <div className="flex items-end justify-between mb-12">
+        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow mb-3">Featured</p>
+            <p className="eyebrow mb-3">Featured Farmers</p>
             <h2 className="font-heading text-3xl md:text-4xl text-primary">
-              Signature exports
+              Meet the people behind every harvest.
             </h2>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Three featured cooperative members growing organic vanilla, coffee and cocoa
+              across the Elgon region.
+            </p>
           </div>
           <Link
-            to="/products"
+            to="/farmers"
             className="hidden md:inline-flex btn-label text-xs text-primary hover:text-accent transition-colors items-center link-underline"
           >
             View all
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
-          {featured.map((p, i) => (
-            <ProductCard key={p.id} product={p} index={i} />
+          {featuredFarmers.map((farmer, i) => (
+            <FeaturedFarmerCard key={farmer.id} farmer={farmer} index={i} />
           ))}
         </div>
       </section>
@@ -160,23 +234,14 @@ const Index = () => {
           </Link>
         </div>
       </section>
-      <section className="bg-secondary text-secondary-foreground">
-        <div className="container-full py-24 text-center">
-          <p className="eyebrow text-accent mb-4">Buyers / Importers / Roasters</p>
-          <h2 className="font-heading text-4xl md:text-5xl mb-6 max-w-3xl mx-auto leading-tight">
-            Ready to source from Uganda's Elgon region?
-          </h2>
-          <p className="text-lg text-secondary-foreground/80 max-w-2xl mx-auto mb-10">
-            Minimum order: one 19.2 ton container. Smaller pre-arranged quantities available.
-          </p>
-          <Link
-            to="/inquire"
-            className="btn-label text-xs inline-flex items-center bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
-          >
-            Request a Quote
-          </Link>
-        </div>
-      </section>
+      <HeroVideoBand
+        src={siteVideos.export}
+        poster={cropHero.vanilla}
+        label="Elgon cooperative export preparation"
+        className="md:-mb-24 md:min-h-[calc(76svh+6rem)]"
+        videoClassName="object-center brightness-110 contrast-125 saturate-125"
+        overlayClassName="bg-none"
+      />
     </Layout>
   );
 };

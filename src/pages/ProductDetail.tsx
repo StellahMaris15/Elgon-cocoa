@@ -2,6 +2,7 @@ import { cropHero } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Product3DViewer } from "@/components/Product3DViewer";
 import { ProductGallery } from "@/components/ProductGallery";
@@ -42,6 +43,7 @@ const ProductDetail = () => {
           to="/products"
           className="btn-label text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-2 transition-colors"
         >
+          <ArrowLeft className="h-4 w-4" />
           Back to Products
         </Link>
       </section>

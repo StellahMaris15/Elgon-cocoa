@@ -32,9 +32,9 @@ export const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const sidebar = (
-    <div className="flex h-full flex-col bg-card text-foreground lg:m-4 lg:mr-0 lg:rounded-lg border border-border shadow-sm overflow-hidden">
-      <div className="h-16 flex items-center gap-3 px-4 border-b border-border/60">
-        <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={36} height={36} className="w-9 h-9 object-contain shrink-0" />
+    <div className="neo-surface flex h-full flex-col overflow-hidden text-foreground lg:m-4 lg:mr-0">
+      <div className="h-16 flex items-center gap-3 px-4 border-b border-white/70">
+        <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={36} height={36} className="neo-inset w-9 h-9 object-contain shrink-0 rounded-full p-0.5" />
         {!collapsed && (
           <div className="min-w-0">
             <p className="btn-label text-[11px] leading-tight">Elgon Cooperative</p>
@@ -53,11 +53,11 @@ export const AdminLayout = () => {
             title={collapsed ? label : undefined}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm transition-colors",
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all",
                 collapsed && "justify-center px-2",
                 isActive
-                  ? "bg-tertiary text-primary font-semibold"
-                  : "text-muted-foreground hover:bg-muted hover:text-primary",
+                  ? "neo-inset text-primary font-semibold"
+                  : "text-muted-foreground hover:text-primary hover:shadow-[var(--clay-shadow-sm)]",
               )
             }
           >
@@ -67,11 +67,11 @@ export const AdminLayout = () => {
         ))}
       </nav>
 
-      <div className="p-3 border-t border-border/60 space-y-1">
+      <div className="p-3 border-t border-white/70 space-y-1">
         <Link
           to="/"
           className={cn(
-            "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-primary transition-colors",
+            "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-primary hover:shadow-[var(--clay-shadow-sm)] transition-all",
             collapsed && "justify-center px-2",
           )}
           title={collapsed ? "View website" : undefined}
@@ -82,7 +82,7 @@ export const AdminLayout = () => {
         <button
           onClick={signOut}
           className={cn(
-            "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm text-muted-foreground hover:text-primary transition-colors",
+            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-primary hover:shadow-[var(--clay-shadow-sm)] transition-all",
             collapsed && "justify-center px-2",
           )}
           title={collapsed ? "Sign out" : undefined}
@@ -121,17 +121,17 @@ export const AdminLayout = () => {
       )}
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="h-16 bg-background/95 backdrop-blur-md flex items-center justify-between gap-4 px-4 md:px-6 sticky top-0 z-30 border-b border-border">
+        <header className="h-16 bg-background/90 backdrop-blur-xl flex items-center justify-between gap-4 px-4 md:px-6 sticky top-0 z-30 border-b border-white/70 shadow-[0_12px_30px_hsl(215_18%_62%/0.16)]">
           <div className="flex items-center gap-3">
             <button
-              className="lg:hidden p-2 rounded-md border border-border bg-card text-foreground"
+              className="neo-button lg:hidden p-2 bg-card text-foreground"
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen ? <Menu className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
             <button
-              className="hidden lg:inline-flex p-2 rounded-md border border-border bg-card text-foreground hover:text-primary"
+              className="neo-button hidden lg:inline-flex p-2 bg-card text-foreground hover:text-primary"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               onClick={() => setCollapsed((v) => !v)}
             >
@@ -141,7 +141,7 @@ export const AdminLayout = () => {
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden sm:block text-xs text-muted-foreground truncate max-w-[220px]">{user?.email}</span>
-            <span className="w-9 h-9 rounded-full border border-border bg-card text-primary grid place-items-center text-xs font-semibold">
+            <span className="neo-inset grid h-9 w-9 place-items-center rounded-full text-xs font-semibold text-primary">
               {user?.email?.[0]?.toUpperCase() ?? "A"}
             </span>
           </div>
