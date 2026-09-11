@@ -1,15 +1,16 @@
 import { SiteImage } from "@/components/SiteImage";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, HandCoins, MapPinned, Search, Sprout, UsersRound, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
+import { HeroVideoBand } from "@/components/HeroVideoBand";
 
 import { Seo } from "@/components/Seo";
 import { useFarmers, type FarmerRow } from "@/hooks/useCatalog";
-import { cropHero } from "@/data/cropImages";
+import { cropHero, pageHeroImages } from "@/data/cropImages";
 import { useMediaUrl } from "@/lib/media";
+import { siteVideos } from "@/data/videos";
 
 const DISTRICTS = ["Sironko", "Bulambuli", "Mbale City", "Mbale", "Manafwa", "Bududa", "Kapchorwa"];
 const CROPS = ["vanilla", "coffee", "cocoa"];
@@ -35,7 +36,7 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: Math.min(index, 5) * 0.06 }}
-      className="group bg-card border border-border rounded-lg shadow-sm overflow-hidden flex flex-col hover:border-primary/35 hover:shadow-xl transition-all"
+      className="group h-full bg-card border border-border rounded-2xl shadow-sm overflow-hidden flex flex-col hover:border-primary/35 hover:shadow-xl transition-all"
     >
       <div className="aspect-[4/3] bg-muted overflow-hidden">
         {photo ? (
@@ -52,28 +53,28 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
         )}
       </div>
       <div className="p-6 flex-1 flex flex-col">
-        <h3 className="font-heading font-semibold text-xl text-primary">{farmer.name}</h3>
-        {farmer.role && <p className="btn-label text-[11px] text-accent mt-1">{farmer.role}</p>}
+        <h3 className="min-h-[3.25rem] font-heading font-semibold text-xl text-primary leading-snug">{farmer.name}</h3>
+        {farmer.role && <p className="min-h-[1rem] btn-label text-[11px] text-accent mt-1">{farmer.role}</p>}
         {farmer.district && (
-          <p className="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-            <MapPinned className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
+          <p className="text-xs text-muted-foreground mt-3">
+            {farmer.district} District
           </p>
         )}
         {(farmer.crops?.length ?? 0) > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
             {farmer.crops.map((c) => (
-              <span key={c} className="btn-label text-[10px] px-3 py-1 rounded-sm bg-muted text-primary capitalize">{c}</span>
+              <span key={c} className="btn-label text-[10px] px-3 py-1 rounded-full bg-muted text-primary capitalize">{c}</span>
             ))}
           </div>
         )}
         {farmer.story && (
-          <p className="text-sm text-foreground/80 leading-relaxed mt-4 line-clamp-4">{farmer.story}</p>
+          <p className="min-h-[5.5rem] text-sm text-foreground/80 leading-relaxed mt-4 line-clamp-4">{farmer.story}</p>
         )}
         <Link
           to={`/farmers/${farmer.slug ?? farmer.id}`}
-          className="btn-label text-[11px] text-primary hover:text-accent inline-flex items-center gap-2 mt-6 transition-colors"
+          className="btn-label text-[11px] text-primary hover:text-accent inline-flex items-center mt-auto pt-6 transition-colors"
         >
-          View profile <ArrowRight className="w-3.5 h-3.5" aria-hidden />
+          View profile
         </Link>
       </div>
     </motion.article>
@@ -127,11 +128,11 @@ const Farmers = () => {
         eyebrow="From Our Farms to the World"
         title="3,000+ smallholders."
         titleAccent="One cooperative."
-        subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative is powered by over 3,000 organic farmers - mostly women - across seven districts of the Elgon region."
-        image={cropHero.vanilla}
-        imageAlt="Cured vanilla beans bundled on natural linen"
+        subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative is powered by over 3,000 organic farmers, mostly women, across seven districts of the Elgon region."
+        image={pageHeroImages.farmers}
+        imageAlt="Elgon farmers tending vanilla vines"
+        mediaVariant="clearMotion"
       />
-
 
       {/* Farmer profiles from the admin dashboard */}
       <section className="container-full py-24">
@@ -145,15 +146,14 @@ const Farmers = () => {
         </div>
 
         {/* Search + filters */}
-        <div className="border border-border rounded-lg p-5 mb-10 bg-card shadow-sm">
+        <div className="border border-border rounded-2xl p-5 mb-10 bg-card shadow-sm">
           <label className="relative block mb-5">
-            <Search className="w-4 h-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2" aria-hidden />
             <span className="sr-only">Search farmers</span>
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, role, district or crop..."
-              className="w-full h-12 pl-11 pr-4 rounded-md border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+              className="w-full h-12 px-4 rounded-md border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
             />
           </label>
 
@@ -172,7 +172,7 @@ const Farmers = () => {
               <select
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="w-full h-11 px-3 rounded-sm border border-border bg-background text-sm text-foreground focus:outline-none focus:border-primary"
+                className="w-full h-11 px-3 rounded-full border border-border bg-background text-sm text-foreground focus:outline-none focus:border-primary"
               >
                 <option value="all">All districts</option>
                 {districts.map((d) => (
@@ -195,8 +195,8 @@ const Farmers = () => {
               {results.length} {results.length === 1 ? "farmer" : "farmers"} shown
             </p>
             {filtered && (
-              <button onClick={clear} className="btn-label text-[11px] inline-flex items-center gap-2 text-primary hover:text-accent transition-colors">
-                <X className="w-3.5 h-3.5" /> Clear filters
+              <button onClick={clear} className="btn-label text-[11px] inline-flex items-center text-primary hover:text-accent transition-colors">
+                Clear filters
               </button>
             )}
           </div>
@@ -205,7 +205,7 @@ const Farmers = () => {
         {isLoading && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="h-80 rounded-sm border border-border bg-muted/40 animate-pulse" />
+              <div key={i} className="h-80 rounded-2xl border border-border bg-muted/40 animate-pulse" />
             ))}
           </div>
         )}
@@ -247,7 +247,7 @@ const Farmers = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="btn-label text-xs px-5 py-3 rounded-sm border border-border bg-card"
+                className="btn-label text-xs px-5 py-3 rounded-full border border-border bg-card"
               >
                 {d}
               </motion.span>
@@ -264,10 +264,10 @@ const Farmers = () => {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: Sprout, title: "Organic training", body: "Best-practice organic farming for vanilla, coffee and cocoa." },
-            { icon: HandCoins, title: "Collective marketing", body: "Fair prices through pooled harvests and shared export channels." },
-            { icon: BadgeCheck, title: "Sustainability skills", body: "On-farm visits and continuous training on productivity." },
-            { icon: UsersRound, title: "Community focus", body: "Women, youth and vulnerable groups at the center." },
+            { title: "Organic training", body: "Best-practice organic farming for vanilla, coffee and cocoa." },
+            { title: "Collective marketing", body: "Fair prices through pooled harvests and shared export channels." },
+            { title: "Sustainability skills", body: "On-farm visits and continuous training on productivity." },
+            { title: "Community focus", body: "Women, youth and vulnerable groups at the center." },
           ].map((v, i) => (
             <motion.div
               key={i}
@@ -275,20 +275,18 @@ const Farmers = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 bg-card border border-border rounded-sm"
+              className="flex h-full flex-col p-6 bg-card border border-border rounded-2xl shadow-sm"
             >
-              <v.icon className="w-8 h-8 text-accent mb-4" />
-              <h3 className="font-heading font-semibold text-lg text-primary mb-2">{v.title}</h3>
+              <h3 className="min-h-[2.75rem] font-heading font-semibold text-lg text-primary mb-2">{v.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{v.body}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Sustainability plan */}
       <section className="bg-muted/40">
-        <div className="container-full py-24 grid gap-12 lg:grid-cols-2 items-center">
-          <div>
+        <div className="container-full pt-24 pb-12">
+          <div className="max-w-3xl">
             <p className="eyebrow mb-3">Sustainability</p>
             <h2 className="font-heading font-bold text-4xl text-primary mb-6 leading-tight">
               From garden to store to global buyer.
@@ -301,29 +299,31 @@ const Farmers = () => {
               </p>
               <p>
                 Continuous farmer training and consistent farm visits have increased
-                production and productivity year over year - while collective marketing
+                production and productivity year over year, while collective marketing
                 secures fair returns.
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+        </div>
+        <div className="container-full pb-24">
+          <div className="grid gap-4 md:grid-cols-3">
             <SiteImage
               src={cropHero.cocoa}
               alt="Open cocoa pod and dried cocoa beans"
               loading="lazy"
-              className="col-span-2 aspect-[16/9] w-full object-cover rounded-sm"
+              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
             />
             <SiteImage
               src={cropHero.vanilla}
               alt="Cured vanilla beans bundled on natural linen"
               loading="lazy"
-              className="aspect-square w-full object-cover rounded-sm"
+              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
             />
             <SiteImage
               src={cropHero.coffee}
               alt="Green and roasted coffee beans spilling from a burlap sack"
               loading="lazy"
-              className="aspect-square w-full object-cover rounded-sm"
+              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
             />
           </div>
         </div>
@@ -331,23 +331,31 @@ const Farmers = () => {
 
       
       <section className="bg-secondary text-secondary-foreground">
-        <div className="container-full py-20 text-center">
-          <p className="eyebrow text-accent mb-4">Farmers</p>
-          <h2 className="font-heading font-bold text-4xl md:text-5xl mb-6 max-w-3xl mx-auto">
+        <div className="container-full py-8 md:py-10 text-center">
+          <p className="eyebrow text-accent mb-2">Farmers</p>
+          <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary-foreground mb-3 max-w-3xl mx-auto">
             Join the cooperative.
           </h2>
-          <p className="text-secondary-foreground/80 max-w-xl mx-auto mb-8">
+          <p className="text-secondary-foreground/80 max-w-xl mx-auto mb-5">
             Are you a smallholder farmer in the Elgon region growing vanilla, coffee
             or cocoa? Get in touch to learn about membership.
           </p>
           <Link
             to="/contact"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
+            className="btn-label text-xs inline-flex items-center bg-accent text-accent-foreground px-7 py-3.5 rounded-full hover:bg-accent/90 transition-colors"
           >
-            Contact the cooperative <ArrowRight className="w-4 h-4" />
+            Contact the cooperative
           </Link>
         </div>
       </section>
+
+      <HeroVideoBand
+        src={siteVideos.farmers}
+        poster={pageHeroImages.farmers}
+        label="Elgon cooperative farmers working in the fields"
+        className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+        overlayClassName="bg-none"
+      />
     </Layout>
   );
 };

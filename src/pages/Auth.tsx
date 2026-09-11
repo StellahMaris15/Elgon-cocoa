@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { BadgeCheck, Eye, EyeOff, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Seo } from "@/components/Seo";
@@ -120,15 +119,15 @@ const Auth = () => {
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full h-12 pl-5 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-ring/30"
+                  className="w-full h-12 pl-5 pr-24 rounded-md focus:outline-none focus:ring-2 focus:ring-ring/30"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((visible) => !visible)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-muted-foreground hover:text-primary transition-colors"
+                  className="btn-label absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground hover:text-primary transition-colors"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
               {errors.password && <p className="text-xs text-destructive mt-1">{errors.password}</p>}
@@ -137,10 +136,9 @@ const Auth = () => {
             <button
               type="submit"
               disabled={busy}
-              className="btn-label text-xs w-full bg-primary text-primary-foreground h-12 rounded-md neo-action hover:bg-secondary inline-flex items-center justify-center gap-2 disabled:opacity-60"
+              className="btn-label text-xs w-full bg-primary text-primary-foreground h-12 rounded-md neo-action hover:bg-secondary inline-flex items-center justify-center disabled:opacity-60"
             >
-              {busy && <Loader2 className="w-4 h-4 animate-spin" />}
-              {mode === "signin" ? "Sign in" : "Create account"}
+              {busy ? "Please wait..." : mode === "signin" ? "Sign in" : "Create account"}
             </button>
           </form>
 
@@ -152,8 +150,7 @@ const Auth = () => {
             {mode === "signin" ? "Need an account? Create one" : "Already registered? Sign in"}
           </button>
 
-          <p className="mt-6 pt-6 border-t border-border text-xs text-muted-foreground flex gap-2">
-            <BadgeCheck className="w-4 h-4 text-accent shrink-0" />
+          <p className="mt-6 pt-6 border-t border-border text-xs text-muted-foreground">
             The first account to sign in becomes the workspace administrator. All later accounts must be granted the admin role.
           </p>
         </div>

@@ -1,11 +1,10 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
-import { AtSign, MapPinned, Smartphone } from "lucide-react";
 import { logoImage } from "@/data/cropImages";
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground mt-24">
+    <footer className="bg-[#013220] text-primary-foreground mt-24">
       <div className="container-full py-16">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
@@ -20,7 +19,7 @@ export const Footer = () => {
             <p className="text-sm text-primary-foreground/70 leading-relaxed max-w-md">
               Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society -
               13+ years building sustainable farming skills and cohesive,
-              self-reliant communities across Uganda's Elgon region.
+              self reliant communities across Uganda's Elgon region.
             </p>
           </div>
 
@@ -46,23 +45,20 @@ export const Footer = () => {
           <div>
             <h4 className="eyebrow text-accent mb-5">Contact</h4>
             <ul className="space-y-4 text-sm text-primary-foreground/70">
-              <li className="flex gap-3">
-                <MapPinned className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+              <li>
                 <span>
                   P.O. Box 771, Mbale, Uganda<br />
                   Bilinda Village, Bumateba Parish,<br />
                   Sironko District
                 </span>
               </li>
-              <li className="flex gap-3">
-                <Smartphone className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+              <li>
                 <div className="space-y-0.5">
                   <a href="tel:+256782528476" className="block hover:text-accent transition-colors">+256 782 528 476</a>
                   <a href="tel:+256706613980" className="block hover:text-accent transition-colors">+256 706 613 980</a>
                 </div>
               </li>
-              <li className="flex gap-3">
-                <AtSign className="w-4 h-4 mt-0.5 shrink-0 text-accent" />
+              <li>
                 <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent transition-colors break-all">
                   elgonvanillacoffee@gmail.com
                 </a>

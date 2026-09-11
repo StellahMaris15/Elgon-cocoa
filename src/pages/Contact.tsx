@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { AtSign, MapPinned, SendHorizontal, Smartphone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
@@ -34,7 +33,7 @@ const Contact = () => {
     setTimeout(() => {
       setSubmitting(false);
       setForm({ name: "", email: "", subject: "", message: "" });
-      toast.success("Message received - we'll reply to " + parsed.data.email);
+      toast.success("Message received. We'll reply to " + parsed.data.email);
     }, 700);
   };
 
@@ -44,7 +43,7 @@ const Contact = () => {
         eyebrow="From Our Farms to the World"
         title="Get in"
         titleAccent="touch."
-        subtitle="Buyers, importers, roasters, partners, and farmers - we'd love to hear from you."
+        subtitle="Buyers, importers, roasters, partners, and farmers, we'd love to hear from you."
         image={cropHero.cocoa}
         imageAlt="Freshly split cocoa pod from the Elgon region"
       />
@@ -53,9 +52,9 @@ const Contact = () => {
       <section className="container-full py-20 grid gap-12 lg:grid-cols-5">
         <div className="lg:col-span-2 space-y-8">
           {[
-            { icon: MapPinned, title: "Address", body: <>P.O. Box 771, Mbale, Uganda<br />Mbale Industrial City Division Council<br />Bilinda Village, Bumateba Parish, Sironko District</> },
-            { icon: Smartphone, title: "Phone / WhatsApp", body: <><a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a><a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a></> },
-            { icon: AtSign, title: "Email", body: <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent break-all">elgonvanillacoffee@gmail.com</a> },
+            { title: "Address", body: <>P.O. Box 771, Mbale, Uganda<br />Mbale Industrial City Division Council<br />Bilinda Village, Bumateba Parish, Sironko District</> },
+            { title: "Phone / WhatsApp", body: <><a href="tel:+256782528476" className="block hover:text-accent">+256 782 528 476</a><a href="tel:+256706613980" className="block hover:text-accent">+256 706 613 980</a></> },
+            { title: "Email", body: <a href="mailto:elgonvanillacoffee@gmail.com" className="hover:text-accent break-all">elgonvanillacoffee@gmail.com</a> },
           ].map((c, i) => (
             <motion.div
               key={i}
@@ -63,20 +62,17 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex gap-5"
+              className="h-full rounded-2xl border border-border bg-card p-6 shadow-sm"
             >
-              <span className="shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-sm bg-primary text-primary-foreground">
-                <c.icon className="w-5 h-5" />
-              </span>
               <div>
-                <p className="btn-label text-xs text-primary mb-2">{c.title}</p>
+                <p className="btn-label min-h-[1rem] text-xs text-primary mb-2">{c.title}</p>
                 <div className="text-muted-foreground leading-relaxed text-sm">{c.body}</div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        <form onSubmit={onSubmit} className="lg:col-span-3 p-8 md:p-10 bg-card border border-border rounded-lg shadow-sm space-y-5" noValidate>
+        <form onSubmit={onSubmit} className="lg:col-span-3 p-8 md:p-10 bg-card border border-border rounded-2xl shadow-sm space-y-5" noValidate>
           <div>
             <label className="btn-label text-xs text-primary block mb-2">Name</label>
             <input
@@ -122,9 +118,9 @@ const Contact = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
+            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center disabled:opacity-60"
           >
-            {submitting ? "Sending..." : "Send Message"} <SendHorizontal className="w-4 h-4" />
+            {submitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </section>

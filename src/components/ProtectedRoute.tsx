@@ -1,5 +1,4 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -9,7 +8,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (loading) {
     return (
       <div className="min-h-screen grid place-items-center bg-background">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" aria-label="Loading" />
+        <span className="h-6 w-6 rounded-full border-2 border-primary/20 border-t-primary animate-spin" aria-label="Loading" />
       </div>
     );
   }

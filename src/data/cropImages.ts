@@ -1,9 +1,13 @@
 import vanilla from "@/assets/vanilla-hero.jpg";
 import coffee from "@/assets/coffee-hero.jpg";
 import cocoa from "@/assets/cocoa-hero.jpg";
+import aboutHero from "@/assets/image 1.jpeg";
+import farmerHero from "@/assets/herosection Farmer page.jpeg";
+import productHero from "@/assets/Herosection Product page.jpeg";
 
 /** Bundled crop photography, available on every deployment. */
 export const cropHero = { vanilla, coffee, cocoa } as const;
+export const pageHeroImages = { about: aboutHero, farmers: farmerHero, products: productHero } as const;
 export const cropImages = { vanilla: [vanilla], coffee: [coffee], cocoa: [cocoa] } as const;
 export const logoImage = import.meta.env.BASE_URL + "favicon.png";
 

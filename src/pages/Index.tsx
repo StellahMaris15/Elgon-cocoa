@@ -2,20 +2,20 @@ import { cropHero } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, BadgeCheck, Globe2, HandCoins, PackageCheck, Sprout, UsersRound } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { CollectionCard } from "@/components/CollectionCard";
 import { PageHero, heroBtn } from "@/components/PageHero";
+import { siteVideos } from "@/data/videos";
 
 
 import { ProductCard } from "@/components/ProductCard";
 import { categories, getFeaturedProducts } from "@/data/products";
 
 const PRINCIPLES = [
-  { label: "Sustainability", icon: Sprout },
-  { label: "Traceability", icon: Globe2 },
-  { label: "Consistency", icon: PackageCheck },
-  { label: "Community Powered", icon: UsersRound },
+  { label: "Sustainability" },
+  { label: "Traceability" },
+  { label: "Consistency" },
+  { label: "Community Powered" },
 ];
 
 const Index = () => {
@@ -29,23 +29,23 @@ const Index = () => {
         subtitle="Organically grown by 3,000+ farmers on the fertile slopes of Mount Elgon. Exporting quality. Empowering communities."
         image={cropHero.cocoa}
         imageAlt="Open cocoa pod and dried cocoa beans"
+        videoSrc={siteVideos.hero}
         size="full"
         bleedTop
       >
         <Link to="/products" className={heroBtn("solid")}>
-          <PackageCheck className="w-4 h-4" /> Explore Products
+          Explore Products
         </Link>
         <Link to="/farmers" className={heroBtn("gold")}>
           Meet Our Farmers
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </PageHero>
       <section className="bg-accent text-accent-foreground">
         <div className="container-full py-6 marquee">
           <div className="marquee-content gap-16 pr-16">
             {[...PRINCIPLES, ...PRINCIPLES, ...PRINCIPLES].map((p, i) => (
-              <span key={i} className="btn-label text-sm inline-flex items-center gap-4">
-                <p.icon className="w-4 h-4" /> {p.label}
+              <span key={i} className="btn-label text-sm inline-flex items-center">
+                {p.label}
               </span>
             ))}
           </div>
@@ -58,7 +58,7 @@ const Index = () => {
             Three crops. One cooperative. One promise.
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Organically grown and value-added by farmers across Sironko, Bulambuli,
+            Organically grown and value added by farmers across Sironko, Bulambuli,
             Mbale, Manafwa, Bududa and Kapchorwa.
           </p>
         </div>
@@ -99,9 +99,9 @@ const Index = () => {
           </div>
           <Link
             to="/products"
-            className="hidden md:inline-flex btn-label text-xs text-primary hover:text-accent transition-colors items-center gap-2 link-underline"
+            className="hidden md:inline-flex btn-label text-xs text-primary hover:text-accent transition-colors items-center link-underline"
           >
-            View all <ArrowRight className="w-3.5 h-3.5" />
+            View all
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
@@ -113,9 +113,9 @@ const Index = () => {
       <section className="bg-muted/40">
         <div className="container-full py-24 md:py-28 grid gap-12 md:grid-cols-3">
           {[
-            { icon: Sprout, title: "Sustainability", body: "Environmentally responsible farming practices, from soil to shipment." },
-            { icon: BadgeCheck, title: "Quality", body: "Unwavering dedication to high-grade vanilla, coffee and cocoa." },
-            { icon: UsersRound, title: "Community", body: "Uplifting women, youth and vulnerable groups through training and fair trade." },
+            { title: "Sustainability", body: "Environmentally responsible farming practices, from soil to shipment." },
+            { title: "Quality", body: "Unwavering dedication to high-grade vanilla, coffee and cocoa." },
+            { title: "Community", body: "Uplifting women, youth and vulnerable groups through training and fair trade." },
           ].map((v, i) => (
             <motion.div
               key={i}
@@ -123,18 +123,16 @@ const Index = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
+              className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-sm"
             >
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-sm bg-primary text-primary-foreground mb-5">
-                <v.icon className="w-5 h-5" />
-              </span>
-              <h3 className="font-heading text-2xl text-primary mb-3">{v.title}</h3>
+              <h3 className="min-h-[2rem] font-heading text-2xl text-primary mb-3">{v.title}</h3>
               <p className="text-muted-foreground leading-relaxed">{v.body}</p>
             </motion.div>
           ))}
         </div>
       </section>
       <section className="container-full py-20 md:py-28 grid gap-12 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-lg shadow-xl">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl">
           <SiteImage
             src={cropHero.coffee}
             alt="Green and roasted coffee beans spilling from a burlap sack"
@@ -148,18 +146,17 @@ const Index = () => {
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-6">
             We support women and vulnerable groups with organic farming training,
-            collective marketing, and profit-sharing - building self-reliant
+            collective marketing, and profit sharing, building self reliant
             communities across Uganda's Elgon region.
           </p>
-          <div className="flex items-center gap-2 mb-8 text-primary">
-            <HandCoins className="w-5 h-5 text-accent" />
+          <div className="mb-8 text-primary">
             <span className="btn-label text-xs">3,000+ farmers across 6 districts</span>
           </div>
           <Link
             to="/farmers"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-secondary transition-colors"
+            className="btn-label text-xs inline-flex items-center bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-secondary transition-colors"
           >
-            Meet the farmers <ArrowRight className="w-4 h-4" />
+            Meet the farmers
           </Link>
         </div>
       </section>
@@ -174,9 +171,9 @@ const Index = () => {
           </p>
           <Link
             to="/inquire"
-            className="btn-label text-xs inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
+            className="btn-label text-xs inline-flex items-center bg-accent text-accent-foreground px-8 py-4 rounded-full hover:bg-accent/90 transition-colors"
           >
-            Request a Quote <ArrowRight className="w-4 h-4" />
+            Request a Quote
           </Link>
         </div>
       </section>

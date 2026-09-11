@@ -1,9 +1,10 @@
 import { SiteImage } from "@/components/SiteImage";
 import { motion } from "framer-motion";
-import { BadgeCheck, Compass, Goal, HeartHandshake, Sprout, UsersRound } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
-import { cropHero } from "@/data/cropImages";
+import { cropHero, pageHeroImages } from "@/data/cropImages";
+import { siteVideos } from "@/data/videos";
+import { HeroVideoBand } from "@/components/HeroVideoBand";
 
 const OBJECTIVES = [
   "Promote organic farming of vanilla, coffee and cocoa.",
@@ -13,7 +14,7 @@ const OBJECTIVES = [
   "Maintain the highest quality of vanilla, coffee and cocoa.",
   "Export quality vanilla, coffee and cocoa to the world.",
   "Advocate for value-addition facilities in the region.",
-  "Create profit-sharing partnerships on behalf of the farmers.",
+  "Create profit sharing partnerships on behalf of the farmers.",
 ];
 
 const About = () => (
@@ -21,19 +22,19 @@ const About = () => (
     <PageHero
       eyebrow="From Our Farms to the World"
       title="13 years building"
-      titleAccent="self-reliant communities"
+      titleAccent="self reliant communities"
       subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society [EVCCGCS] was formed by women farmers seeking better organic practices, fair marketing, and stronger livelihoods across the Elgon region."
-      image={cropHero.vanilla}
-      imageAlt="Cured vanilla beans bundled on natural linen"
+      image={pageHeroImages.about}
+      imageAlt="Hands sorting cured vanilla beans"
+      mediaVariant="clearImage"
     />
 
-
     {/* Vision / Mission / Philosophy */}
-    <section className="container-full py-24 grid gap-12 md:grid-cols-3">
+      <section className="container-full py-24 grid gap-12 md:grid-cols-3">
       {[
-        { icon: Compass, title: "Vision", body: "Building farmers with sustainable farming skills, cohesive, self-reliant communities." },
-        { icon: Goal, title: "Mission", body: "To contribute to the betterment of agro-business Ugandan communities." },
-        { icon: HeartHandshake, title: "Philosophy", body: "Inclusive programs addressing the needs of women and youth all along the vanilla, coffee and cocoa supply chain." },
+        { title: "Vision", body: "Building farmers with sustainable farming skills, cohesive, self reliant communities." },
+        { title: "Mission", body: "To contribute to the betterment of agro-business Ugandan communities." },
+        { title: "Philosophy", body: "Inclusive programs addressing the needs of women and youth all along the vanilla, coffee and cocoa supply chain." },
       ].map((v, i) => (
         <motion.div
           key={i}
@@ -41,12 +42,9 @@ const About = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
-          className="border-t-2 border-accent pt-6"
+          className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-sm"
         >
-          <span className="inline-flex items-center justify-center w-12 h-12 rounded-sm bg-primary text-primary-foreground mb-5">
-            <v.icon className="w-5 h-5" />
-          </span>
-          <h2 className="font-heading font-semibold text-2xl text-primary mb-3">{v.title}</h2>
+          <h2 className="min-h-[2rem] font-heading font-semibold text-2xl text-primary mb-3">{v.title}</h2>
           <p className="text-muted-foreground leading-relaxed">{v.body}</p>
         </motion.div>
       ))}
@@ -55,7 +53,7 @@ const About = () => (
     {/* Story */}
     <section className="bg-muted/40">
       <div className="container-full py-24 grid gap-16 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-sm">
           <SiteImage
             src={cropHero.vanilla}
             alt="Cured vanilla beans bundled on natural linen"
@@ -74,8 +72,8 @@ const About = () => (
               Bulambuli, Mbale City, Mbale, Manafwa, Bududa and Kapchorwa.
             </p>
             <p>
-              We support women who are vulnerable - including those violated
-              domestically - reconciling them with their spouses on the farm and
+              We support women who are vulnerable, including those violated
+              domestically, reconciling them with their spouses on the farm and
               improving livelihoods through small-scale business.
             </p>
             <p>
@@ -98,13 +96,12 @@ const About = () => (
       </div>
       <div className="grid gap-8 md:grid-cols-3">
         {[
-          { icon: Sprout, title: "Sustainability", body: "Commitment to environmentally responsible farming practices." },
-          { icon: BadgeCheck, title: "Quality", body: "Unwavering dedication to high-grade cocoa, coffee, and vanilla." },
-          { icon: UsersRound, title: "Community Development", body: "Uplifting local communities through employment, training and sustainable practice." },
+          { title: "Sustainability", body: "Commitment to environmentally responsible farming practices." },
+          { title: "Quality", body: "Unwavering dedication to high-grade cocoa, coffee, and vanilla." },
+          { title: "Community Development", body: "Uplifting local communities through employment, training and sustainable practice." },
         ].map((v, i) => (
-          <div key={i} className="p-8 bg-card border border-border rounded-sm hover-lift">
-            <v.icon className="w-8 h-8 text-accent mb-4" />
-            <h3 className="font-heading font-semibold text-xl text-primary mb-3">{v.title}</h3>
+          <div key={i} className="flex h-full flex-col p-8 bg-card border border-border rounded-2xl shadow-sm hover-lift">
+            <h3 className="min-h-[3rem] font-heading font-semibold text-xl text-primary mb-3">{v.title}</h3>
             <p className="text-muted-foreground leading-relaxed">{v.body}</p>
           </div>
         ))}
@@ -128,7 +125,7 @@ const About = () => (
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex gap-4 p-6 border border-primary-foreground/10 rounded-sm"
+              className="flex h-full gap-4 rounded-2xl border border-primary-foreground/12 bg-primary-foreground/5 p-6"
             >
               <span className="btn-label text-accent text-sm shrink-0">{String(i + 1).padStart(2, "0")}</span>
               <p className="text-primary-foreground/85 leading-relaxed">{o}</p>
@@ -145,7 +142,7 @@ const About = () => (
         <h2 className="font-heading font-bold text-4xl text-primary mb-8">
           Guided by experience.
         </h2>
-        <div className="p-8 md:p-10 border-l-4 border-accent bg-muted/40 rounded-sm">
+        <div className="p-8 md:p-10 border-l-4 border-accent bg-muted/40 rounded-2xl shadow-sm">
           <p className="font-heading font-semibold text-2xl text-primary">Madoi Saphina Mudebo</p>
           <p className="btn-label text-xs text-accent mt-1">Managing Director</p>
           <p className="mt-4 text-muted-foreground leading-relaxed">
@@ -155,6 +152,14 @@ const About = () => (
         </div>
       </div>
     </section>
+
+    <HeroVideoBand
+      src={siteVideos.sourcing}
+      poster={pageHeroImages.about}
+      label="Elgon cooperative sourcing and farming footage"
+      className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+      overlayClassName="bg-none"
+    />
   </Layout>
 );
 

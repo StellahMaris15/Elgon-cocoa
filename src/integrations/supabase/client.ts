@@ -31,6 +31,27 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
   };
 }
 
+function createMemoryStorage() {
+  const store = new Map<string, string>();
+
+  return {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      store.set(key, value);
+    },
+    removeItem: (key: string) => {
+      store.delete(key);
+    },
+    clear: () => {
+      store.clear();
+    },
+    key: (index: number) => Array.from(store.keys())[index] ?? null,
+    get length() {
+      return store.size;
+    },
+  } as Storage;
+}
+
 function getSafeSupabaseClient() {
   if (!hasSupabaseConfig) {
     return {
@@ -61,7 +82,7 @@ function getSafeSupabaseClient() {
       fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
     },
     auth: {
-      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+      storage: typeof window !== 'undefined' && window.localStorage ? window.localStorage : createMemoryStorage(),
       persistSession: true,
       autoRefreshToken: true,
     }

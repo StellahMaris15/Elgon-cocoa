@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
-import { ArrowLeft } from "lucide-react";
 
 const NotFound = () => (
   <Layout>
@@ -12,9 +11,9 @@ const NotFound = () => (
       </p>
       <Link
         to="/"
-        className="btn-label text-xs inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+        className="btn-label text-xs inline-flex items-center bg-primary text-primary-foreground px-8 py-4 rounded-sm hover:bg-accent hover:text-accent-foreground transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" /> Back to Home
+        Back to Home
       </Link>
     </section>
   </Layout>

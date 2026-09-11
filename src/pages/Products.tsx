@@ -3,9 +3,11 @@ import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
-import { cropHero } from "@/data/cropImages";
+import { pageHeroImages } from "@/data/cropImages";
 import { ProductCard } from "@/components/ProductCard";
 import { categories, products, CategorySlug } from "@/data/products";
+import { siteVideos } from "@/data/videos";
+import { HeroVideoBand } from "@/components/HeroVideoBand";
 
 import { cn } from "@/lib/utils";
 
@@ -39,11 +41,10 @@ const Products = () => {
         eyebrow="From Our Farms to the World"
         title="Vanilla. Coffee."
         titleAccent="Cocoa."
-        subtitle="Explore our organically grown, expertly processed exports - available in raw and value-added forms, from container-scale to bespoke quantities."
-        image={cropHero.coffee}
-        imageAlt="Ripe red coffee cherries on the branch"
+        subtitle="Explore our organically grown, expertly processed exports, available in raw and value added forms, from container scale to bespoke quantities."
+        image={pageHeroImages.products}
+        imageAlt="Cocoa pods growing on a tree in the Elgon region"
       />
-
 
       <section className="container-full py-16">
         <div className="flex flex-wrap gap-3 mb-12">
@@ -75,6 +76,14 @@ const Products = () => {
           </div>
         )}
       </section>
+
+      <HeroVideoBand
+        src={siteVideos.harvest}
+        poster={pageHeroImages.products}
+        label="Elgon crop harvest and product handling"
+        className="-mb-24 min-h-[calc(56svh+6rem)] md:min-h-[calc(76svh+6rem)]"
+        overlayClassName="bg-none"
+      />
     </Layout>
   );
 };

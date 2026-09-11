@@ -5,6 +5,27 @@ export const FARMER_BUCKET = "farmer-media";
 
 const cache = new Map<string, string>();
 
+const bucketMissingPatterns = [
+  /bucket not found/i,
+  /storage bucket.*not.*found/i,
+  /resource not found/i,
+  /not found.*bucket/i,
+];
+
+export const formatStorageError = (error: { message?: string; code?: string; statusCode?: number } | null | undefined) => {
+  const message = error?.message ?? "Storage request failed.";
+
+  if (!error) return message;
+
+  const isMissingBucket = bucketMissingPatterns.some((pattern) => pattern.test(message)) || error.code === "PGRST301" || error.statusCode === 404;
+
+  if (isMissingBucket) {
+    return `Storage bucket "${FARMER_BUCKET}" is missing in Supabase. Create the bucket in the Supabase dashboard, enable public access if needed, and retry the upload.`;
+  }
+
+  return message;
+};
+
 const isDirectUrl = (value: string) =>
   value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/") || value.startsWith("data:");
 
@@ -53,6 +74,6 @@ export const uploadFarmerMedia = async (file: File, folder: string): Promise<str
     cacheControl: "3600",
     upsert: false,
   });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(formatStorageError(error));
   return path;
 };

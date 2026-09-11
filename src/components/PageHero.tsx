@@ -10,8 +10,10 @@ export interface PageHeroProps {
   subtitle?: string;
   image: string;
   imageAlt?: string;
+  videoSrc?: string;
   size?: "full" | "compact";
   bleedTop?: boolean;
+  mediaVariant?: "default" | "clearMotion" | "clearImage";
   children?: ReactNode;
 }
 
@@ -24,17 +26,20 @@ const fade = (delay: number) => ({
 });
 
 export const PageHero = ({
-  eyebrow,
   title,
   titleAccent,
   subtitle,
   image,
   imageAlt = "",
+  videoSrc,
   size = "compact",
   bleedTop = false,
+  mediaVariant = "default",
   children,
 }: PageHeroProps) => {
   const reduced = useReducedMotion();
+  const clearMotion = mediaVariant === "clearMotion";
+  const clearImage = mediaVariant === "clearImage";
 
   return (
     <section
@@ -47,19 +52,62 @@ export const PageHero = ({
       )}
     >
       <div className="absolute inset-0 -z-10">
-        <MotionSiteImage
-          src={image}
-          alt={imageAlt}
-          aria-hidden={imageAlt ? undefined : true}
-          loading="eager"
-          fetchPriority="high"
-          initial={{ scale: reduced ? 1 : 1.12 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 12, ease: "linear" }}
-          className="w-full h-full object-cover object-center"
+        {videoSrc ? (
+          <video
+            className="h-full w-full object-cover object-center"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={image}
+            aria-hidden="true"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ) : (
+          <MotionSiteImage
+            src={image}
+            alt={imageAlt}
+            aria-hidden={imageAlt ? undefined : true}
+            loading="eager"
+            fetchPriority="high"
+            initial={reduced ? { scale: 1 } : { scale: clearMotion ? 1.08 : 1.12, x: 0, y: 0 }}
+            animate={
+              reduced
+                ? { scale: 1 }
+                : clearMotion
+                  ? { scale: [1.08, 1.14, 1.08], x: ["0%", "-1.8%", "0%"], y: ["0%", "1.2%", "0%"] }
+                  : { scale: 1 }
+            }
+            transition={
+              clearMotion && !reduced
+                ? { duration: 24, ease: "easeInOut", repeat: Infinity }
+                : { duration: 12, ease: "linear" }
+            }
+            className="w-full h-full object-cover object-center transform-gpu will-change-transform"
+          />
+        )}
+        <div
+          className={cn(
+            "absolute inset-0",
+            clearImage
+              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.42)_0%,hsl(221_39%_11%/0.24)_36%,hsl(221_39%_11%/0.06)_68%,transparent_100%)]"
+              : clearMotion
+              ? "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.46)_0%,hsl(221_39%_11%/0.26)_36%,hsl(221_39%_11%/0.07)_68%,transparent_100%)]"
+              : "bg-[linear-gradient(90deg,hsl(221_39%_11%/0.50)_0%,hsl(221_39%_11%/0.30)_36%,hsl(221_39%_11%/0.08)_68%,transparent_100%)]"
+          )}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,hsl(var(--primary)/0.92)_0%,hsl(var(--primary)/0.78)_35%,hsl(var(--primary)/0.28)_70%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(221_39%_11%/0.48)_0%,transparent_42%,hsl(221_39%_11%/0.2)_100%)]" />
+        <div
+          className={cn(
+            "absolute inset-0",
+            clearImage
+              ? "bg-[linear-gradient(180deg,hsl(221_39%_11%/0.10)_0%,transparent_52%,hsl(221_39%_11%/0.06)_100%)]"
+              : clearMotion
+              ? "bg-[linear-gradient(180deg,hsl(221_39%_11%/0.12)_0%,transparent_52%,hsl(221_39%_11%/0.06)_100%)]"
+              : "bg-[linear-gradient(180deg,hsl(221_39%_11%/0.16)_0%,transparent_52%,hsl(221_39%_11%/0.08)_100%)]"
+          )}
+        />
       </div>
 
       <div
@@ -68,15 +116,8 @@ export const PageHero = ({
           size === "full" ? "pt-28 pb-16 md:pt-36 md:pb-24" : "pt-24 pb-16 md:pt-28 md:pb-20"
         )}
       >
-        <motion.p
-          {...fade(0)}
-          className="font-display italic text-accent text-2xl md:text-3xl leading-tight mb-4 md:mb-6"
-        >
-          {eyebrow}
-        </motion.p>
-
         <motion.h1
-          {...fade(0.08)}
+          {...fade(0)}
           className={cn(
             "font-heading font-extrabold text-primary-foreground max-w-[15ch] text-balance",
             size === "full"
@@ -95,7 +136,7 @@ export const PageHero = ({
 
         {subtitle && (
           <motion.p
-            {...fade(0.18)}
+            {...fade(0.12)}
             className="mt-6 md:mt-8 max-w-xl md:max-w-2xl text-base md:text-lg text-primary-foreground/88 leading-relaxed"
           >
             {subtitle}
@@ -103,7 +144,7 @@ export const PageHero = ({
         )}
 
         {children && (
-          <motion.div {...fade(0.28)} className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+          <motion.div {...fade(0.22)} className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             {children}
           </motion.div>
         )}

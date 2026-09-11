@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import { SendHorizontal } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
+import { siteVideos } from "@/data/videos";
 
 import { products, categories } from "@/data/products";
 import { toast } from "sonner";
@@ -66,7 +66,7 @@ const Inquire = () => {
     setTimeout(() => {
       setSubmitting(false);
       setForm({ name: "", company: "", country: "", email: "", phone: "", productIds: [], volume: "", message: "" });
-      toast.success("Inquiry received - we'll respond within 2 business days.");
+      toast.success("Inquiry received. We'll respond within 2 business days.");
     }, 900);
   };
 
@@ -76,14 +76,15 @@ const Inquire = () => {
         eyebrow="From Our Farms to the World"
         title="Request a"
         titleAccent="quote."
-        subtitle="Tell us what you need - product, volume, destination - and we'll respond with pricing, lead times, and shipping details."
+        subtitle="Tell us what you need, product, volume, destination, and we'll respond with pricing, lead times, and shipping details."
         image={cropHero.vanilla}
         imageAlt="Bundles of cured Ugandan vanilla beans"
+        videoSrc={siteVideos.export}
       />
 
 
       <section className="container-full py-20 max-w-4xl">
-        <form onSubmit={onSubmit} className="p-8 md:p-12 bg-card border border-border rounded-lg shadow-sm space-y-8" noValidate>
+        <form onSubmit={onSubmit} className="p-8 md:p-12 bg-card border border-border rounded-2xl shadow-sm space-y-8" noValidate>
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Name" error={errors.name}>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
@@ -118,14 +119,14 @@ const Inquire = () => {
                       type="button"
                       onClick={() => toggleProduct(p.id)}
                       className={cn(
-                        "text-left p-4 border rounded-md transition-all",
+                        "flex h-full min-h-[6.75rem] flex-col text-left p-4 border rounded-2xl transition-all",
                         selected
                           ? "border-primary bg-primary text-primary-foreground"
                           : "border-border bg-background hover:border-primary"
                       )}
                     >
-                      <p className="btn-label text-[10px] mb-1 opacity-70">{c.name}</p>
-                      <p className="text-sm font-heading font-semibold">{p.name}</p>
+                      <p className="btn-label text-[10px] mb-2 opacity-70">{c.name}</p>
+                      <p className="mt-auto min-h-[2.5rem] text-sm font-heading font-semibold leading-snug">{p.name}</p>
                     </button>
                   );
                 });
@@ -141,9 +142,9 @@ const Inquire = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center gap-2 disabled:opacity-60"
+            className="btn-label text-xs bg-primary text-primary-foreground px-8 py-4 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors inline-flex items-center disabled:opacity-60"
           >
-            {submitting ? "Sending..." : "Submit Inquiry"} <SendHorizontal className="w-4 h-4" />
+            {submitting ? "Sending..." : "Submit Inquiry"}
           </button>
         </form>
       </section>

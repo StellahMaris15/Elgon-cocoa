@@ -1,6 +1,5 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link, NavLink as RouterNavLink, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
 import { logoImage } from "@/data/cropImages";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,33 +16,39 @@ const NAV = [
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 40);
+      setHidden(currentY > 120 && currentY > lastY && !open);
+      lastY = currentY;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [open]);
 
   useEffect(() => setOpen(false), [location.pathname]);
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-border/70 transition-all duration-300",
-        scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-[0_12px_32px_hsl(221_39%_11%/0.08)]"
-          : "bg-background/92 backdrop-blur-sm"
+        "sticky top-0 z-50 border-b border-border bg-white transition-all duration-300",
+        scrolled && "shadow-[0_12px_32px_hsl(221_39%_11%/0.08)]",
+        hidden && "-translate-y-full"
       )}
     >
       <nav className="container-full">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-20 md:h-24">
           <Link to="/" className="flex items-center gap-3 group">
             <SiteImage
               src={logoImage} loading="eager"
               alt="Elgon Vanilla Coffee & Cocoa Growers Cooperative logo"
-              width={48} height={48} className="w-11 h-11 md:w-12 md:h-12 object-contain shrink-0"
+              width={72} height={72} className="w-16 h-16 md:w-20 md:h-20 object-contain shrink-0 rounded-full bg-white p-1 shadow-sm"
             />
             <span className="flex flex-col leading-none">
               <span className="font-heading text-base md:text-lg text-primary group-hover:text-accent transition-colors">
@@ -81,18 +86,18 @@ export const Header = () => {
               Request Quote
             </Link>
             <button
-              className="lg:hidden p-2 rounded-md border border-border bg-card hover:text-primary transition-colors"
+              className="lg:hidden btn-label text-xs px-4 py-2 rounded-full border border-border bg-card hover:text-primary transition-colors"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
             >
               <AnimatePresence mode="wait">
                 {open ? (
                   <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                    <X className="w-5 h-5" />
+                    Close
                   </motion.div>
                 ) : (
                   <motion.div key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                    <Menu className="w-5 h-5" />
+                    Menu
                   </motion.div>
                 )}
               </AnimatePresence>

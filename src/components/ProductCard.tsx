@@ -1,7 +1,6 @@
 import { cropHero, productImages } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product, categories } from "@/data/products";
 import { cn } from "@/lib/utils";
@@ -22,9 +21,9 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="group overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
+      className="group h-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
-      <Link to={`/products/${product.slug}`} className="block">
+      <Link to={`/products/${product.slug}`} className="flex h-full flex-col">
         <div className="relative overflow-hidden bg-muted/40 aspect-[4/5]">
           <SiteImage
             src={images[0]} fallbackSrc={cropHero[product.category]}
@@ -37,7 +36,7 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           {hasSecondImage && (
             <SiteImage
               src={images[1]} fallbackSrc={cropHero[product.category]}
-              alt={`${product.name} - alternate view`}
+              alt={`${product.name}, alternate view`}
               className="absolute inset-0 w-full h-full object-cover opacity-0 scale-105 transition-all [transition-duration:1s] ease-out group-hover:opacity-100 group-hover:scale-100"
             />
           )}
@@ -57,16 +56,16 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           )}
         </div>
 
-        <div className="space-y-2 p-5 md:p-6">
+        <div className="flex flex-1 flex-col space-y-2 p-5 md:p-6">
           <p className="eyebrow">{category?.name}</p>
-          <h3 className="font-heading text-xl text-foreground transition-colors duration-300 group-hover:text-primary leading-snug">
+          <h3 className="min-h-[3.25rem] font-heading text-xl text-foreground transition-colors duration-300 group-hover:text-primary leading-snug">
             {product.name}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+          <p className="min-h-[3rem] text-sm text-muted-foreground line-clamp-2 leading-relaxed">
             {product.tagline}
           </p>
-          <div className="flex items-center gap-2 pt-2 btn-label text-xs text-primary group-hover:text-accent transition-colors">
-            View Details <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+          <div className="mt-auto flex items-center pt-4 btn-label text-xs text-primary group-hover:text-accent transition-colors">
+            View Details
           </div>
         </div>
       </Link>

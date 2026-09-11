@@ -14,7 +14,7 @@ export const ProductGallery = ({ images, name, fallbackSrc }: Props) => {
   const active = Math.max(0, sources.indexOf(selected ?? ""));
   return (
     <div>
-      <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-muted/40">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted/40 shadow-sm">
         <AnimatePresence mode="wait">
           <MotionSiteImage
             key={sources[active]}
@@ -30,7 +30,7 @@ export const ProductGallery = ({ images, name, fallbackSrc }: Props) => {
           />
         </AnimatePresence>
         {sources.length > 1 && (
-          <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-sm bg-primary/90 text-primary-foreground text-[11px] btn-label">
+          <span className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-primary/90 text-primary-foreground text-[11px] btn-label">
             {active + 1} / {sources.length}
           </span>
         )}
@@ -40,7 +40,7 @@ export const ProductGallery = ({ images, name, fallbackSrc }: Props) => {
           {sources.map((src, i) => (
             <button key={src} type="button" onClick={() => setSelected(src)}
               aria-label={"Show " + name + " image " + (i + 1)} aria-current={i === active}
-              className={cn("aspect-square overflow-hidden rounded-md border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2", i === active ? "border-accent" : "border-transparent hover:border-border")}
+              className={cn("aspect-square overflow-hidden rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2", i === active ? "border-accent" : "border-transparent hover:border-border")}
             >
               <SiteImage src={src} fallbackSrc={fallbackSrc} alt={name + " thumbnail " + (i + 1)} className="w-full h-full object-cover" />
             </button>

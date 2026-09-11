@@ -1,7 +1,6 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, AtSign, MapPinned, MessageCircle, PackageCheck, Smartphone, Sprout } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Seo } from "@/components/Seo";
 import { Product3DViewer } from "@/components/Product3DViewer";
@@ -11,19 +10,19 @@ import type { CategorySlug } from "@/data/products";
 
 const CropViewer = ({ crop, value, name }: { crop: CategorySlug; value?: string | null; name: string }) => {
   const backdrop = useMediaUrl(value);
-  return <Product3DViewer category={crop} name={`${name} - ${crop}`} backdrop={backdrop || undefined} />;
+  return <Product3DViewer category={crop} name={`${name}, ${crop}`} backdrop={backdrop || undefined} />;
 };
 
 const FarmerPortrait = ({ src, alt }: { src?: string | null; alt: string }) => {
   const url = useMediaUrl(src);
   if (!url) {
     return (
-      <div className="w-full aspect-[4/5] rounded-sm bg-secondary text-secondary-foreground grid place-items-center">
-        <Sprout className="w-10 h-10" aria-hidden />
+      <div className="w-full aspect-[4/5] rounded-2xl bg-secondary text-secondary-foreground grid place-items-center shadow-sm">
+        <span className="font-heading text-5xl">{alt.slice(0, 1).toUpperCase()}</span>
       </div>
     );
   }
-  return <SiteImage src={url} alt={alt} className="w-full aspect-[4/5] object-cover rounded-sm" loading="eager" />;
+  return <SiteImage src={url} alt={alt} className="w-full aspect-[4/5] object-cover rounded-2xl shadow-sm" loading="eager" />;
 };
 
 const waHref = (value: string) => {
@@ -40,7 +39,7 @@ const FarmerDetail = () => {
     return (
       <Layout>
         <div className="container-full py-32">
-          <div className="h-72 rounded-sm bg-muted/40 animate-pulse" />
+          <div className="h-72 rounded-2xl bg-muted/40 animate-pulse" />
         </div>
       </Layout>
     );
@@ -53,7 +52,7 @@ const FarmerDetail = () => {
           <h1 className="font-heading font-bold text-3xl text-primary mb-4">Farmer profile not found</h1>
           <p className="text-muted-foreground mb-8">This profile may have been unpublished by the cooperative office.</p>
           <Link to="/farmers" className="btn-label text-xs text-primary hover:text-accent inline-flex items-center gap-2">
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to all farmers
+            Back to all farmers
           </Link>
         </div>
       </Layout>
@@ -76,8 +75,8 @@ const FarmerDetail = () => {
       />
 
       <section className="container-full pt-12 pb-6">
-        <Link to="/farmers" className="btn-label text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-2 transition-colors">
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Farmers
+        <Link to="/farmers" className="btn-label text-xs text-muted-foreground hover:text-primary inline-flex items-center transition-colors">
+          Back to Farmers
         </Link>
       </section>
 
@@ -93,14 +92,14 @@ const FarmerDetail = () => {
 
           <div className="flex flex-wrap gap-3 mt-6">
             {farmer.district && (
-              <span className="btn-label text-[11px] inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-border">
-                <MapPinned className="w-3.5 h-3.5 text-accent" aria-hidden /> {farmer.district} District
+              <span className="btn-label text-[11px] inline-flex items-center px-4 py-2 rounded-full border border-border">
+                {farmer.district} District
               </span>
             )}
             {crops.map((c) => (
-              <span key={c} className="btn-label text-[11px] px-4 py-2 rounded-sm bg-muted text-primary capitalize">{c}</span>
+              <span key={c} className="btn-label text-[11px] px-4 py-2 rounded-full bg-muted text-primary capitalize">{c}</span>
             ))}
-            <span className="btn-label text-[11px] px-4 py-2 rounded-sm bg-accent/15 text-accent-foreground">
+            <span className="btn-label text-[11px] px-4 py-2 rounded-full bg-accent/15 text-accent-foreground">
               {farmer.published ? "Active member" : "Archived"}
             </span>
           </div>
@@ -111,22 +110,22 @@ const FarmerDetail = () => {
 
           <div className="mt-8 border-t border-border pt-6 flex flex-wrap gap-3">
             {farmer.email && (
-              <a href={`mailto:${farmer.email}`} className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm bg-primary text-primary-foreground hover:bg-secondary transition-colors">
-                <AtSign className="w-3.5 h-3.5" /> Email
+              <a href={`mailto:${farmer.email}`} className="btn-label text-[11px] inline-flex items-center px-5 py-3 rounded-full bg-primary text-primary-foreground hover:bg-secondary transition-colors">
+                Email
               </a>
             )}
             {farmer.phone && (
-              <a href={`tel:${farmer.phone.replace(/\s/g, "")}`} className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-border hover:border-primary hover:text-primary transition-colors">
-                <Smartphone className="w-3.5 h-3.5 text-accent" /> {farmer.phone}
+              <a href={`tel:${farmer.phone.replace(/\s/g, "")}`} className="btn-label text-[11px] inline-flex items-center px-5 py-3 rounded-full border border-border hover:border-primary hover:text-primary transition-colors">
+                {farmer.phone}
               </a>
             )}
             {farmer.whatsapp && (
-              <a href={waHref(farmer.whatsapp)} target="_blank" rel="noreferrer" className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-border hover:border-primary hover:text-primary transition-colors">
-                <MessageCircle className="w-3.5 h-3.5 text-accent" /> WhatsApp
+              <a href={waHref(farmer.whatsapp)} target="_blank" rel="noreferrer" className="btn-label text-[11px] inline-flex items-center px-5 py-3 rounded-full border border-border hover:border-primary hover:text-primary transition-colors">
+                WhatsApp
               </a>
             )}
-            <Link to="/inquire" className="btn-label text-[11px] inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-border hover:border-primary hover:text-primary transition-colors">
-              <PackageCheck className="w-3.5 h-3.5 text-accent" /> Inquire about their harvest
+            <Link to="/inquire" className="btn-label text-[11px] inline-flex items-center px-5 py-3 rounded-full border border-border hover:border-primary hover:text-primary transition-colors">
+              Inquire about their harvest
             </Link>
           </div>
         </div>
