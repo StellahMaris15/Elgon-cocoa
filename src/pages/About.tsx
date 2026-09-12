@@ -55,7 +55,7 @@ const About = () => (
       <div className="container-full py-24 grid gap-16 lg:grid-cols-2 items-center">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-sm">
           <SiteImage
-            src={cropHero.vanilla}
+            src={"/src/assets/harvest.jpg"}
             alt="Cured vanilla beans bundled on natural linen"
             className="w-full h-full object-cover"
           />
@@ -110,7 +110,7 @@ const About = () => (
     <section className="bg-white text-primary">
       <div className="container-full py-24">
         <div className="mx-auto mb-12 max-w-4xl text-center">
-          <h2 className="font-heading font-bold text-4xl md:text-5xl leading-tight">
+          <h2 className="font-heading font-bold text-4xl md:text-5xl leading-tight text-primary">
             What we set out to achieve.
           </h2>
         </div>

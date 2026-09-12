@@ -30,40 +30,40 @@
 
 @layer base {
   :root {
-    --background: 210 22% 96%;
-    --foreground: 221 39% 11%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
-    --card: 210 22% 97%;
-    --card-foreground: 221 39% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
 
-    --popover: 210 22% 97%;
-    --popover-foreground: 221 39% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
 
     --primary: 142 64% 24%;
-    --primary-foreground: 220 14% 96%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 143 61% 20%;
-    --secondary-foreground: 220 14% 96%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 213 18% 90%;
-    --muted-foreground: 215 16% 35%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 0%;
 
     --accent: 45 93% 47%;
-    --accent-foreground: 221 39% 11%;
+    --accent-foreground: 0 0% 0%;
 
     --tertiary: 142 44% 88%;
     --tertiary-foreground: 143 61% 20%;
 
     --destructive: 0 72% 45%;
-    --destructive-foreground: 42 38% 96%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 213 18% 84%;
-    --input: 213 18% 91%;
+    --input: 0 0% 96%;
     --ring: 142 64% 24%;
 
     --radius: 1rem;
 
-    --clay-surface: 210 22% 97%;
+    --clay-surface: 0 0% 100%;
     --clay-shadow-outer: 215 18% 62%;
     --clay-shadow: 
       14px 14px 30px hsl(var(--clay-shadow-outer) / 0.28),
@@ -83,7 +83,7 @@
     --brown: 24 48% 22%;
     --gold: 45 93% 47%;
     --light-green: 142 44% 88%;
-    --cream: 220 14% 96%;
+    --cream: 0 0% 100%;
 
     /* Typography */
     --font-heading: 'Work Sans', 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
@@ -91,10 +91,10 @@
     --font-body: 'Work Sans', system-ui, sans-serif;
     --font-button: 'Work Sans', system-ui, sans-serif;
 
-    --sidebar-background: 220 14% 96%;
-    --sidebar-foreground: 221 39% 11%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
     --sidebar-primary: 142 64% 24%;
-    --sidebar-primary-foreground: 220 14% 96%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 142 44% 88%;
     --sidebar-accent-foreground: 143 61% 20%;
     --sidebar-border: 220 13% 86%;
@@ -102,29 +102,29 @@
   }
 
   .dark {
-    --background: 140 20% 8%;
-    --foreground: 42 30% 92%;
-    --card: 140 20% 10%;
-    --card-foreground: 42 30% 92%;
-    --popover: 140 20% 8%;
-    --popover-foreground: 42 30% 92%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
     --primary: 128 22% 65%;
-    --primary-foreground: 140 32% 12%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 25 30% 30%;
-    --secondary-foreground: 42 30% 92%;
-    --muted: 140 15% 16%;
-    --muted-foreground: 130 12% 65%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 100%;
     --accent: 44 68% 55%;
-    --accent-foreground: 140 32% 12%;
+    --accent-foreground: 0 0% 0%;
     --tertiary: 128 22% 45%;
-    --tertiary-foreground: 42 30% 92%;
+    --tertiary-foreground: 0 0% 100%;
     --destructive: 0 60% 45%;
-    --destructive-foreground: 42 30% 92%;
+    --destructive-foreground: 0 0% 100%;
     --border: 140 15% 20%;
-    --input: 140 15% 20%;
+    --input: 0 0% 10%;
     --ring: 44 68% 55%;
 
-    --clay-surface: 140 18% 13%;
+    --clay-surface: 0 0% 0%;
     --clay-shadow-outer: 140 40% 3%;
     --clay-shadow:
       10px 14px 30px -8px hsl(var(--clay-shadow-outer) / 0.7),

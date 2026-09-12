@@ -4,7 +4,7 @@ import { logoImage } from "@/data/cropImages";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#013220] text-primary-foreground mt-24">
+    <footer className="relative z-10 block w-full bg-[#013220] text-primary-foreground shadow-[0_-12px_40px_rgba(0,0,0,0.22)]">
       <div className="container-full py-16">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">

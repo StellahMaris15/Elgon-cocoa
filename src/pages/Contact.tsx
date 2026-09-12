@@ -164,6 +164,21 @@ const Contact = () => {
           </motion.form>
         </div>
       </section>
+
+      <section className="w-full">
+        <div className="relative min-h-[480px] w-full overflow-hidden bg-card md:min-h-[560px]">
+          <iframe
+            title="Elgon Cooperative Map"
+            src="https://www.google.com/maps?q=Mbale%20Industrial%20City%20Division%20Council%20Bilinda%20Village%20Bumateba%20Parish%20Sironko%20District%20Uganda&z=12&output=embed"
+            className="h-[420px] w-full border-0 grayscale-[35%] contrast-125 md:h-[560px]"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <span className="absolute left-4 top-4 rounded-full bg-primary px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-lg">
+            Elgon Location
+          </span>
+        </div>
+      </section>
     </Layout>
   );
 };
