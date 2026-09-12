@@ -32,7 +32,7 @@ export const PageHero = ({
   image,
   imageAlt = "",
   videoSrc,
-  size = "compact",
+  size = "full",
   bleedTop = false,
   mediaVariant = "default",
   children,

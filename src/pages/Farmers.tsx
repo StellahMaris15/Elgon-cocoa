@@ -143,7 +143,6 @@ const Farmers = () => {
       {/* Farmer profiles from the admin dashboard */}
       <section className="container-full py-24">
         <div className="max-w-2xl mb-10">
-          <p className="eyebrow mb-3">Meet the members</p>
           <h2 className="font-heading font-bold text-4xl text-primary">Faces behind every harvest</h2>
           <p className="text-muted-foreground mt-4 leading-relaxed">
             Profiles published by the cooperative office. Each member is trained,
@@ -242,7 +241,6 @@ const Farmers = () => {
       <section className="bg-muted/40">
         <div className="container-full py-24">
           <div className="max-w-2xl mb-10">
-            <p className="eyebrow mb-3">Where we work</p>
             <h2 className="font-heading font-bold text-4xl text-primary">Across the Elgon region</h2>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -265,7 +263,6 @@ const Farmers = () => {
       {/* Cooperative's role */}
       <section className="container-full py-24">
         <div className="max-w-2xl mb-12">
-          <p className="eyebrow mb-3">The cooperative's role</p>
           <h2 className="font-heading font-bold text-4xl text-primary">Farmer-first, always.</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -293,7 +290,6 @@ const Farmers = () => {
       <section className="bg-muted/40">
         <div className="container-full pt-24 pb-12">
           <div className="max-w-3xl">
-            <p className="eyebrow mb-3">Sustainability</p>
             <h2 className="font-heading font-bold text-4xl text-primary mb-6 leading-tight">
               From garden to store to global buyer.
             </h2>
@@ -338,7 +334,6 @@ const Farmers = () => {
       
       <section className="bg-secondary text-secondary-foreground">
         <div className="container-full py-8 md:py-10 text-center">
-          <p className="eyebrow text-accent mb-2">Farmers</p>
           <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary-foreground mb-3 max-w-3xl mx-auto">
             Join the cooperative.
           </h2>

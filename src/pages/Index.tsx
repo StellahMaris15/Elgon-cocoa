@@ -123,7 +123,6 @@ const Index = () => {
       </section>
       <section className="container-full py-20 md:py-28">
         <div className="max-w-2xl mb-12">
-          <p className="eyebrow mb-3">Our Products</p>
           <h2 className="font-heading text-4xl md:text-5xl text-primary mb-4 leading-tight">
             Three crops. One cooperative. One promise.
           </h2>
@@ -162,7 +161,6 @@ const Index = () => {
       <section className="container-full py-20 md:py-28">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow mb-3">Featured Farmers</p>
             <h2 className="font-heading text-3xl md:text-4xl text-primary">
               Meet the people behind every harvest.
             </h2>
@@ -214,7 +212,6 @@ const Index = () => {
           />
         </div>
         <div>
-          <p className="eyebrow mb-3">Our Farmers</p>
           <h2 className="font-heading text-4xl md:text-5xl text-primary mb-6 leading-tight">
             Women, youth, and communities at the heart of every bean.
           </h2>

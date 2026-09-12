@@ -61,7 +61,6 @@ const About = () => (
           />
         </div>
         <div>
-          <p className="eyebrow mb-3">Our Story</p>
           <h2 className="font-heading font-bold text-4xl text-primary mb-6 leading-tight">
             One of the leading agro-industrial actors in the Elgon region.
           </h2>
@@ -89,7 +88,6 @@ const About = () => (
     {/* Core values */}
     <section className="container-full py-24">
       <div className="max-w-2xl mb-12">
-        <p className="eyebrow mb-3">Core Values</p>
         <h2 className="font-heading font-bold text-4xl md:text-5xl text-primary">
           What we stand for
         </h2>
@@ -109,15 +107,14 @@ const About = () => (
     </section>
 
     {/* Objectives */}
-    <section className="bg-primary text-primary-foreground">
+    <section className="bg-white text-primary">
       <div className="container-full py-24">
-        <div className="max-w-2xl mb-12">
-          <p className="eyebrow text-accent mb-3">Our Objectives</p>
-          <h2 className="font-heading font-bold text-4xl md:text-5xl">
+        <div className="mx-auto mb-12 max-w-4xl text-center">
+          <h2 className="font-heading font-bold text-4xl md:text-5xl leading-tight">
             What we set out to achieve.
           </h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid max-w-6xl gap-6 md:grid-cols-2 mx-auto">
           {OBJECTIVES.map((o, i) => (
             <motion.div
               key={i}
@@ -125,10 +122,10 @@ const About = () => (
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="flex h-full gap-4 rounded-2xl border border-primary-foreground/12 bg-primary-foreground/5 p-6"
+              className="flex h-full gap-4 rounded-2xl border border-primary/20 bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <span className="btn-label text-accent text-sm shrink-0">{String(i + 1).padStart(2, "0")}</span>
-              <p className="text-primary-foreground/85 leading-relaxed">{o}</p>
+              <p className="text-muted-foreground leading-relaxed">{o}</p>
             </motion.div>
           ))}
         </div>

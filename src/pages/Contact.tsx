@@ -58,7 +58,7 @@ const Contact = () => {
             viewport={{ once: true }}
             className="neo-surface flex h-full min-w-0 flex-col p-5 sm:p-6 md:p-8"
           >
-            <p className="eyebrow mb-3">Contact details</p>
+
             <h2 className="font-heading text-2xl leading-tight text-primary md:text-3xl">
               Reach the cooperative office.
             </h2>
