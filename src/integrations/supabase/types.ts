@@ -158,6 +158,141 @@ export type Database = {
         }
         Relationships: []
       }
+      leadership_members: {
+        Row: {
+          created_at: string
+          id: string
+          image_url: string | null
+          initials: string
+          name: string
+          profile_url: string | null
+          published: boolean
+          quote: string
+          sort_order: number
+          title: string
+          updated_at: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          initials?: string
+          name: string
+          profile_url?: string | null
+          published?: boolean
+          quote?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          initials?: string
+          name?: string
+          profile_url?: string | null
+          published?: boolean
+          quote?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
+      leadership_settings: {
+        Row: {
+          eyebrow: string
+          headline: string
+          id: boolean
+          primary_phone: string
+          secondary_phone: string
+          structure_body: string
+          structure_label: string
+          updated_at: string
+        }
+        Insert: {
+          eyebrow?: string
+          headline?: string
+          id?: boolean
+          primary_phone?: string
+          secondary_phone?: string
+          structure_body?: string
+          structure_label?: string
+          updated_at?: string
+        }
+        Update: {
+          eyebrow?: string
+          headline?: string
+          id?: boolean
+          primary_phone?: string
+          secondary_phone?: string
+          structure_body?: string
+          structure_label?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      partner_logos: {
+        Row: {
+          created_at: string
+          id: string
+          logo_url: string | null
+          name: string
+          published: boolean
+          sort_order: number
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          published?: boolean
+          sort_order?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          published?: boolean
+          sort_order?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      partner_settings: {
+        Row: {
+          body: string
+          eyebrow: string
+          headline: string
+          id: boolean
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          eyebrow?: string
+          headline?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          eyebrow?: string
+          headline?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           capacity: string

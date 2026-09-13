@@ -2,12 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import {
   BadgeCheck,
-  BellRing,
   Inbox,
   ArrowRight,
   Plus,
   Settings,
-  PackageCheck,
   UsersRound,
 } from "lucide-react";
 import {
@@ -18,6 +16,8 @@ import {
   CartesianGrid,
   Cell,
   Legend,
+  Line,
+  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -26,7 +26,8 @@ import {
   YAxis,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
-import { AdminCard, AdminHeading } from "./ui";
+import { useAuth } from "@/hooks/useAuth";
+import { AdminCard } from "./ui";
 
 const CHART_COLORS = [
   "hsl(var(--primary))",
@@ -39,6 +40,7 @@ const weekLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 
 const AdminOverview = () => {
+  const { user } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "dashboard"],
     queryFn: async () => {
@@ -71,28 +73,24 @@ const AdminOverview = () => {
       value: products.length,
       sub: `${products.filter((p) => p.published).length} published`,
       to: "/admin/products",
-      icon: PackageCheck,
     },
     {
       label: "Farmer profiles",
       value: farmers.length,
       sub: `${farmers.filter((f) => f.published).length} live on site`,
       to: "/admin/farmers",
-      icon: UsersRound,
     },
     {
       label: "Total inquiries",
       value: inquiries.length,
       sub: "all time",
       to: "/admin/inquiries",
-      icon: Inbox,
     },
     {
       label: "Needs reply",
       value: newInquiries,
       sub: "marked as new",
       to: "/admin/inquiries",
-      icon: BellRing,
     },
   ];
 
@@ -136,39 +134,77 @@ const AdminOverview = () => {
     }, {}),
   ).map(([name, value]) => ({ name, farmers: value }));
 
+  const recentActivity = inquiries.slice(0, 4).map((inquiry) => ({
+    id: inquiry.id,
+    title: `Inquiry marked ${String(inquiry.status ?? "new")}`,
+    detail: new Date(inquiry.created_at as string).toLocaleString(),
+    icon: Inbox,
+  }));
+
+  const topItems = [
+    ...products.slice(0, 3).map((item) => ({
+      id: `product-${item.id}`,
+      name: "Product entry",
+      category: String(item.category ?? "Product"),
+      status: item.published ? "Published" : "Draft",
+      to: "/admin/products",
+    })),
+    ...farmers.slice(0, 3).map((item) => ({
+      id: `farmer-${item.id}`,
+      name: "Farmer profile",
+      category: String(item.district ?? "Farmer"),
+      status: item.published ? "Published" : "Draft",
+      to: "/admin/farmers",
+    })),
+  ].slice(0, 5);
+
   return (
     <>
-      <AdminHeading
-        title="Overview"
-        subtitle="Live snapshot of everything published on the cooperative website."
-      />
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-3xl font-bold leading-tight text-primary md:text-4xl">
+            Welcome back, Admin!
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Here is what is happening across Elgon Cooperative today.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-primary/10 bg-white px-4 py-3 text-right shadow-[0_12px_30px_hsl(var(--clay-shadow-outer)/0.10)]">
+          <p className="text-[11px] text-muted-foreground">Signed in as</p>
+          <p className="text-sm font-semibold text-primary">{user?.email ?? "Admin"}</p>
+        </div>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((s) => (
+        {stats.map((s, index) => (
           <Link key={s.label} to={s.to} className="block">
-            <AdminCard className="h-full hover:border-primary transition-colors">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">{s.label}</p>
-                  <p className="font-heading font-bold text-3xl text-primary mt-2">
-                    {isLoading ? "..." : s.value}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">{s.sub}</p>
-                </div>
-                <span className="w-10 h-10 rounded-md bg-accent/15 text-accent grid place-items-center">
-                  <s.icon className="w-5 h-5" aria-hidden />
-                </span>
-              </div>
+            <AdminCard
+              className={
+                index === 0
+                  ? "h-full min-h-24 border-primary/30 bg-[#f8faf6] p-4 shadow-[8px_8px_20px_hsl(var(--clay-shadow-outer)/0.16),-8px_-8px_20px_hsl(0_0%_100%/0.95)]"
+                  : "h-full min-h-24 bg-[#f8faf6] p-4 shadow-[8px_8px_20px_hsl(var(--clay-shadow-outer)/0.13),-8px_-8px_20px_hsl(0_0%_100%/0.95)] transition-all hover:-translate-y-0.5 hover:border-primary/30"
+              }
+            >
+              <p className="text-sm font-medium text-foreground">{s.label}</p>
+              <p className="mt-1 font-heading text-3xl font-bold leading-none text-primary">
+                {isLoading ? "..." : s.value}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">{s.sub}</p>
             </AdminCard>
           </Link>
         ))}
       </div>
 
-      <div className="grid gap-4 mt-4 lg:grid-cols-3">
+      <div className="mt-4 grid gap-4 lg:grid-cols-3">
         <AdminCard className="lg:col-span-2">
-          <h2 className="font-heading font-semibold text-lg text-primary mb-1">Inquiry volume</h2>
-          <p className="text-xs text-muted-foreground mb-4">Buyer inquiries received per week (last 8 weeks)</p>
-          <div className="h-64">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="font-heading text-xl font-semibold text-primary">Inquiry volume</h2>
+              <p className="mt-1 text-xs text-muted-foreground">Buyer inquiries received per week</p>
+            </div>
+            <span className="rounded-xl border border-primary/10 bg-[#f8faf6] px-3 py-2 text-xs font-semibold text-primary">Last 8 weeks</span>
+          </div>
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={trend} margin={{ left: -20, right: 8, top: 8 }}>
                 <defs>
@@ -184,26 +220,50 @@ const AdminOverview = () => {
                   contentStyle={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
-                    borderRadius: 4,
+                    borderRadius: 12,
                     fontSize: 12,
                   }}
                 />
-                <Area type="monotone" dataKey="inquiries" stroke="hsl(var(--accent))" strokeWidth={2} fill="url(#inq)" />
+                <Area type="monotone" dataKey="inquiries" stroke="hsl(var(--primary))" strokeWidth={3} fill="url(#inq)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </AdminCard>
 
         <AdminCard>
-          <h2 className="font-heading font-semibold text-lg text-primary mb-1">Inquiry status</h2>
-          <p className="text-xs text-muted-foreground mb-4">Where each request stands</p>
-          <div className="h-64">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-heading text-xl font-semibold text-primary">Recent activity</h2>
+            <Link to="/admin/inquiries" className="text-xs font-semibold text-primary hover:text-accent">View all</Link>
+          </div>
+          {recentActivity.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No inquiries yet.</p>
+          ) : (
+            <div className="space-y-3">
+              {recentActivity.map((activity) => (
+                <div key={activity.id} className="flex items-start gap-3 rounded-2xl border border-primary/10 bg-[#f8faf6] p-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-accent/15 text-accent">
+                    <activity.icon className="h-4 w-4" aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground">{activity.title}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{activity.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </AdminCard>
+
+        <AdminCard>
+          <h2 className="mb-1 font-heading text-xl font-semibold text-primary">Inquiry status</h2>
+          <p className="mb-4 text-xs text-muted-foreground">Where each request stands</p>
+          <div className="h-56">
             {statusData.length === 0 ? (
               <p className="text-sm text-muted-foreground">No inquiries yet.</p>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80} paddingAngle={3}>
+                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={48} outerRadius={78} paddingAngle={3}>
                     {statusData.map((_, i) => (
                       <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
                     ))}
@@ -213,7 +273,7 @@ const AdminOverview = () => {
                     contentStyle={{
                       background: "hsl(var(--card))",
                       border: "1px solid hsl(var(--border))",
-                      borderRadius: 4,
+                      borderRadius: 12,
                       fontSize: 12,
                     }}
                   />
@@ -223,9 +283,9 @@ const AdminOverview = () => {
           </div>
         </AdminCard>
 
-        <AdminCard>
-          <h2 className="font-heading font-semibold text-lg text-primary mb-1">Catalog by crop</h2>
-          <p className="text-xs text-muted-foreground mb-4">Products per category</p>
+        <AdminCard className="lg:col-span-2">
+          <h2 className="mb-1 font-heading text-xl font-semibold text-primary">Catalog by crop</h2>
+          <p className="mb-4 text-xs text-muted-foreground">Products per category</p>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={categoryData} margin={{ left: -24, right: 8 }}>
@@ -236,22 +296,22 @@ const AdminOverview = () => {
                   contentStyle={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
-                    borderRadius: 4,
+                    borderRadius: 12,
                     fontSize: 12,
                   }}
                 />
-                <Bar dataKey="products" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="products" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </AdminCard>
 
-        <AdminCard className="lg:col-span-2">
-          <h2 className="font-heading font-semibold text-lg text-primary mb-1">Farmers by district</h2>
-          <p className="text-xs text-muted-foreground mb-4">Published and draft profiles</p>
+        <AdminCard className="lg:col-span-3">
+          <h2 className="mb-1 font-heading text-xl font-semibold text-primary">Farmers by district</h2>
+          <p className="mb-4 text-xs text-muted-foreground">Published and draft profiles</p>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={districtData} margin={{ left: -24, right: 8 }}>
+              <LineChart data={districtData} margin={{ left: -24, right: 8, top: 12 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                 <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                 <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
@@ -259,44 +319,67 @@ const AdminOverview = () => {
                   contentStyle={{
                     background: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
-                    borderRadius: 4,
+                    borderRadius: 12,
                     fontSize: 12,
                   }}
                 />
-                <Bar dataKey="farmers" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <Line
+                  type="monotone"
+                  dataKey="farmers"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={3}
+                  dot={{ r: 5, fill: "hsl(var(--accent))", stroke: "hsl(var(--primary))", strokeWidth: 2 }}
+                  activeDot={{ r: 7, fill: "hsl(var(--primary))", stroke: "hsl(var(--accent))", strokeWidth: 2 }}
+                />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </AdminCard>
       </div>
 
-      <div className="grid gap-4 mt-4 lg:grid-cols-3">
+      <div className="mt-4 grid gap-4 lg:grid-cols-3">
         <AdminCard className="lg:col-span-2">
-          <h2 className="font-heading font-semibold text-lg text-primary mb-3">Latest inquiries</h2>
-          {inquiries.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Nothing has come in yet.</p>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-heading text-xl font-semibold text-primary">Top items</h2>
+            <Link to="/admin/products" className="text-xs font-semibold text-primary hover:text-accent">View all</Link>
+          </div>
+          {topItems.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No content items yet.</p>
           ) : (
-            <ul className="divide-y divide-border">
-              {inquiries.slice(0, 5).map((i) => (
-                <li key={i.id} className="py-3 flex items-center justify-between gap-4 text-sm">
-                  <span className="text-foreground/80">
-                    {new Date(i.created_at as string).toLocaleString()}
-                  </span>
-                  <span className="btn-label text-[10px] px-2.5 py-1 rounded-full bg-muted text-primary">
-                    {String(i.status ?? "new")}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="overflow-hidden rounded-2xl border border-primary/10">
+              <table className="w-full text-sm">
+                <thead className="bg-[#f8faf6] text-left text-xs text-muted-foreground">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Name</th>
+                    <th className="px-4 py-3 font-semibold">Category</th>
+                    <th className="px-4 py-3 font-semibold">Status</th>
+                    <th className="px-4 py-3 text-right font-semibold">Open</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-primary/10">
+                  {topItems.map((item) => (
+                    <tr key={item.id}>
+                      <td className="px-4 py-3 font-semibold text-foreground">{item.name}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{item.category}</td>
+                      <td className="px-4 py-3">
+                        <span className="rounded-full bg-tertiary px-3 py-1 text-xs font-semibold text-primary">{item.status}</span>
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <Link to={item.to} className="inline-flex text-primary hover:text-accent">
+                          <ArrowRight className="h-4 w-4" aria-hidden />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
-          <Link to="/admin/inquiries" className="btn-label text-[11px] text-primary inline-flex items-center gap-2 hover:text-accent mt-4">
-            Open inquiries <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </AdminCard>
 
         <AdminCard>
-          <h2 className="font-heading font-semibold text-lg text-primary mb-3 flex items-center gap-2">
-            <BadgeCheck className="w-4 h-4 text-accent" aria-hidden /> Quick actions
+          <h2 className="mb-4 flex items-center gap-2 font-heading text-xl font-semibold text-primary">
+            <BadgeCheck className="h-4 w-4 text-accent" aria-hidden /> Quick actions
           </h2>
           <div className="space-y-2">
             {[
@@ -308,9 +391,12 @@ const AdminOverview = () => {
               <Link
                 key={a.label}
                 to={a.to}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-border text-sm text-foreground hover:border-primary hover:text-primary transition-colors"
+                className="flex items-center gap-3 rounded-2xl border border-primary/10 bg-[#f8faf6] px-3 py-3 text-sm text-foreground transition-colors hover:border-primary/40 hover:text-primary"
               >
-                <a.icon className="w-4 h-4 text-accent" aria-hidden /> {a.label}
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent/15 text-accent">
+                  <a.icon className="h-4 w-4" aria-hidden />
+                </span>
+                {a.label}
               </Link>
             ))}
           </div>
