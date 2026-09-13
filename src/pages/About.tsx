@@ -7,7 +7,7 @@ import { siteVideos } from "@/data/videos";
 import { HeroVideoBand } from "@/components/HeroVideoBand";
 import { useLeadership, usePartners, type LeadershipMemberRow, type PartnerLogoRow } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
-import { ArrowRight, Mail, Phone, Sprout } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const OBJECTIVES = [
   "Promote organic farming of vanilla, coffee and cocoa.",
@@ -20,37 +20,10 @@ const OBJECTIVES = [
   "Create profit sharing partnerships on behalf of the farmers.",
 ];
 
-const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
-
-const whatsappHref = (phone: string) => {
-  const trimmed = phone.trim();
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  const digits = trimmed.replace(/\D/g, "");
-  return digits ? `https://wa.me/${digits}` : "#";
-};
-
-const WhatsAppIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12.04 2a9.9 9.9 0 0 0-8.53 14.94L2.2 21.8l4.97-1.3A9.95 9.95 0 1 0 12.04 2Zm0 1.72a8.23 8.23 0 1 1-4.17 15.33l-.3-.18-2.95.78.79-2.88-.2-.31A8.23 8.23 0 0 1 12.04 3.72Zm-3.5 4.1c-.18 0-.46.07-.7.34-.24.26-.92.9-.92 2.2 0 1.3.95 2.56 1.08 2.74.13.18 1.84 2.95 4.55 4.02 2.25.89 2.72.72 3.21.67.49-.04 1.58-.65 1.8-1.27.22-.62.22-1.16.16-1.27-.07-.11-.24-.18-.51-.31-.27-.13-1.58-.78-1.83-.87-.25-.09-.42-.13-.6.13-.18.27-.69.87-.84 1.05-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.31-.79-.7-1.32-1.57-1.47-1.83-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.44-.82-1.97-.22-.52-.44-.45-.6-.45h-.53Z" />
-  </svg>
-);
-
 const leaderInitials = (leader: LeadershipMemberRow) =>
   leader.initials || leader.name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
 const LeadershipPortrait = ({ leader }: { leader: LeadershipMemberRow }) => {
-  const image = useMediaUrl(leader.image_url);
-
-  if (image) {
-    return (
-      <SiteImage
-        src={image}
-        alt={`${leader.name}, ${leader.title}`}
-        className="h-44 w-full rounded-xl object-cover"
-      />
-    );
-  }
-
   return (
     <div className="relative overflow-hidden rounded-xl bg-tertiary/55 p-4 shadow-[inset_8px_8px_18px_hsl(var(--clay-shadow-outer)/0.16),inset_-8px_-8px_18px_hsl(0_0%_100%/0.86)]">
       <div className="absolute inset-x-8 top-0 h-1 bg-accent" />
@@ -227,25 +200,19 @@ const About = () => {
     </section>
 
     {partnerLogos.length > 0 && (
-      <section className="overflow-hidden bg-muted/40 py-20">
+      <section className="overflow-hidden bg-white py-16 md:py-20">
         <div className="container-full">
-          <div className="mx-auto mb-10 max-w-3xl text-center">
-            <p className="eyebrow mb-3">{partnerSettings?.eyebrow ?? "Partners"}</p>
+          <div className="mb-10 max-w-4xl">
             <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
               {partnerSettings?.headline ?? "Working with trusted partners."}
             </h2>
-            {partnerSettings?.body && (
-              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground leading-relaxed">
-                {partnerSettings.body}
-              </p>
-            )}
           </div>
         </div>
         <div className="relative">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-muted/40 to-transparent md:w-28" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-muted/40 to-transparent md:w-28" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent md:w-28" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent md:w-28" />
           <div className="marquee">
-            <div className="marquee-content gap-5 py-4 hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
+            <div className="marquee-content gap-8 py-4 hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
               {marqueePartners.map((partner, index) => (
                 <PartnerLogoItem key={`${partner.id}-${index}`} partner={partner} />
               ))}
@@ -256,6 +223,7 @@ const About = () => {
     )}
 
     {/* Leadership */}
+    {leadershipMembers.length > 0 && (
     <section className="bg-[#f7f8f5]">
       <div className="container-full py-24">
         <div className="mb-10 max-w-4xl">
@@ -277,41 +245,36 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: index * 0.08 }}
-              className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/80 bg-[#fffefb] p-4 shadow-[0_16px_50px_rgba(42,58,38,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(42,58,38,0.17)]"
+              className="neo-surface clay-interactive flex h-full flex-col overflow-hidden p-5"
             >
-              <div className="relative overflow-hidden rounded-[1.5rem] bg-muted/40">
-                <LeadershipPortrait leader={leader} />
-                
-              </div>
+              <LeadershipPortrait leader={leader} />
 
-              <div className="flex flex-1 flex-col px-2 pb-2 pt-6">
+              <div className="flex flex-1 flex-col pt-5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    
                     <h3 className="font-heading text-2xl font-bold leading-tight text-primary">
                       {leader.name}
                     </h3>
-                    <p className="btn-label mt-1 text-[10px] font-semibold uppercase tracking-[0.10em] text-accent">
+                    <p className="btn-label mt-1 text-accent">
                       {leader.title}
                     </p>
                   </div>
-                  {leader.whatsapp_number && (
-                    <a
-                      href={whatsappHref(leader.whatsapp_number)}
-                      aria-label={`${leader.name} WhatsApp number`}
-                      className="neo-button flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/20 text-primary transition hover:bg-primary hover:text-white"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <WhatsAppIcon className="h-5 w-5" />
-                    </a>
-                  )}
                 </div>
 
-                <p className="mt-4 flex-1 border-t border-primary/10 pt-4 text-[13px] leading-relaxed text-muted-foreground">
+                <p className="mt-5 flex-1 text-sm leading-relaxed text-foreground">
                   {leader.quote.split(/\.\s+/).filter(Boolean).slice(0, 1).join(".") + "."}
                 </p>
 
+                <a
+                  href={leader.profile_url || "#"}
+                  className="neo-button mt-6 flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-primary"
+                  aria-label={`View ${leader.name} profile`}
+                  target={leader.profile_url ? "_blank" : undefined}
+                  rel={leader.profile_url ? "noreferrer" : undefined}
+                >
+                  View Profile
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
               </div>
             </motion.article>
           ))}
@@ -320,6 +283,7 @@ const About = () => {
         
       </div>
     </section>
+    )}
 
     <HeroVideoBand
       src={siteVideos.sourcing}

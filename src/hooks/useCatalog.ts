@@ -226,7 +226,7 @@ export const useLeadership = () =>
     queryKey: ["leadership", "public"],
     placeholderData: {
       settings: staticLeadershipSettings,
-      members: staticLeadershipMembers,
+      members: [],
     },
     queryFn: async () => {
       try {
@@ -243,13 +243,13 @@ export const useLeadership = () =>
         if (membersResult.error) throw membersResult.error;
 
         const settings = (settingsResult.data ?? staticLeadershipSettings) as unknown as LeadershipSettingsRow;
-        const members = ((membersResult.data ?? staticLeadershipMembers) as unknown as LeadershipMemberRow[]);
+        const members = ((membersResult.data ?? []) as unknown as LeadershipMemberRow[]);
 
         return { settings, members };
       } catch {
         return {
           settings: staticLeadershipSettings,
-          members: staticLeadershipMembers,
+          members: [],
         };
       }
     },
@@ -265,29 +265,20 @@ export const usePartners = () =>
       logos: [],
     },
     queryFn: async () => {
-      try {
-        const [settingsResult, logosResult] = await Promise.all([
-          supabase.from("partner_settings").select("*").eq("id", true).maybeSingle(),
-          supabase
-            .from("partner_logos")
-            .select("*")
-            .eq("published", true)
-            .order("sort_order", { ascending: true }),
-        ]);
+      const logosResult = await supabase
+        .from("partner_logos")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order", { ascending: true })
+        .order("name", { ascending: true });
 
-        if (settingsResult.error) throw settingsResult.error;
-        if (logosResult.error) throw logosResult.error;
+      if (logosResult.error) throw logosResult.error;
 
-        const settings = (settingsResult.data ?? staticPartnerSettings) as unknown as PartnerSettingsRow;
-        const logos = ((logosResult.data ?? []) as unknown as PartnerLogoRow[]);
+      const settingsResult = await supabase.from("partner_settings").select("*").eq("id", true).maybeSingle();
+      const settings = (settingsResult.error ? staticPartnerSettings : (settingsResult.data ?? staticPartnerSettings)) as unknown as PartnerSettingsRow;
+      const logos = ((logosResult.data ?? []) as unknown as PartnerLogoRow[]);
 
-        return { settings, logos };
-      } catch {
-        return {
-          settings: staticPartnerSettings,
-          logos: [],
-        };
-      }
+      return { settings, logos };
     },
     staleTime: 60_000,
     retry: 1,
