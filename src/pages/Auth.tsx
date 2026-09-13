@@ -86,8 +86,8 @@ const Auth = () => {
       />
       <div className="w-full max-w-md">
         <Link to="/" className="flex flex-col items-center gap-3 justify-center mb-8 text-primary">
-          <span className="w-28 h-28 rounded-full neo-inset grid place-items-center bg-primary-foreground/80">
-            <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={96} height={96} className="w-24 h-24 object-contain shrink-0" />
+          <span className="grid h-28 w-28 place-items-center overflow-hidden rounded-full bg-primary-foreground/80 p-1 shadow-[10px_10px_24px_hsl(var(--clay-shadow-outer)/0.18),-10px_-10px_24px_hsl(0_0%_100%/0.96)]">
+            <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={104} height={104} className="h-full w-full shrink-0 rounded-full object-cover" />
           </span>
           <span className="btn-label text-sm">Elgon Cooperative</span>
         </Link>

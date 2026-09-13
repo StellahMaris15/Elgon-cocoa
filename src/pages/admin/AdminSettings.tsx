@@ -5,8 +5,10 @@ import { Loader2, Plus, Save, Trash2, Upload, X } from "lucide-react";
 import { SiteImage } from "@/components/SiteImage";
 import { hasSupabaseConfig, supabase } from "@/integrations/supabase/client";
 import { uploadFarmerMedia, useMediaUrl } from "@/lib/media";
-import { AdminCard, AdminHeading, Labeled, ghostBtn, inputCls, primaryBtn } from "./ui";
+import { AdminCard, Labeled, ghostBtn, inputCls, primaryBtn } from "./ui";
 import type { LeadershipMemberRow, LeadershipSettingsRow, PartnerLogoRow, PartnerSettingsRow } from "@/hooks/useCatalog";
+
+type SettingsSection = "inquiries" | "partners" | "leadership";
 
 interface InquirySettings {
   notification_emails: string[];
@@ -36,7 +38,7 @@ const defaultLeadershipSettings: LeadershipSettingsRow = {
 const defaultPartnerSettings: PartnerSettingsRow = {
   eyebrow: "Partners",
   headline: "Working with trusted partners.",
-  body: "Organizations and market partners helping us strengthen farmer livelihoods, quality systems, and value addition.",
+  body: "",
 };
 
 const emptyLeader: Omit<LeadershipMemberRow, "id"> = {
@@ -191,7 +193,50 @@ const PartnerLogoPreview = ({ logo }: { logo: PartnerLogoRow }) => {
   );
 };
 
-const AdminSettings = () => {
+const FormPanel = ({
+  title,
+  eyebrow,
+  children,
+  action,
+  onClose,
+}: {
+  title: string;
+  eyebrow: string;
+  children: React.ReactNode;
+  action: React.ReactNode;
+  onClose: () => void;
+}) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/35 p-3 backdrop-blur-sm md:p-6">
+    <button className="absolute inset-0 cursor-default" aria-label="Close form" onClick={onClose} />
+    <section className="relative flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-primary/10 bg-[#f8faf6] shadow-[0_28px_80px_hsl(var(--clay-shadow-outer)/0.28)]">
+      <div className="flex items-center justify-between gap-4 border-b border-primary/10 bg-white/90 px-5 py-4 md:px-7">
+        <div>
+          <p className="eyebrow mb-1">{eyebrow}</p>
+          <h2 className="font-heading text-2xl font-bold leading-tight text-primary">{title}</h2>
+        </div>
+        <button className={ghostBtn} onClick={onClose}>
+          <X className="h-3.5 w-3.5" /> Close
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto px-5 py-6 md:px-7">
+        <div className="rounded-3xl border border-primary/10 bg-white p-5 shadow-[0_18px_45px_hsl(var(--clay-shadow-outer)/0.10)] md:p-6">
+          {children}
+        </div>
+      </div>
+      <div className="flex justify-end border-t border-primary/10 bg-white/90 px-5 py-4 md:px-7">
+        {action}
+      </div>
+    </section>
+  </div>
+);
+
+const sectionTitle: Record<SettingsSection, string> = {
+  inquiries: "Inquiry Settings",
+  partners: "Partners Settings",
+  leadership: "Leadership Settings",
+};
+
+const AdminSettings = ({ section = "inquiries" }: { section?: SettingsSection }) => {
   const qc = useQueryClient();
   const [inquiryForm, setInquiryForm] = useState<InquirySettings>(defaultInquirySettings);
   const [leadershipForm, setLeadershipForm] = useState<LeadershipSettingsRow>(defaultLeadershipSettings);
@@ -399,7 +444,11 @@ const AdminSettings = () => {
 
   return (
     <>
-      <AdminHeading title="Settings" subtitle="Manage inquiries, About page partners, and the public Leadership section." />
+      <div className="mb-6">
+        <h1 className="font-heading text-3xl font-bold leading-tight text-primary md:text-4xl">
+          {sectionTitle[section]}
+        </h1>
+      </div>
 
       {!hasSupabaseConfig && (
         <AdminCard className="mb-6 border-destructive/40 bg-destructive/5">
@@ -410,19 +459,8 @@ const AdminSettings = () => {
         </AdminCard>
       )}
 
-      <nav className="mb-6 flex flex-wrap gap-2">
-        {[
-          { href: "#inquiries", label: "Inquiries" },
-          { href: "#partners", label: "Partners" },
-          { href: "#leadership", label: "Leadership" },
-        ].map((item) => (
-          <a key={item.href} href={item.href} className={`${ghostBtn} bg-background`}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
-
       <div className="grid gap-6">
+        {section === "inquiries" && (
         <AdminCard id="inquiries" className="max-w-3xl scroll-mt-24 space-y-5">
           <div>
             <p className="eyebrow mb-1">Messages</p>
@@ -473,11 +511,13 @@ const AdminSettings = () => {
             <Save className="h-4 w-4" /> Save inquiry settings
           </button>
         </AdminCard>
+        )}
 
+        {section === "partners" && (
+        <>
         <AdminCard id="partners" className="max-w-5xl scroll-mt-24 space-y-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="eyebrow mb-1">About page</p>
               <h2 className="font-heading text-lg font-semibold text-primary">Partner logos</h2>
               <p className="mt-1 max-w-2xl text-sm text-muted-foreground">Add organizations shown in the automatically scrolling partner strip.</p>
             </div>
@@ -486,48 +526,32 @@ const AdminSettings = () => {
             </button>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <Labeled label="Eyebrow">
-              <input className={inputCls} value={partnerForm.eyebrow} onChange={(e) => setPartnerForm({ ...partnerForm, eyebrow: e.target.value })} />
-            </Labeled>
+          <div className="max-w-xl">
             <Labeled label="Headline">
               <input className={inputCls} value={partnerForm.headline} onChange={(e) => setPartnerForm({ ...partnerForm, headline: e.target.value })} />
             </Labeled>
-            <div className="md:col-span-2">
-              <Labeled label="Intro text">
-                <textarea
-                  rows={3}
-                  className={`${inputCls} h-auto py-3`}
-                  value={partnerForm.body}
-                  onChange={(e) => setPartnerForm({ ...partnerForm, body: e.target.value })}
-                />
-              </Labeled>
-            </div>
           </div>
 
           <button
             className={primaryBtn}
             disabled={savePartnerSettings.isPending || !hasSupabaseConfig}
-            onClick={() => savePartnerSettings.mutate(partnerForm)}
+            onClick={() => savePartnerSettings.mutate({ ...partnerForm, eyebrow: "Partners", body: "" })}
           >
             <Save className="h-4 w-4" /> Save partner section
           </button>
         </AdminCard>
 
         {editingPartner && (
-          <AdminCard className="max-w-5xl">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <p className="eyebrow mb-1">Partner entry</p>
-                <h2 className="font-heading text-lg font-semibold text-primary">
-                  {editingPartner.id ? "Edit partner logo" : "New partner logo"}
-                </h2>
-              </div>
-              <button className={ghostBtn} onClick={() => setEditingPartner(null)}>
-                <X className="h-3.5 w-3.5" /> Cancel
+          <FormPanel
+            eyebrow="Partner entry"
+            title={editingPartner.id ? "Edit partner logo" : "New partner logo"}
+            onClose={() => setEditingPartner(null)}
+            action={
+              <button className={primaryBtn} disabled={savePartner.isPending || !hasSupabaseConfig} onClick={() => savePartner.mutate(editingPartner)}>
+                <Save className="h-4 w-4" /> Save partner logo
               </button>
-            </div>
-
+            }
+          >
             <div className="grid gap-4 md:grid-cols-2">
               <Labeled label="Partner name">
                 <input className={inputCls} value={editingPartner.name ?? ""} onChange={(e) => setPartner({ name: e.target.value })} />
@@ -543,11 +567,7 @@ const AdminSettings = () => {
               </label>
               <ImageField label="Partner logo" folder="partners" value={editingPartner.logo_url} onChange={(value) => setPartner({ logo_url: value })} />
             </div>
-
-            <button className={`${primaryBtn} mt-6`} disabled={savePartner.isPending || !hasSupabaseConfig} onClick={() => savePartner.mutate(editingPartner)}>
-              <Save className="h-4 w-4" /> Save partner logo
-            </button>
-          </AdminCard>
+          </FormPanel>
         )}
 
         <AdminCard className="max-w-5xl overflow-x-auto p-0">
@@ -584,71 +604,55 @@ const AdminSettings = () => {
             </tbody>
           </table>
         </AdminCard>
+        </>
+        )}
 
+        {section === "leadership" && (
+        <>
         <AdminCard id="leadership" className="max-w-4xl scroll-mt-24 space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="eyebrow mb-1">About page</p>
               <h2 className="font-heading text-lg font-semibold text-primary">Leadership section</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Manage the text, contact numbers, and people shown in Leadership.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Manage the people shown in Leadership.</p>
             </div>
             <button className={primaryBtn} onClick={() => setEditingLeader({ ...emptyLeader, sort_order: leaders.length })}>
               <Plus className="h-4 w-4" /> New leader
             </button>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <Labeled label="Eyebrow">
-              <input className={inputCls} value={leadershipForm.eyebrow} onChange={(e) => setLeadershipForm({ ...leadershipForm, eyebrow: e.target.value })} />
-            </Labeled>
+          <div className="max-w-xl">
             <Labeled label="Headline">
               <input className={inputCls} value={leadershipForm.headline} onChange={(e) => setLeadershipForm({ ...leadershipForm, headline: e.target.value })} />
             </Labeled>
-            <Labeled label="Structure label">
-              <input
-                className={inputCls}
-                value={leadershipForm.structure_label}
-                onChange={(e) => setLeadershipForm({ ...leadershipForm, structure_label: e.target.value })}
-              />
-            </Labeled>
-            <Labeled label="Primary phone">
-              <input className={inputCls} value={leadershipForm.primary_phone} onChange={(e) => setLeadershipForm({ ...leadershipForm, primary_phone: e.target.value })} />
-            </Labeled>
-            <Labeled label="Secondary phone">
-              <input className={inputCls} value={leadershipForm.secondary_phone} onChange={(e) => setLeadershipForm({ ...leadershipForm, secondary_phone: e.target.value })} />
-            </Labeled>
-            <div className="md:col-span-2">
-              <Labeled label="Structure text">
-                <textarea
-                  rows={3}
-                  className={`${inputCls} h-auto py-3`}
-                  value={leadershipForm.structure_body}
-                  onChange={(e) => setLeadershipForm({ ...leadershipForm, structure_body: e.target.value })}
-                />
-              </Labeled>
-            </div>
           </div>
 
           <button
             className={primaryBtn}
             disabled={saveLeadershipSettings.isPending || !hasSupabaseConfig}
-            onClick={() => saveLeadershipSettings.mutate(leadershipForm)}
+            onClick={() => saveLeadershipSettings.mutate({
+              ...leadershipForm,
+              eyebrow: defaultLeadershipSettings.eyebrow,
+              structure_label: defaultLeadershipSettings.structure_label,
+              structure_body: defaultLeadershipSettings.structure_body,
+              primary_phone: defaultLeadershipSettings.primary_phone,
+              secondary_phone: defaultLeadershipSettings.secondary_phone,
+            })}
           >
             <Save className="h-4 w-4" /> Save leadership section
           </button>
         </AdminCard>
 
         {editingLeader && (
-          <AdminCard className="max-w-4xl">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="font-heading text-lg font-semibold text-primary">
-                {editingLeader.id ? "Edit leadership member" : "New leadership member"}
-              </h2>
-              <button className={ghostBtn} onClick={() => setEditingLeader(null)}>
-                <X className="h-3.5 w-3.5" /> Cancel
+          <FormPanel
+            eyebrow="Leadership profile"
+            title={editingLeader.id ? "Edit leadership member" : "New leadership member"}
+            onClose={() => setEditingLeader(null)}
+            action={
+              <button className={primaryBtn} disabled={saveLeader.isPending || !hasSupabaseConfig} onClick={() => saveLeader.mutate(editingLeader)}>
+                <Save className="h-4 w-4" /> Save leadership member
               </button>
-            </div>
-
+            }
+          >
             <div className="grid gap-4 md:grid-cols-2">
               <Labeled label="Name">
                 <input className={inputCls} value={editingLeader.name ?? ""} onChange={(e) => setLeader({ name: e.target.value })} />
@@ -678,11 +682,7 @@ const AdminSettings = () => {
                 <input type="checkbox" checked={Boolean(editingLeader.published)} onChange={(e) => setLeader({ published: e.target.checked })} /> Published
               </label>
             </div>
-
-            <button className={`${primaryBtn} mt-6`} disabled={saveLeader.isPending || !hasSupabaseConfig} onClick={() => saveLeader.mutate(editingLeader)}>
-              <Save className="h-4 w-4" /> Save leadership member
-            </button>
-          </AdminCard>
+          </FormPanel>
         )}
 
         <AdminCard className="max-w-5xl overflow-x-auto p-0">
@@ -722,6 +722,8 @@ const AdminSettings = () => {
             </tbody>
           </table>
         </AdminCard>
+        </>
+        )}
       </div>
     </>
   );

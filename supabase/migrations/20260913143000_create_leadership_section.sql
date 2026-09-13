@@ -1,26 +1,14 @@
--- Admin-managed leadership section for the About page.
+7890op;/- Admin-managed leadership section for the About page.
 CREATE TABLE IF NOT EXISTS public.leadership_settings (
-  id boolean PRIMARY KEY DEFAULT true CHECK (id),
-  eyebrow text NOT NULL DEFAULT 'Leadership',
-  headline text NOT NULL DEFAULT 'Guided by experience.',
-  structure_label text NOT NULL DEFAULT 'Leadership structure',
-  structure_body text NOT NULL DEFAULT 'Reviewed by the cooperative''s Board of Members, with executive oversight across strategy, finance, and operations.',
-  primary_phone text NOT NULL DEFAULT '+256 782 528 476',
-  secondary_phone text NOT NULL DEFAULT '+256 706 613 980',
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
-
-GRANT SELECT ON public.leadership_settings TO anon;
-GRANT SELECT, INSERT, UPDATE ON public.leadership_settings TO authenticated;
-GRANT ALL ON public.leadership_settings TO service_role;
-ALTER TABLE public.leadership_settings ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "public read leadership settings" ON public.leadership_settings;
-CREATE POLICY "public read leadership settings" ON public.leadership_settings
-FOR SELECT TO anon, authenticated
-USING (true);
-
-DROP POLICY IF EXISTS "admins manage leadership settings" ON public.leadership_settings;
+  id boo[[f-
+  r=
+  f=p{ }op [
+     eoulean PRIMARY KEY DEFAULT true CHECK (id),5h
+     6jo7
+     
+     |}+|
+     %
+     p_settings;
 CREATE POLICY "admins manage leadership settings" ON public.leadership_settings
 FOR ALL TO authenticated
 USING (public.has_role(auth.uid(), 'admin'::public.app_role))
@@ -73,7 +61,7 @@ CREATE TABLE IF NOT EXISTS public.partner_settings (
   id boolean PRIMARY KEY DEFAULT true CHECK (id),
   eyebrow text NOT NULL DEFAULT 'Partners',
   headline text NOT NULL DEFAULT 'Working with trusted partners.',
-  body text NOT NULL DEFAULT 'Organizations and market partners helping us strengthen farmer livelihoods, quality systems, and value addition.',
+  body text NOT NULL DEFAULT '',
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 

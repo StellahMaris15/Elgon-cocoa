@@ -81,7 +81,7 @@ const staticLeadershipSettings: LeadershipSettingsRow = {
 const staticPartnerSettings: PartnerSettingsRow = {
   eyebrow: "Partners",
   headline: "Working with trusted partners.",
-  body: "Organizations and market partners helping us strengthen farmer livelihoods, quality systems, and value addition.",
+  body: "",
 };
 
 const staticLeadershipMembers: LeadershipMemberRow[] = [

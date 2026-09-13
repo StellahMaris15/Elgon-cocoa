@@ -48,7 +48,7 @@ export const Header = () => {
             <SiteImage
               src={logoImage} loading="eager"
               alt="Elgon Vanilla Coffee & Cocoa Growers Cooperative logo"
-              width={72} height={72} className="neo-inset h-12 w-12 shrink-0 rounded-full bg-card object-contain p-1 sm:h-16 sm:w-16 md:h-20 md:w-20"
+              width={72} height={72} className="neo-inset h-12 w-12 shrink-0 overflow-hidden rounded-full bg-card object-cover p-0.5 sm:h-16 sm:w-16 md:h-20 md:w-20"
             />
             <span className="flex min-w-0 flex-col leading-none">
               <span className="truncate font-heading text-sm text-primary transition-colors group-hover:text-accent sm:text-base md:text-lg">

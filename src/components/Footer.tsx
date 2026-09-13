@@ -12,7 +12,7 @@ export const Footer = () => {
               <SiteImage
                 src={logoImage} loading="eager"
                 alt="Elgon Vanilla Coffee & Cocoa Growers Cooperative logo"
-                width={56} height={56} className="w-14 h-14 shrink-0 object-contain rounded-full bg-primary-foreground/95 p-0.5"
+                width={56} height={56} className="h-14 w-14 shrink-0 overflow-hidden rounded-full bg-primary-foreground/95 object-cover p-0.5"
               />
               <span className="font-heading text-lg">Elgon Cooperative</span>
             </div>

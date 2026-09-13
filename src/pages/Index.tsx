@@ -7,7 +7,7 @@ import { CollectionCard } from "@/components/CollectionCard";
 import { PageHero, heroBtn } from "@/components/PageHero";
 import { siteVideos } from "@/data/videos";
 import { HeroVideoBand } from "@/components/HeroVideoBand";
-import { useFarmers, type FarmerRow } from "@/hooks/useCatalog";
+import { useFarmers, usePartners, type FarmerRow, type PartnerLogoRow } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
 import { categories, type CategorySlug } from "@/data/products";
 
@@ -86,9 +86,43 @@ const FeaturedFarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: numbe
   );
 };
 
+const PartnerLogoItem = ({ partner }: { partner: PartnerLogoRow }) => {
+  const logo = useMediaUrl(partner.logo_url);
+  const content = (
+    <span className="flex w-32 shrink-0 flex-col items-center gap-2 md:w-36">
+      <span className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-primary/10 bg-white p-1 shadow-[10px_10px_24px_hsl(var(--clay-shadow-outer)/0.18),-10px_-10px_24px_hsl(0_0%_100%/0.96)] md:h-28 md:w-28">
+        {logo ? (
+          <SiteImage src={logo} alt={`${partner.name} logo`} className="h-full w-full rounded-full object-cover" />
+        ) : (
+          <span className="flex h-full w-full items-center justify-center rounded-full bg-tertiary text-center font-heading text-base font-bold leading-tight text-primary">
+            {partner.name.slice(0, 2).toUpperCase()}
+          </span>
+        )}
+      </span>
+      <span className="max-w-full truncate text-center text-xs font-semibold text-primary/80">
+        {partner.name}
+      </span>
+    </span>
+  );
+
+  if (partner.website_url) {
+    return (
+      <a href={partner.website_url} target="_blank" rel="noreferrer" aria-label={partner.name}>
+        {content}
+      </a>
+    );
+  }
+
+  return content;
+};
+
 const Index = () => {
   const { data: farmers = [] } = useFarmers();
+  const { data: partners } = usePartners();
   const featuredFarmers = farmers.slice(0, 3);
+  const partnerSettings = partners?.settings;
+  const partnerLogos = partners?.logos ?? [];
+  const marqueePartners = partnerLogos.length > 0 ? [...partnerLogos, ...partnerLogos] : [];
 
   return (
     <Layout>
@@ -203,8 +237,8 @@ const Index = () => {
           ))}
         </div>
       </section>
-      <section className="container-full py-20 md:py-28 grid gap-12 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl">
+      <section className="container-full grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-xl lg:aspect-[4/3]">
           <SiteImage
             src={pageHeroImages.farmers}
             alt="Elgon farmers standing together across the cooperative"
@@ -231,6 +265,34 @@ const Index = () => {
           </Link>
         </div>
       </section>
+      {partnerLogos.length > 0 && (
+        <section className="overflow-hidden bg-muted/40 py-16">
+          <div className="container-full">
+            <div className="mx-auto mb-8 max-w-3xl text-center">
+              <p className="eyebrow mb-3">{partnerSettings?.eyebrow ?? "Partners"}</p>
+              <h2 className="font-heading text-3xl font-bold leading-tight text-primary md:text-4xl">
+                {partnerSettings?.headline ?? "Working with trusted partners."}
+              </h2>
+              {partnerSettings?.body && (
+                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {partnerSettings.body}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-muted/40 to-transparent md:w-28" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-muted/40 to-transparent md:w-28" />
+            <div className="marquee">
+              <div className="marquee-content gap-5 py-4 hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
+                {marqueePartners.map((partner, index) => (
+                  <PartnerLogoItem key={`${partner.id}-${index}`} partner={partner} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
       <HeroVideoBand
         src={siteVideos.export}
         poster={cropHero.vanilla}

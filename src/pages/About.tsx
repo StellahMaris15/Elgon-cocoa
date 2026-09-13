@@ -71,18 +71,23 @@ const LeadershipPortrait = ({ leader }: { leader: LeadershipMemberRow }) => {
 const PartnerLogoItem = ({ partner }: { partner: PartnerLogoRow }) => {
   const logo = useMediaUrl(partner.logo_url);
   const content = (
-    <span className="neo-inset flex h-24 w-48 shrink-0 items-center justify-center px-6 py-4 md:w-56">
+    <span className="flex w-36 shrink-0 flex-col items-center gap-3 md:w-40">
+      <span className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border border-primary/10 bg-white p-1 shadow-[10px_10px_24px_hsl(var(--clay-shadow-outer)/0.18),-10px_-10px_24px_hsl(0_0%_100%/0.96)] md:h-32 md:w-32">
       {logo ? (
         <SiteImage
           src={logo}
           alt={`${partner.name} logo`}
-          className="max-h-14 w-full object-contain"
+            className="h-full w-full rounded-full object-cover"
         />
       ) : (
-        <span className="text-center font-heading text-lg font-bold leading-tight text-primary">
-          {partner.name}
+          <span className="flex h-full w-full items-center justify-center rounded-full bg-tertiary text-center font-heading text-base font-bold leading-tight text-primary">
+            {partner.name.slice(0, 2).toUpperCase()}
         </span>
       )}
+      </span>
+      <span className="max-w-full truncate text-center text-xs font-semibold text-primary/80">
+        {partner.name}
+      </span>
     </span>
   );
 
@@ -119,7 +124,7 @@ const About = () => {
     />
 
     {/* Vision / Mission / Philosophy */}
-      <section className="container-full py-24 grid gap-12 md:grid-cols-3">
+      <section className="container-full grid gap-6 py-16 md:grid-cols-3">
       {[
         { title: "Vision", body: "Building farmers with sustainable farming skills, cohesive, self reliant communities." },
         { title: "Mission", body: "To contribute to the betterment of agro-business Ugandan communities." },
@@ -131,10 +136,10 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
-          className="flex h-full flex-col rounded-2xl border border-border bg-card p-7 shadow-sm"
+          className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-sm md:p-6"
         >
-          <h2 className="min-h-[2rem] font-heading font-semibold text-2xl text-primary mb-3">{v.title}</h2>
-          <p className="text-muted-foreground leading-relaxed">{v.body}</p>
+          <h2 className="mb-2 font-heading text-xl font-semibold text-primary">{v.title}</h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">{v.body}</p>
         </motion.div>
       ))}
     </section>
@@ -142,7 +147,7 @@ const About = () => {
     {/* Story */}
     <section className="bg-muted/40">
       <div className="container-full py-24 grid gap-16 lg:grid-cols-2 items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-sm">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-sm lg:aspect-[4/3]">
           <SiteImage
             src={pageHeroImages.harvested}
             alt="Harvested coffee ready for processing"
@@ -175,21 +180,21 @@ const About = () => {
     </section>
 
     {/* Core values */}
-    <section className="container-full py-24">
-      <div className="max-w-2xl mb-12">
+    <section className="container-full py-16">
+      <div className="mx-auto mb-10 max-w-2xl text-center">
         <h2 className="font-heading font-bold text-4xl md:text-5xl text-primary">
           What we stand for
         </h2>
       </div>
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3">
         {[
           { title: "Sustainability", body: "Commitment to environmentally responsible farming practices." },
           { title: "Quality", body: "Unwavering dedication to high-grade cocoa, coffee, and vanilla." },
-          { title: "Community Development", body: "Uplifting local communities through employment, training and sustainable practice." },
+          { title: "Community Development", body: "Uplifting local communities through employment, training and sustainability." },
         ].map((v, i) => (
-          <div key={i} className="flex h-full flex-col p-8 bg-card border border-border rounded-2xl shadow-sm hover-lift">
-            <h3 className="min-h-[3rem] font-heading font-semibold text-xl text-primary mb-3">{v.title}</h3>
-            <p className="text-muted-foreground leading-relaxed">{v.body}</p>
+          <div key={i} className="flex h-full flex-col rounded-xl border border-border bg-card p-6 shadow-sm hover-lift">
+            <h3 className="font-heading text-lg font-semibold text-primary mb-2">{v.title}</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground md:text-base">{v.body}</p>
           </div>
         ))}
       </div>
@@ -224,13 +229,13 @@ const About = () => {
     {partnerLogos.length > 0 && (
       <section className="overflow-hidden bg-muted/40 py-20">
         <div className="container-full">
-          <div className="mb-10 max-w-3xl">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
             <p className="eyebrow mb-3">{partnerSettings?.eyebrow ?? "Partners"}</p>
             <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
               {partnerSettings?.headline ?? "Working with trusted partners."}
             </h2>
             {partnerSettings?.body && (
-              <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">
+              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground leading-relaxed">
                 {partnerSettings.body}
               </p>
             )}

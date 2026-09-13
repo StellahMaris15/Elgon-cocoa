@@ -26,7 +26,6 @@ import {
   YAxis,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
 import { AdminCard } from "./ui";
 
 const CHART_COLORS = [
@@ -40,7 +39,6 @@ const weekLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 
 const AdminOverview = () => {
-  const { user } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["admin", "dashboard"],
     queryFn: async () => {
@@ -160,19 +158,10 @@ const AdminOverview = () => {
 
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-heading text-3xl font-bold leading-tight text-primary md:text-4xl">
-            Welcome back, Admin!
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Here is what is happening across Elgon Cooperative today.
-          </p>
-        </div>
-        <div className="rounded-2xl border border-primary/10 bg-white px-4 py-3 text-right shadow-[0_12px_30px_hsl(var(--clay-shadow-outer)/0.10)]">
-          <p className="text-[11px] text-muted-foreground">Signed in as</p>
-          <p className="text-sm font-semibold text-primary">{user?.email ?? "Admin"}</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="font-heading text-3xl font-bold leading-tight text-primary md:text-4xl">
+          Elogn Admin Dashboard
+        </h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
