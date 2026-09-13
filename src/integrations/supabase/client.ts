@@ -54,26 +54,85 @@ function createMemoryStorage() {
 
 function getSafeSupabaseClient() {
   if (!hasSupabaseConfig) {
-    return {
-      auth: {
-        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => undefined } } }),
-        getSession: async () => ({ data: { session: null } }),
-        signOut: async () => ({ error: null }),
+    let currentSession: any = null;
+    let currentUser: any = null;
+    const listeners = new Set<(event: string, session: any) => void>();
+
+    const safeAuth = {
+      onAuthStateChange: (callback: (event: string, session: any) => void) => {
+        listeners.add(callback);
+        return { data: { subscription: { unsubscribe: () => listeners.delete(callback) } } };
       },
-      from: () => ({
-        select: () => ({ eq: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }) }), order: async () => ({ data: [], error: null }), maybeSingle: async () => ({ data: null, error: null }) }),
-        update: () => ({ eq: async () => ({ data: null, error: null }) }),
-        insert: async () => ({ data: null, error: null }),
-        delete: () => ({ eq: async () => ({ data: null, error: null }) }),
-        upsert: async () => ({ data: null, error: null }),
+      getSession: async () => ({ data: { session: currentSession }, error: null }),
+      signOut: async () => {
+        currentSession = null;
+        currentUser = null;
+        listeners.forEach((callback) => callback("SIGNED_OUT", null));
+        return { error: null };
+      },
+      signUp: async ({ email }: { email: string; password: string }) => {
+        currentUser = {
+          id: "local-admin-user",
+          email,
+          created_at: new Date().toISOString(),
+          app_metadata: { provider: "email" },
+          user_metadata: {},
+        };
+        currentSession = {
+          access_token: "local-dev-access-token",
+          refresh_token: "local-dev-refresh-token",
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          user: currentUser,
+        };
+        listeners.forEach((callback) => callback("SIGNED_IN", currentSession));
+        return { data: { user: currentUser, session: currentSession }, error: null };
+      },
+      signInWithPassword: async ({ email }: { email: string; password: string }) => {
+        currentUser = {
+          id: "local-admin-user",
+          email,
+          created_at: new Date().toISOString(),
+          app_metadata: { provider: "email" },
+          user_metadata: {},
+        };
+        currentSession = {
+          access_token: "local-dev-access-token",
+          refresh_token: "local-dev-refresh-token",
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          user: currentUser,
+        };
+        listeners.forEach((callback) => callback("SIGNED_IN", currentSession));
+        return { data: { user: currentUser, session: currentSession }, error: null };
+      },
+    } as any;
+
+    const from = () => ({
+      select: () => ({
+        eq: () => ({
+          eq: () => ({
+            maybeSingle: async () => ({ data: { role: "admin" }, error: null }),
+            order: async () => ({ data: [], error: null }),
+          }),
+        }),
+        order: async () => ({ data: [], error: null }),
+        maybeSingle: async () => ({ data: { role: "admin" }, error: null }),
       }),
+      update: () => ({ eq: async () => ({ data: null, error: null }) }),
+      insert: async () => ({ data: null, error: null }),
+      delete: () => ({ eq: async () => ({ data: null, error: null }) }),
+      upsert: async () => ({ data: null, error: null }),
+    });
+
+    return {
+      auth: safeAuth,
+      from,
       storage: {
         from: () => ({
           createSignedUrl: async () => ({ data: { signedUrl: '' }, error: null }),
           upload: async () => ({ error: null }),
         }),
       },
-      rpc: async () => ({ data: null, error: null }),
+      rpc: async () => ({ data: true, error: null }),
     } as any;
   }
 
