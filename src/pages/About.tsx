@@ -55,7 +55,7 @@ const About = () => (
       <div className="container-full py-24 grid gap-16 lg:grid-cols-2 items-center">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-sm">
           <SiteImage
-            src={"/src/assets/harvest.jpg"}
+            src={"/src/assets/harvested.jpg"}
             alt="Cured vanilla beans bundled on natural linen"
             className="w-full h-full object-cover"
           />
