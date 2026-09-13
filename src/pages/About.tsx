@@ -21,8 +21,8 @@ const About = () => (
   <Layout>
     <PageHero
       eyebrow="From Our Farms to the World"
-      title="13 years building"
-      titleAccent="self reliant communities"
+      title="Women driven"
+      titleAccent="communities"
       subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society [EVCCGCS] was formed by women farmers seeking better organic practices, fair marketing, and stronger livelihoods across the Elgon region."
       image={pageHeroImages.about}
       imageAlt="Hands sorting cured vanilla beans"

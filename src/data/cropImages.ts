@@ -2,7 +2,7 @@ import vanilla from "@/assets/vanilla-hero.jpg";
 import coffee from "@/assets/coffee-hero.jpg";
 import cocoa from "@/assets/cocoa-hero.jpg";
 import aboutHero from "@/assets/image 1.jpeg";
-import farmerHero from "@/assets/herosection Farmer page.jpeg";
+import farmerHero from "@/assets/farmers.jpg";
 import productHero from "@/assets/Herosection Product page.jpeg";
 
 /** Bundled crop photography, available on every deployment. */
