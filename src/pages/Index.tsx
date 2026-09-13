@@ -116,13 +116,19 @@ const PartnerLogoItem = ({ partner }: { partner: PartnerLogoRow }) => {
   return content;
 };
 
+const uniquePartnerLogos = (partners: PartnerLogoRow[]) =>
+  partners.filter((partner, index, list) => {
+    const key = `${partner.name.trim().toLowerCase()}|${partner.logo_url ?? ""}`;
+    return list.findIndex((item) => `${item.name.trim().toLowerCase()}|${item.logo_url ?? ""}` === key) === index;
+  });
+
 const Index = () => {
   const { data: farmers = [] } = useFarmers();
   const { data: partners } = usePartners();
   const featuredFarmers = farmers.slice(0, 3);
   const partnerSettings = partners?.settings;
-  const partnerLogos = partners?.logos ?? [];
-  const marqueePartners = partnerLogos.length > 0 ? [...partnerLogos, ...partnerLogos] : [];
+  const partnerLogos = uniquePartnerLogos(partners?.logos ?? []);
+  const marqueePartners = partnerLogos;
 
   return (
     <Layout>
@@ -283,10 +289,21 @@ const Index = () => {
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-muted/40 to-transparent md:w-28" />
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-muted/40 to-transparent md:w-28" />
-            <div className="marquee">
-              <div className="marquee-content gap-5 py-4 hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
+            <div className="overflow-hidden py-4">
+              <div
+                className={
+                  partnerLogos.length > 1
+                    ? "mx-auto flex w-max animate-partner-drift items-center justify-center gap-5"
+                    : "mx-auto flex justify-center"
+                }
+              >
                 {marqueePartners.map((partner, index) => (
-                  <PartnerLogoItem key={`${partner.id}-${index}`} partner={partner} />
+                  <div
+                    key={`${partner.id}-${index}`}
+                    className={partnerLogos.length === 1 ? "animate-float" : ""}
+                  >
+                    <PartnerLogoItem partner={partner} />
+                  </div>
                 ))}
               </div>
             </div>

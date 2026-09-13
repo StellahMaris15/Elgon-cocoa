@@ -15,6 +15,7 @@ const Products = lazy(() => import("./pages/Products"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Farmers = lazy(() => import("./pages/Farmers"));
 const FarmerDetail = lazy(() => import("./pages/FarmerDetail"));
+const LeadershipMemberDetail = lazy(() => import("./pages/LeadershipMemberDetail"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Inquire = lazy(() => import("./pages/Inquire"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -47,6 +48,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
+              <Route path="/about/leadership/:id" element={<LeadershipMemberDetail />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:slug" element={<ProductDetail />} />
               <Route path="/farmers" element={<Farmers />} />

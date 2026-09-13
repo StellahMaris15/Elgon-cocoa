@@ -257,6 +257,29 @@ export const useLeadership = () =>
     retry: 1,
   });
 
+export const useLeadershipMember = (id?: string) =>
+  useQuery({
+    queryKey: ["leadership-member", id],
+    enabled: Boolean(id),
+    queryFn: async () => {
+      try {
+        const { data, error } = await supabase
+          .from("leadership_members")
+          .select("*")
+          .eq("id", id as string)
+          .eq("published", true)
+          .maybeSingle();
+
+        if (error) throw error;
+        return (data ?? null) as unknown as LeadershipMemberRow | null;
+      } catch {
+        return null as LeadershipMemberRow | null;
+      }
+    },
+    staleTime: 60_000,
+    retry: 1,
+  });
+
 export const usePartners = () =>
   useQuery({
     queryKey: ["partners", "public"],

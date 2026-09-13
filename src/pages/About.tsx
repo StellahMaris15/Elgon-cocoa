@@ -8,6 +8,7 @@ import { HeroVideoBand } from "@/components/HeroVideoBand";
 import { useLeadership, usePartners, type LeadershipMemberRow, type PartnerLogoRow } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const OBJECTIVES = [
   "Promote organic farming of vanilla, coffee and cocoa.",
@@ -24,6 +25,21 @@ const leaderInitials = (leader: LeadershipMemberRow) =>
   leader.initials || leader.name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
 const LeadershipPortrait = ({ leader }: { leader: LeadershipMemberRow }) => {
+  const image = useMediaUrl(leader.image_url);
+
+  if (image) {
+    return (
+      <div className="relative overflow-hidden rounded-xl bg-muted/40">
+        <div className="absolute inset-x-8 top-0 z-10 h-1 bg-accent" />
+        <SiteImage
+          src={image}
+          alt={`${leader.name}, ${leader.title}`}
+          className="h-52 w-full object-contain object-center"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative overflow-hidden rounded-xl bg-tertiary/55 p-4 shadow-[inset_8px_8px_18px_hsl(var(--clay-shadow-outer)/0.16),inset_-8px_-8px_18px_hsl(0_0%_100%/0.86)]">
       <div className="absolute inset-x-8 top-0 h-1 bg-accent" />
@@ -75,14 +91,20 @@ const PartnerLogoItem = ({ partner }: { partner: PartnerLogoRow }) => {
   return content;
 };
 
+const uniquePartnerLogos = (partners: PartnerLogoRow[]) =>
+  partners.filter((partner, index, list) => {
+    const key = `${partner.name.trim().toLowerCase()}|${partner.logo_url ?? ""}`;
+    return list.findIndex((item) => `${item.name.trim().toLowerCase()}|${item.logo_url ?? ""}` === key) === index;
+  });
+
 const About = () => {
   const { data: leadership } = useLeadership();
   const { data: partners } = usePartners();
   const leadershipSettings = leadership?.settings;
   const leadershipMembers = leadership?.members ?? [];
   const partnerSettings = partners?.settings;
-  const partnerLogos = partners?.logos ?? [];
-  const marqueePartners = partnerLogos.length > 0 ? [...partnerLogos, ...partnerLogos] : [];
+  const partnerLogos = uniquePartnerLogos(partners?.logos ?? []);
+  const marqueePartners = partnerLogos;
 
   return (
   <Layout>
@@ -202,7 +224,7 @@ const About = () => {
     {partnerLogos.length > 0 && (
       <section className="overflow-hidden bg-white py-16 md:py-20">
         <div className="container-full">
-          <div className="mb-10 max-w-4xl">
+          <div className="mx-auto mb-10 max-w-4xl text-center">
             <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
               {partnerSettings?.headline ?? "Working with trusted partners."}
             </h2>
@@ -211,10 +233,21 @@ const About = () => {
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent md:w-28" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent md:w-28" />
-          <div className="marquee">
-            <div className="marquee-content gap-8 py-4 hover:[animation-play-state:paused] focus-within:[animation-play-state:paused]">
+          <div className="overflow-hidden py-4">
+            <div
+              className={
+                partnerLogos.length > 1
+                  ? "mx-auto flex w-max animate-partner-drift items-center justify-center gap-8"
+                  : "mx-auto flex justify-center"
+              }
+            >
               {marqueePartners.map((partner, index) => (
-                <PartnerLogoItem key={`${partner.id}-${index}`} partner={partner} />
+                <div
+                  key={`${partner.id}-${index}`}
+                  className={partnerLogos.length === 1 ? "animate-float" : ""}
+                >
+                  <PartnerLogoItem partner={partner} />
+                </div>
               ))}
             </div>
           </div>
@@ -226,15 +259,10 @@ const About = () => {
     {leadershipMembers.length > 0 && (
     <section className="bg-[#f7f8f5]">
       <div className="container-full py-24">
-        <div className="mb-10 max-w-4xl">
-        
+        <div className="mx-auto mb-10 max-w-4xl text-center">
           <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
-             Leadership Committee
+            {leadershipSettings?.headline ?? "Guided by experience."}
           </h2>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-            Our leadership brings together cooperative governance, producer support, quality oversight,
-            and inclusive community development across the Elgon farming network.
-          </p>
         </div>
 
         <div className="grid gap-7 md:grid-cols-3">
@@ -265,16 +293,14 @@ const About = () => {
                   {leader.quote.split(/\.\s+/).filter(Boolean).slice(0, 1).join(".") + "."}
                 </p>
 
-                <a
-                  href={leader.profile_url || "#"}
+                <Link
+                  to={`/about/leadership/${leader.id}`}
                   className="neo-button mt-6 flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-primary"
                   aria-label={`View ${leader.name} profile`}
-                  target={leader.profile_url ? "_blank" : undefined}
-                  rel={leader.profile_url ? "noreferrer" : undefined}
                 >
                   View Profile
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                </Link>
               </div>
             </motion.article>
           ))}
