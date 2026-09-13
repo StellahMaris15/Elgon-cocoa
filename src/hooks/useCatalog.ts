@@ -28,6 +28,59 @@ export interface FarmerRow {
   sort_order: number;
 }
 
+export interface LeadershipSettingsRow {
+  eyebrow: string;
+  headline: string;
+  structure_label: string;
+  structure_body: string;
+  primary_phone: string;
+  secondary_phone: string;
+}
+
+export interface LeadershipMemberRow {
+  id: string;
+  name: string;
+  title: string;
+  quote: string;
+  initials: string;
+  image_url: string | null;
+  whatsapp_number: string | null;
+  profile_url: string | null;
+  published: boolean;
+  sort_order: number;
+}
+
+export interface PartnerSettingsRow {
+  eyebrow: string;
+  headline: string;
+  body: string;
+}
+
+export interface PartnerLogoRow {
+  id: string;
+  name: string;
+  logo_url: string | null;
+  website_url: string | null;
+  published: boolean;
+  sort_order: number;
+}
+
+const staticLeadershipSettings: LeadershipSettingsRow = {
+  eyebrow: "Leadership",
+  headline: "Guided by experience.",
+  structure_label: "Leadership structure",
+  structure_body:
+    "Reviewed by the cooperative's Board of Members, with executive oversight across strategy, finance, and operations.",
+  primary_phone: "+256 782 528 476",
+  secondary_phone: "+256 706 613 980",
+};
+
+const staticPartnerSettings: PartnerSettingsRow = {
+  eyebrow: "Partners",
+  headline: "Working with trusted partners.",
+  body: "Organizations and market partners helping us strengthen farmer livelihoods, quality systems, and value addition.",
+};
+
 const mapProduct = (row: Record<string, unknown>): Product => ({
   id: String(row.id),
   slug: String(row.slug),
@@ -123,5 +176,77 @@ export const useFarmer = (slug?: string) =>
         return findStaticFarmer(slug) as unknown as FarmerRow | null;
       }
     },
+    retry: 1,
+  });
+
+export const useLeadership = () =>
+  useQuery({
+    queryKey: ["leadership", "public"],
+    placeholderData: {
+      settings: staticLeadershipSettings,
+      members: [],
+    },
+    queryFn: async () => {
+      try {
+        const [settingsResult, membersResult] = await Promise.all([
+          supabase.from("leadership_settings").select("*").eq("id", true).maybeSingle(),
+          supabase
+            .from("leadership_members")
+            .select("*")
+            .eq("published", true)
+            .order("sort_order", { ascending: true }),
+        ]);
+
+        if (settingsResult.error) throw settingsResult.error;
+        if (membersResult.error) throw membersResult.error;
+
+        const settings = (settingsResult.data ?? staticLeadershipSettings) as unknown as LeadershipSettingsRow;
+        const members = ((membersResult.data ?? []) as unknown as LeadershipMemberRow[]);
+
+        return { settings, members };
+      } catch {
+        return {
+          settings: staticLeadershipSettings,
+          members: [],
+        };
+      }
+    },
+    staleTime: 60_000,
+    retry: 1,
+  });
+
+export const usePartners = () =>
+  useQuery({
+    queryKey: ["partners", "public"],
+    placeholderData: {
+      settings: staticPartnerSettings,
+      logos: [],
+    },
+    queryFn: async () => {
+      try {
+        const [settingsResult, logosResult] = await Promise.all([
+          supabase.from("partner_settings").select("*").eq("id", true).maybeSingle(),
+          supabase
+            .from("partner_logos")
+            .select("*")
+            .eq("published", true)
+            .order("sort_order", { ascending: true }),
+        ]);
+
+        if (settingsResult.error) throw settingsResult.error;
+        if (logosResult.error) throw logosResult.error;
+
+        const settings = (settingsResult.data ?? staticPartnerSettings) as unknown as PartnerSettingsRow;
+        const logos = ((logosResult.data ?? []) as unknown as PartnerLogoRow[]);
+
+        return { settings, logos };
+      } catch {
+        return {
+          settings: staticPartnerSettings,
+          logos: [],
+        };
+      }
+    },
+    staleTime: 60_000,
     retry: 1,
   });

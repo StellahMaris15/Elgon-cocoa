@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
 import {
   BadgeCheck,
+  Bell,
   Inbox,
   LogOut,
   PanelsTopLeft,
@@ -11,6 +12,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Menu,
+  Search,
   UsersRound,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -23,7 +25,7 @@ const NAV = [
   { to: "/admin/products", label: "Products", icon: PackageCheck },
   { to: "/admin/farmers", label: "Farmers", icon: UsersRound },
   { to: "/admin/inquiries", label: "Inquiries", icon: Inbox },
-  { to: "/admin/settings", label: "Inquiry settings", icon: BadgeCheck },
+  { to: "/admin/settings", label: "Settings", icon: BadgeCheck },
 ];
 
 export const AdminLayout = () => {
@@ -32,18 +34,18 @@ export const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const sidebar = (
-    <div className="neo-surface flex h-full flex-col overflow-hidden text-foreground lg:m-4 lg:mr-0">
-      <div className="h-16 flex items-center gap-3 px-4 border-b border-white/70">
-        <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={36} height={36} className="neo-inset w-9 h-9 object-contain shrink-0 rounded-full p-0.5" />
+    <div className="flex h-full flex-col overflow-hidden rounded-none border-r border-primary/10 bg-[#f5f8f1] text-foreground shadow-[12px_0_35px_hsl(var(--clay-shadow-outer)/0.10)] lg:m-4 lg:mr-0 lg:rounded-3xl lg:border">
+      <div className="flex h-20 items-center gap-3 px-5">
+        <SiteImage src={logoImage} loading="eager" alt="Elgon Cooperative logo" width={40} height={40} className="h-10 w-10 shrink-0 rounded-2xl border border-primary/10 bg-white object-contain p-1 shadow-sm" />
         {!collapsed && (
           <div className="min-w-0">
-            <p className="btn-label text-[11px] leading-tight">Elgon Cooperative</p>
-            <p className="text-[11px] text-muted-foreground">Admin console</p>
+            <p className="font-heading text-base font-bold leading-tight text-primary">Dashboard</p>
+            <p className="text-[11px] text-muted-foreground">Elgon Cooperative</p>
           </div>
         )}
       </div>
 
-      <nav aria-label="Admin sections" className="flex-1 p-3 space-y-1 overflow-y-auto">
+      <nav aria-label="Admin sections" className="flex-1 space-y-2 overflow-y-auto p-4">
         {NAV.map(({ to, end, label, icon: Icon }) => (
           <NavLink
             key={to}
@@ -53,11 +55,11 @@ export const AdminLayout = () => {
             title={collapsed ? label : undefined}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all",
+                "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition-all",
                 collapsed && "justify-center px-2",
                 isActive
-                  ? "neo-inset text-primary font-semibold"
-                  : "text-muted-foreground hover:text-primary hover:shadow-[var(--clay-shadow-sm)]",
+                  ? "bg-primary text-primary-foreground shadow-[0_14px_30px_hsl(var(--primary)/0.22)]"
+                  : "text-foreground/75 hover:bg-white hover:text-primary hover:shadow-[0_10px_24px_hsl(var(--clay-shadow-outer)/0.10)]",
               )
             }
           >
@@ -67,7 +69,7 @@ export const AdminLayout = () => {
         ))}
       </nav>
 
-      <div className="p-3 border-t border-white/70 space-y-1">
+      <div className="space-y-2 border-t border-primary/10 p-4">
         <Link
           to="/"
           className={cn(
@@ -82,7 +84,7 @@ export const AdminLayout = () => {
         <button
           onClick={signOut}
           className={cn(
-            "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-primary hover:shadow-[var(--clay-shadow-sm)] transition-all",
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-all hover:bg-white hover:text-primary hover:shadow-[0_10px_24px_hsl(var(--clay-shadow-outer)/0.10)]",
             collapsed && "justify-center px-2",
           )}
           title={collapsed ? "Sign out" : undefined}
@@ -95,14 +97,14 @@ export const AdminLayout = () => {
   );
 
   return (
-    <div className="admin-shell min-h-screen bg-background flex w-full">
+    <div className="admin-shell flex min-h-screen w-full bg-[#f8faf6]">
       <Seo title="Admin dashboard | Elgon Cooperative" description="Manage products, farmers and inquiries." path="/admin" />
 
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "hidden lg:flex flex-col sticky top-0 h-screen transition-[width] duration-200",
-          collapsed ? "w-[76px]" : "w-64",
+          "sticky top-0 hidden h-screen flex-col transition-[width] duration-200 lg:flex",
+          collapsed ? "w-[86px]" : "w-64",
         )}
       >
         {sidebar}
@@ -111,7 +113,7 @@ export const AdminLayout = () => {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="w-64 h-full shadow-xl">{sidebar}</div>
+          <div className="h-full w-64 shadow-xl">{sidebar}</div>
           <button
             aria-label="Close menu"
             className="flex-1 bg-foreground/50"
@@ -121,33 +123,43 @@ export const AdminLayout = () => {
       )}
 
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="h-16 bg-background/90 backdrop-blur-xl flex items-center justify-between gap-4 px-4 md:px-6 sticky top-0 z-30 border-b border-white/70 shadow-[0_12px_30px_hsl(215_18%_62%/0.16)]">
+        <header className="sticky top-0 z-30 flex h-20 items-center justify-between gap-4 border-b border-primary/10 bg-white/90 px-4 shadow-[0_14px_35px_hsl(var(--clay-shadow-outer)/0.10)] backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-3">
             <button
-              className="neo-button lg:hidden p-2 bg-card text-foreground"
+              className="rounded-2xl border border-primary/10 bg-white p-2 text-foreground shadow-sm lg:hidden"
               aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen ? <Menu className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
             <button
-              className="neo-button hidden lg:inline-flex p-2 bg-card text-foreground hover:text-primary"
+              className="hidden rounded-2xl border border-primary/10 bg-white p-2 text-foreground shadow-sm hover:text-primary lg:inline-flex"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               onClick={() => setCollapsed((v) => !v)}
             >
               {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
             </button>
-            <p className="btn-label text-[11px] text-primary hidden sm:block">Content management</p>
+            <label className="hidden h-11 min-w-[280px] items-center gap-3 rounded-2xl border border-primary/10 bg-[#f8faf6] px-4 shadow-inner md:flex">
+              <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
+              <input
+                type="search"
+                placeholder="Search dashboard..."
+                className="h-full w-full border-0 bg-transparent p-0 text-sm shadow-none outline-none placeholder:text-muted-foreground"
+              />
+            </label>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden sm:block text-xs text-muted-foreground truncate max-w-[220px]">{user?.email}</span>
-            <span className="neo-inset grid h-9 w-9 place-items-center rounded-full text-xs font-semibold text-primary">
+            <button className="grid h-10 w-10 place-items-center rounded-2xl border border-primary/10 bg-white text-primary shadow-sm" aria-label="Notifications">
+              <Bell className="h-4 w-4" aria-hidden />
+            </button>
+            <span className="hidden max-w-[220px] truncate text-xs text-muted-foreground sm:block">{user?.email}</span>
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow-[0_10px_24px_hsl(var(--primary)/0.22)]">
               {user?.email?.[0]?.toUpperCase() ?? "A"}
             </span>
           </div>
         </header>
 
-        <main className="flex-1 min-w-0 p-4 md:p-8 lg:p-10">
+        <main className="min-w-0 flex-1 p-4 md:p-8 lg:p-10">
           <Outlet />
         </main>
       </div>
