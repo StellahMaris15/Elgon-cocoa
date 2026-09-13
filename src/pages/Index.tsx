@@ -1,4 +1,4 @@
-import { cropHero } from "@/data/cropImages";
+import { cropHero, pageHeroImages } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -206,8 +206,8 @@ const Index = () => {
       <section className="container-full py-20 md:py-28 grid gap-12 lg:grid-cols-2 items-center">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-xl">
           <SiteImage
-            src={cropHero.coffee}
-            alt="Green and roasted coffee beans spilling from a burlap sack"
+            src={pageHeroImages.farmers}
+            alt="Elgon farmers standing together across the cooperative"
             className="w-full h-full object-cover"
           />
         </div>

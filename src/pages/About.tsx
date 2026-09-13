@@ -110,8 +110,8 @@ const About = () => {
   <Layout>
     <PageHero
       eyebrow="From Our Farms to the World"
-      title="13 years building"
-      titleAccent="self reliant communities"
+      title="Women driven"
+      titleAccent="communities"
       subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society [EVCCGCS] was formed by women farmers seeking better organic practices, fair marketing, and stronger livelihoods across the Elgon region."
       image={pageHeroImages.about}
       imageAlt="Hands sorting cured vanilla beans"
@@ -144,8 +144,8 @@ const About = () => {
       <div className="container-full py-24 grid gap-16 lg:grid-cols-2 items-center">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-sm">
           <SiteImage
-            src={"/src/assets/harvested.jpg"}
-            alt="Cured vanilla beans bundled on natural linen"
+            src={pageHeroImages.harvested}
+            alt="Harvested coffee ready for processing"
             className="w-full h-full object-cover"
           />
         </div>
