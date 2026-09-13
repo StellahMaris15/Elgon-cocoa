@@ -8,6 +8,9 @@ import {
   type ProductVariant,
 } from "@/data/products";
 import { findStaticFarmer, staticFarmers } from "@/data/farmers";
+import farmersPhoto from "@/assets/farmers.jpg";
+import harvestedPhoto from "@/assets/harvested.jpg";
+import coffeePhoto from "@/assets/coffee.jpg";
 
 export interface FarmerRow {
   id: string;
@@ -80,6 +83,45 @@ const staticPartnerSettings: PartnerSettingsRow = {
   headline: "Working with trusted partners.",
   body: "Organizations and market partners helping us strengthen farmer livelihoods, quality systems, and value addition.",
 };
+
+const staticLeadershipMembers: LeadershipMemberRow[] = [
+  {
+    id: "madoi-saphina-mudebo",
+    name: "Madoi Saphina Mudebo",
+    title: "Managing Director",
+    quote: "Leads Elgon cooperative strategy, operations, and farmer-centered development initiatives.",
+    initials: "MM",
+    image_url: farmersPhoto,
+    whatsapp_number: null,
+    profile_url: "/about",
+    published: true,
+    sort_order: 1,
+  },
+  {
+    id: "elgon-executive-director",
+    name: "Elgon Cooperative Executive Director",
+    title: "Executive Director",
+    quote: "Coordinates operations, quality systems, market access, and leadership programs for the Elgon network.",
+    initials: "ED",
+    image_url: harvestedPhoto,
+    whatsapp_number: null,
+    profile_url: "/about",
+    published: true,
+    sort_order: 2,
+  },
+  {
+    id: "elgon-women-youth-lead",
+    name: "Elgon Women & Youth Lead",
+    title: "Women & Youth Representative",
+    quote: "Represents community inclusion, women’s empowerment, youth participation, and farmer livelihood development.",
+    initials: "WY",
+    image_url: coffeePhoto,
+    whatsapp_number: null,
+    profile_url: "/about",
+    published: true,
+    sort_order: 3,
+  },
+];
 
 const mapProduct = (row: Record<string, unknown>): Product => ({
   id: String(row.id),
@@ -184,7 +226,7 @@ export const useLeadership = () =>
     queryKey: ["leadership", "public"],
     placeholderData: {
       settings: staticLeadershipSettings,
-      members: [],
+      members: staticLeadershipMembers,
     },
     queryFn: async () => {
       try {
@@ -201,13 +243,13 @@ export const useLeadership = () =>
         if (membersResult.error) throw membersResult.error;
 
         const settings = (settingsResult.data ?? staticLeadershipSettings) as unknown as LeadershipSettingsRow;
-        const members = ((membersResult.data ?? []) as unknown as LeadershipMemberRow[]);
+        const members = ((membersResult.data ?? staticLeadershipMembers) as unknown as LeadershipMemberRow[]);
 
         return { settings, members };
       } catch {
         return {
           settings: staticLeadershipSettings,
-          members: [],
+          members: staticLeadershipMembers,
         };
       }
     },

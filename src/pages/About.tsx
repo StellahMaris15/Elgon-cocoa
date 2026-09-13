@@ -253,29 +253,18 @@ const About = () => {
     {/* Leadership */}
     <section className="bg-[#f7f8f5]">
       <div className="container-full py-24">
-        <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <p className="eyebrow mb-3">{leadershipSettings?.eyebrow ?? "Leadership"}</p>
-            <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
-              {leadershipSettings?.headline ?? "Guided by experience."}
-            </h2>
-          </div>
-          <div className="neo-inset max-w-xl p-5">
-            <div className="flex gap-4">
-              <span className="neo-chip flex h-11 w-11 shrink-0 items-center justify-center text-primary">
-                <Sprout className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <div>
-                <p className="btn-label text-primary">{leadershipSettings?.structure_label ?? "Leadership structure"}</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {leadershipSettings?.structure_body}
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="mb-10 max-w-4xl">
+        
+          <h2 className="font-heading text-4xl font-bold leading-tight text-primary md:text-5xl">
+             Leadership Committee
+          </h2>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            Our leadership brings together cooperative governance, producer support, quality oversight,
+            and inclusive community development across the Elgon farming network.
+          </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-7 md:grid-cols-3">
           {leadershipMembers.map((leader, index) => (
             <motion.article
               key={leader.id}
@@ -283,23 +272,29 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: index * 0.08 }}
-              className="neo-surface clay-interactive flex h-full flex-col overflow-hidden p-5"
+              className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/80 bg-[#fffefb] p-4 shadow-[0_16px_50px_rgba(42,58,38,0.10)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(42,58,38,0.17)]"
             >
-              <LeadershipPortrait leader={leader} />
+              <div className="relative overflow-hidden rounded-[1.5rem] bg-muted/40">
+                <LeadershipPortrait leader={leader} />
+                
+              </div>
 
-              <div className="flex flex-1 flex-col pt-5">
+              <div className="flex flex-1 flex-col px-2 pb-2 pt-6">
                 <div className="flex items-start justify-between gap-4">
                   <div>
+                    
                     <h3 className="font-heading text-2xl font-bold leading-tight text-primary">
                       {leader.name}
                     </h3>
-                    <p className="btn-label mt-1 text-xs text-accent">{leader.title}</p>
+                    <p className="btn-label mt-1 text-[10px] font-semibold uppercase tracking-[0.10em] text-accent">
+                      {leader.title}
+                    </p>
                   </div>
                   {leader.whatsapp_number && (
                     <a
                       href={whatsappHref(leader.whatsapp_number)}
                       aria-label={`${leader.name} WhatsApp number`}
-                      className="neo-button flex h-10 w-10 shrink-0 items-center justify-center text-primary"
+                      className="neo-button flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/20 text-primary transition hover:bg-primary hover:text-white"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -308,34 +303,16 @@ const About = () => {
                   )}
                 </div>
 
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {leader.quote}
+                <p className="mt-4 flex-1 border-t border-primary/10 pt-4 text-[13px] leading-relaxed text-muted-foreground">
+                  {leader.quote.split(/\.\s+/).filter(Boolean).slice(0, 1).join(".") + "."}
                 </p>
 
-                <a
-                  href={leader.profile_url || "#contact"}
-                  className="neo-button btn-label mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-primary"
-                  target={leader.profile_url?.startsWith("http") ? "_blank" : undefined}
-                  rel={leader.profile_url?.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  View Profile
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
               </div>
             </motion.article>
           ))}
         </div>
 
-        <div className="mt-8 grid gap-4 rounded-2xl border border-white/70 bg-white/55 p-4 shadow-sm md:grid-cols-2">
-          <a href={telHref(leadershipSettings?.primary_phone ?? "+256 782 528 476")} className="neo-inset flex items-center gap-3 p-4 text-sm font-semibold text-primary">
-            <Phone className="h-4 w-4 text-accent" aria-hidden="true" />
-            {leadershipSettings?.primary_phone ?? "+256 782 528 476"}
-          </a>
-          <a href={telHref(leadershipSettings?.secondary_phone ?? "+256 706 613 980")} className="neo-inset flex items-center gap-3 p-4 text-sm font-semibold text-primary">
-            <Mail className="h-4 w-4 text-accent" aria-hidden="true" />
-            {leadershipSettings?.secondary_phone ?? "+256 706 613 980"}
-          </a>
-        </div>
+        
       </div>
     </section>
 

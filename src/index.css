@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400;500;700&display=swap');
+
 @font-face {
   font-family: 'Instrument Serif';
   src: url('./assets/fonts/instrument-serif-400.woff2') format('woff2');
@@ -31,13 +33,13 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: 142 15% 22%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 142 15% 22%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover-foreground: 142 15% 22%;
 
     --primary: 142 64% 24%;
     --primary-foreground: 0 0% 100%;
@@ -46,7 +48,7 @@
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 0%;
+    --muted-foreground: 142 15% 22%;
 
     --accent: 45 93% 47%;
     --accent-foreground: 0 0% 0%;
@@ -86,10 +88,10 @@
     --cream: 0 0% 100%;
 
     /* Typography */
-    --font-heading: 'Work Sans', 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+    --font-heading: 'Montserrat', 'Work Sans', 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     --font-display: 'Instrument Serif', 'Playfair Display', Georgia, serif;
-    --font-body: 'Work Sans', system-ui, sans-serif;
-    --font-button: 'Work Sans', system-ui, sans-serif;
+    --font-body: 'Roboto', 'Work Sans', system-ui, sans-serif;
+    --font-button: 'Montserrat', 'Work Sans', system-ui, sans-serif;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 0 0% 0%;
@@ -166,6 +168,9 @@
       radial-gradient(circle at 85% 10%, hsl(var(--accent) / 0.12), transparent 28rem),
       hsl(var(--background));
     font-family: var(--font-body);
+    font-size: 16x;
+    line-height: 1.7;
+    font-weight: 400;
     font-feature-settings: "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
