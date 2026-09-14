@@ -178,7 +178,7 @@ const Index = () => {
         </div>
       </section>
       <section className="bg-primary text-primary-foreground">
-        <div className="container-full py-20 grid gap-10 md:grid-cols-4">
+        <div className="container-full grid grid-cols-4 gap-3 py-10 text-center sm:gap-6 sm:py-14 md:gap-10 md:py-20">
           {[
             { n: "13+", l: "Years of expertise" },
             { n: "3,000+", l: "Farmers in the cooperative" },
@@ -192,8 +192,8 @@ const Index = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <p className="font-heading text-5xl md:text-6xl text-accent mb-2">{s.n}</p>
-              <p className="text-sm text-primary-foreground/70">{s.l}</p>
+              <p className="mb-1 font-heading text-2xl leading-none text-accent sm:text-4xl md:mb-2 md:text-6xl">{s.n}</p>
+              <p className="text-[9px] leading-tight text-primary-foreground/70 sm:text-xs md:text-sm">{s.l}</p>
             </motion.div>
           ))}
         </div>

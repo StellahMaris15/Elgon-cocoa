@@ -47,8 +47,8 @@ export const PageHero = ({
         "relative isolate overflow-hidden bg-primary text-primary-foreground",
         bleedTop && "-mt-16 md:-mt-20",
         size === "full"
-          ? "flex min-h-[clamp(36rem,88svh,46rem)] items-center sm:min-h-[82svh] md:min-h-[86svh]"
-          : "flex min-h-[26rem] items-center sm:min-h-[46svh] md:min-h-[54svh]"
+          ? "flex min-h-[18rem] items-center sm:min-h-[82svh] md:min-h-[86svh]"
+          : "flex min-h-[24rem] items-center sm:min-h-[46svh] md:min-h-[54svh]"
       )}
     >
       <div className="absolute inset-0 -z-10">
@@ -72,12 +72,12 @@ export const PageHero = ({
             aria-hidden={imageAlt ? undefined : true}
             loading="eager"
             fetchPriority="high"
-            initial={reduced ? { scale: 1 } : { scale: clearMotion ? 1.08 : 1.12, x: 0, y: 0 }}
+            initial={reduced ? { scale: 1 } : { scale: clearMotion ? 1.02 : 1, x: 0, y: 0 }}
             animate={
               reduced
                 ? { scale: 1 }
                 : clearMotion
-                  ? { scale: [1.08, 1.14, 1.08], x: ["0%", "-1.8%", "0%"], y: ["0%", "1.2%", "0%"] }
+                  ? { scale: [1.02, 1.06, 1.02], x: ["0%", "-1%", "0%"], y: ["0%", "0.7%", "0%"] }
                   : { scale: 1 }
             }
             transition={
@@ -85,7 +85,7 @@ export const PageHero = ({
                 ? { duration: 24, ease: "easeInOut", repeat: Infinity }
                 : { duration: 12, ease: "linear" }
             }
-            className="w-full h-full object-cover object-center transform-gpu will-change-transform"
+            className="h-full w-full object-cover object-center transform-gpu will-change-transform"
           />
         )}
         <div
@@ -113,16 +113,16 @@ export const PageHero = ({
       <div
         className={cn(
           "container-full relative w-full min-w-0",
-          size === "full" ? "pb-10 pt-24 sm:pt-28 md:pb-24 md:pt-36" : "pb-12 pt-20 sm:pt-24 md:pb-20 md:pt-28"
+          size === "full" ? "pb-7 pt-20 sm:pt-28 md:pb-24 md:pt-36" : "pb-8 pt-[4.5rem] sm:pt-24 md:pb-20 md:pt-28"
         )}
       >
         <motion.h1
           {...fade(0)}
           className={cn(
-            "font-heading max-w-[16ch] text-balance break-words font-extrabold text-primary-foreground",
+            "font-heading max-w-full text-balance break-words font-extrabold text-primary-foreground sm:max-w-[16ch]",
             size === "full"
-              ? "text-[clamp(2.35rem,12vw,3.75rem)] leading-[1.02] md:text-7xl lg:text-8xl"
-              : "text-[clamp(1.9rem,10vw,3rem)] leading-[1.06] md:text-6xl"
+              ? "text-[clamp(1.55rem,8.5vw,3.75rem)] leading-[1.02] sm:text-[clamp(2rem,10vw,3.75rem)] md:text-7xl lg:text-8xl"
+              : "text-[clamp(1.45rem,7.5vw,3rem)] leading-[1.05] sm:text-[clamp(1.75rem,8.5vw,3rem)] md:text-6xl"
           )}
         >
           {title}
@@ -137,14 +137,14 @@ export const PageHero = ({
         {subtitle && (
           <motion.p
             {...fade(0.12)}
-            className="mt-4 max-w-xl text-sm leading-relaxed text-primary-foreground/88 sm:mt-5 sm:text-base md:mt-8 md:max-w-2xl md:text-lg"
+            className="mt-2 max-w-full text-[9px] font-semibold leading-snug text-primary-foreground/92 sm:mt-5 sm:max-w-xl sm:text-base sm:font-medium sm:leading-relaxed md:mt-8 md:max-w-2xl md:text-lg"
           >
             {subtitle}
           </motion.p>
         )}
 
         {children && (
-          <motion.div {...fade(0.22)} className="mt-6 flex min-w-0 flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row sm:gap-4 md:mt-10">
+          <motion.div {...fade(0.22)} className="mt-4 flex min-w-0 flex-col flex-wrap gap-2 sm:mt-7 sm:flex-row sm:gap-4 md:mt-10">
             {children}
           </motion.div>
         )}
@@ -155,7 +155,7 @@ export const PageHero = ({
 
 export const heroBtn = (variant: "solid" | "gold" | "ghost" = "solid") =>
   cn(
-    "group inline-flex w-full items-center justify-center gap-2.5 rounded-full px-6 py-3.5 btn-label text-xs sm:w-auto sm:px-7 sm:text-[13px]",
+    "group inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 btn-label text-[9px] sm:w-auto sm:gap-2.5 sm:px-7 sm:py-3.5 sm:text-[13px]",
     "transition-all duration-300 will-change-transform hover:-translate-y-0.5 active:translate-y-0",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary",
     variant === "solid" &&

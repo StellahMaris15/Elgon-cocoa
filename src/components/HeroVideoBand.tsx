@@ -12,12 +12,12 @@ interface HeroVideoBandProps {
 export const HeroVideoBand = ({ src, poster, label, className, videoClassName, overlayClassName }: HeroVideoBandProps) => (
   <section
     className={cn(
-      "relative h-[clamp(24rem,86svh,44rem)] w-full overflow-hidden bg-[#04051c] sm:aspect-video sm:h-auto md:min-h-[72svh] md:max-h-none",
+      "relative w-full overflow-hidden bg-[#04051c] sm:aspect-video md:min-h-[72svh] md:max-h-none",
       className,
     )}
   >
     <video
-      className={cn("absolute inset-0 h-full w-full object-cover object-center", videoClassName)}
+      className={cn("block h-auto w-full object-contain object-center sm:absolute sm:inset-0 sm:h-full sm:object-cover", videoClassName)}
       autoPlay
       muted
       loop

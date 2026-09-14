@@ -4,6 +4,7 @@ import { logoImage } from "@/data/cropImages";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -80,18 +81,20 @@ export const Header = () => {
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button
-              className="neo-button btn-label bg-card px-3 py-2 text-[11px] hover:text-primary sm:px-4 sm:text-xs lg:hidden"
+              className="neo-button flex h-10 w-10 items-center justify-center bg-card text-primary hover:text-accent sm:h-11 sm:w-11 lg:hidden"
               onClick={() => setOpen(!open)}
-              aria-label="Toggle menu"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
             >
               <AnimatePresence mode="wait">
                 {open ? (
                   <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                    Close
+                    <X className="h-5 w-5" aria-hidden="true" strokeWidth={2.4} />
                   </motion.div>
                 ) : (
                   <motion.div key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                    Menu
+                    <Menu className="h-5 w-5" aria-hidden="true" strokeWidth={2.4} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -107,6 +110,7 @@ export const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] as const }}
               className="lg:hidden border-t border-border overflow-hidden"
+              id="mobile-navigation"
             >
               <div className="py-6 space-y-1">
                 {NAV.map((item, i) => (
