@@ -11,15 +11,9 @@ import {
 import {
   Area,
   AreaChart,
-  Bar,
-  BarChart,
   CartesianGrid,
-  Cell,
-  Legend,
   Line,
   LineChart,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -27,13 +21,6 @@ import {
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminCard } from "./ui";
-
-const CHART_COLORS = [
-  "hsl(var(--primary))",
-  "hsl(var(--accent))",
-  "hsl(var(--secondary))",
-  "hsl(var(--muted-foreground))",
-];
 
 const weekLabel = (d: Date) =>
   d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
@@ -107,22 +94,6 @@ const AdminOverview = () => {
       }).length,
     };
   });
-
-  const statusData = Object.entries(
-    inquiries.reduce<Record<string, number>>((acc, i) => {
-      const key = (i.status as string) || "new";
-      acc[key] = (acc[key] ?? 0) + 1;
-      return acc;
-    }, {}),
-  ).map(([name, value]) => ({ name, value }));
-
-  const categoryData = Object.entries(
-    products.reduce<Record<string, number>>((acc, p) => {
-      const key = (p.category as string) || "other";
-      acc[key] = (acc[key] ?? 0) + 1;
-      return acc;
-    }, {}),
-  ).map(([name, value]) => ({ name, products: value }));
 
   const districtData = Object.entries(
     farmers.reduce<Record<string, number>>((acc, f) => {
@@ -241,58 +212,6 @@ const AdminOverview = () => {
               ))}
             </div>
           )}
-        </AdminCard>
-
-        <AdminCard>
-          <h2 className="mb-1 font-heading text-xl font-semibold text-primary">Inquiry status</h2>
-          <p className="mb-4 text-xs text-muted-foreground">Where each request stands</p>
-          <div className="h-56">
-            {statusData.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No inquiries yet.</p>
-            ) : (
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={48} outerRadius={78} paddingAngle={3}>
-                    {statusData.map((_, i) => (
-                      <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      background: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: 12,
-                      fontSize: 12,
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            )}
-          </div>
-        </AdminCard>
-
-        <AdminCard className="lg:col-span-2">
-          <h2 className="mb-1 font-heading text-xl font-semibold text-primary">Catalog by crop</h2>
-          <p className="mb-4 text-xs text-muted-foreground">Products per category</p>
-          <div className="h-56">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={categoryData} margin={{ left: -24, right: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    background: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: 12,
-                    fontSize: 12,
-                  }}
-                />
-                <Bar dataKey="products" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
         </AdminCard>
 
         <AdminCard className="lg:col-span-3">

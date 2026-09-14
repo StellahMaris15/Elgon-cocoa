@@ -12,7 +12,6 @@ import { cropHero, pageHeroImages } from "@/data/cropImages";
 import { useMediaUrl } from "@/lib/media";
 import { siteVideos } from "@/data/videos";
 
-const DISTRICTS = ["Sironko", "Bulambuli", "Mbale City", "Mbale", "Manafwa", "Bududa", "Kapchorwa"];
 const CROPS = ["vanilla", "coffee", "cocoa"];
 
 const initials = (name: string) =>
@@ -131,8 +130,7 @@ const Farmers = () => {
       {/* Hero */}
       <PageHero
         eyebrow="From Our Farms to the World"
-        title="3,000+ smallholders."
-        titleAccent="One cooperative."
+        title="Our Farmers"
         subtitle="Elgon Vanilla, Coffee & Cocoa Growers' Cooperative is powered by over 3,000 organic farmers, mostly women, across seven districts of the Elgon region."
         image={pageHeroImages.farmers}
         imageAlt="Elgon farmers tending vanilla vines"
@@ -235,30 +233,6 @@ const Farmers = () => {
         </div>
       </section>
 
-
-      {/* Districts */}
-      <section className="bg-muted/40">
-        <div className="container-full py-24">
-          <div className="max-w-2xl mb-10">
-            <h2 className="font-heading font-bold text-4xl text-primary">Across the Elgon region</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {DISTRICTS.map((d, i) => (
-              <motion.span
-                key={d}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="btn-label text-xs px-5 py-3 rounded-full border border-border bg-card"
-              >
-                {d}
-              </motion.span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Cooperative's role */}
       <section className="container-full py-24">
         <div className="max-w-2xl mb-12">
@@ -286,51 +260,6 @@ const Farmers = () => {
         </div>
       </section>
 
-      <section className="bg-muted/40">
-        <div className="container-full pt-24 pb-12">
-          <div className="max-w-3xl">
-            <h2 className="font-heading font-bold text-4xl text-primary mb-6 leading-tight">
-              From garden to store to global buyer.
-            </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                Harvests are delivered from farmer gardens to well-equipped cooperative
-                stores where beans and pods are sorted, cured, pulped, fermented, dried
-                and stored to preserve aroma, form and grade.
-              </p>
-              <p>
-                Continuous farmer training and consistent farm visits have increased
-                production and productivity year over year, while collective marketing
-                secures fair returns.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="container-full pb-24">
-          <div className="grid gap-4 md:grid-cols-3">
-            <SiteImage
-              src={cropHero.cocoa}
-              alt="Open cocoa pod and dried cocoa beans"
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
-            />
-            <SiteImage
-              src={cropHero.vanilla}
-              alt="Cured vanilla beans bundled on natural linen"
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
-            />
-            <SiteImage
-              src={cropHero.coffee}
-              alt="Green and roasted coffee beans spilling from a burlap sack"
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover rounded-2xl shadow-sm"
-            />
-          </div>
-        </div>
-      </section>
-
-      
       <section className="bg-secondary text-secondary-foreground">
         <div className="container-full py-8 md:py-10 text-center">
           <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary-foreground mb-3 max-w-3xl mx-auto">
