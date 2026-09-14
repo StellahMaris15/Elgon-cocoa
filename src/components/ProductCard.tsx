@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Product, categories } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { preloadRoute } from "@/lib/routePrefetch";
 
 interface ProductCardProps {
   product: Product;
@@ -23,7 +24,13 @@ export const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
-      <Link to={`/products/${product.slug}`} className="block h-full">
+      <Link
+        to={`/products/${product.slug}`}
+        className="block h-full"
+        onMouseEnter={() => preloadRoute(`/products/${product.slug}`)}
+        onFocus={() => preloadRoute(`/products/${product.slug}`)}
+        onTouchStart={() => preloadRoute(`/products/${product.slug}`)}
+      >
         <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden bg-muted/40 sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
           <SiteImage
             src={images[0]} fallbackSrc={cropHero[product.category]}

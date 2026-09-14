@@ -1,10 +1,9 @@
 import { cropHero } from "@/data/cropImages";
 import { SiteImage } from "@/components/SiteImage";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Layout } from "@/components/Layout";
-import { Product3DViewer } from "@/components/Product3DViewer";
 import { ProductGallery } from "@/components/ProductGallery";
 import { categories } from "@/data/products";
 import { useProducts } from "@/hooks/useCatalog";
@@ -12,11 +11,21 @@ import { cn } from "@/lib/utils";
 import { Seo } from "@/components/Seo";
 import { absoluteAssetUrl, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
+const Product3DViewer = lazy(() =>
+  import("@/components/Product3DViewer").then((module) => ({ default: module.Product3DViewer })),
+);
+
+const MediaFallback = () => (
+  <div className="grid h-[430px] place-items-center rounded-lg border border-border bg-muted/40 text-xs text-muted-foreground">
+    Loading interactive preview...
+  </div>
+);
+
 const ProductDetail = () => {
   const { slug } = useParams();
   const { products, isLoading } = useProducts();
   const product = slug ? products.find((p) => p.slug === slug) : undefined;
-  const [view, setView] = useState<"3d" | "photos">("3d");
+  const [view, setView] = useState<"3d" | "photos">("photos");
 
   if (isLoading && !product) {
     return (
@@ -97,8 +106,8 @@ const ProductDetail = () => {
           className="inline-flex p-1 rounded-full bg-muted border border-border"
         >
           {([
-            { id: "3d", label: "3D Image" },
             { id: "photos", label: "Photos" },
+            { id: "3d", label: "3D Image" },
           ] as const).map(({ id, label }) => (
             <button
               key={id}
@@ -119,7 +128,9 @@ const ProductDetail = () => {
         </div>
 
         {view === "3d" ? (
-          <Product3DViewer category={product.category} name={product.name} />
+          <Suspense fallback={<MediaFallback />}>
+            <Product3DViewer category={product.category} name={product.name} />
+          </Suspense>
         ) : (
           <ProductGallery key={product.id} fallbackSrc={cropHero[product.category]} images={galleryImages} name={product.name} />
         )}

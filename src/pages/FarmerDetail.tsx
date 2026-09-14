@@ -1,17 +1,31 @@
 import { SiteImage } from "@/components/SiteImage";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { lazy, Suspense } from "react";
 import { Layout } from "@/components/Layout";
 import { Seo } from "@/components/Seo";
-import { Product3DViewer } from "@/components/Product3DViewer";
 import { useFarmer } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
 import type { CategorySlug } from "@/data/products";
 import { absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
+const Product3DViewer = lazy(() =>
+  import("@/components/Product3DViewer").then((module) => ({ default: module.Product3DViewer })),
+);
+
+const MediaFallback = () => (
+  <div className="grid h-[430px] place-items-center rounded-lg border border-border bg-muted/40 text-xs text-muted-foreground">
+    Loading interactive preview...
+  </div>
+);
+
 const CropViewer = ({ crop, value, name }: { crop: CategorySlug; value?: string | null; name: string }) => {
   const backdrop = useMediaUrl(value);
-  return <Product3DViewer category={crop} name={`${name}, ${crop}`} backdrop={backdrop || undefined} />;
+  return (
+    <Suspense fallback={<MediaFallback />}>
+      <Product3DViewer category={crop} name={`${name}, ${crop}`} backdrop={backdrop || undefined} />
+    </Suspense>
+  );
 };
 
 const FarmerPortrait = ({ src, alt }: { src?: string | null; alt: string }) => {

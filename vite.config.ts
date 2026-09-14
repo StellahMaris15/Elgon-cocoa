@@ -12,6 +12,18 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "motion-vendor": ["framer-motion"],
+          "data-vendor": ["@tanstack/react-query", "@supabase/supabase-js"],
+          "three-vendor": ["three", "@react-three/fiber", "@react-three/drei"],
+        },
+      },
+    },
+  },
   assetsInclude: ["**/*.JPG"],
   resolve: {
     alias: {

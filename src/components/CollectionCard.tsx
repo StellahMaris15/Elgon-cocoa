@@ -2,6 +2,7 @@ import { SiteImage } from "@/components/SiteImage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Category } from "@/data/products";
+import { preloadRoute } from "@/lib/routePrefetch";
 
 interface CategoryCardProps {
   category: Category;
@@ -17,7 +18,13 @@ export const CollectionCard = ({ category, index = 0 }: CategoryCardProps) => {
       transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
-      <Link to={`/products?category=${category.slug}`} className="block h-full">
+      <Link
+        to={`/products?category=${category.slug}`}
+        className="block h-full"
+        onMouseEnter={() => preloadRoute("/products")}
+        onFocus={() => preloadRoute("/products")}
+        onTouchStart={() => preloadRoute("/products")}
+      >
         <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
           <SiteImage
             src={category.image}

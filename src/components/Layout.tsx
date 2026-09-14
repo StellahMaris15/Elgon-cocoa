@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { FloatingActions } from "./FloatingActions";
 
 interface LayoutProps {
   children: ReactNode;
@@ -39,6 +40,7 @@ export const Layout = ({ children }: LayoutProps) => {
       >
         {children}
       </motion.main>
+      <FloatingActions />
       <Footer />
     </div>
   );

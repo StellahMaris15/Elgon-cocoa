@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { preloadRoute } from "@/lib/routePrefetch";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -67,6 +68,8 @@ export const Header = () => {
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
+                onMouseEnter={() => preloadRoute(item.to)}
+                onFocus={() => preloadRoute(item.to)}
                 className={({ isActive }) =>
                   cn(
                     "btn-label text-xs transition-colors duration-300 link-underline",
@@ -123,6 +126,7 @@ export const Header = () => {
                     <RouterNavLink
                       to={item.to}
                       end={item.to === "/"}
+                      onTouchStart={() => preloadRoute(item.to)}
                       className={({ isActive }) =>
                         cn(
                           "block px-3 py-3 btn-label text-sm rounded-sm transition-colors",

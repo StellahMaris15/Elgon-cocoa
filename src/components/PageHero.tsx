@@ -59,7 +59,7 @@ export const PageHero = ({
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             poster={image}
             aria-hidden="true"
           >
