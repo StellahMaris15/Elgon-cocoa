@@ -30,14 +30,27 @@ const CropViewer = ({ crop, value, name }: { crop: CategorySlug; value?: string 
 
 const FarmerPortrait = ({ src, alt }: { src?: string | null; alt: string }) => {
   const url = useMediaUrl(src);
+
   if (!url) {
     return (
-      <div className="w-full aspect-[4/5] rounded-2xl bg-secondary text-secondary-foreground grid place-items-center shadow-sm">
-        <span className="font-heading text-5xl">{alt.slice(0, 1).toUpperCase()}</span>
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-secondary text-secondary-foreground shadow-sm">
+        <div className="grid h-full w-full place-items-center">
+          <span className="font-heading text-5xl">{alt.slice(0, 1).toUpperCase()}</span>
+        </div>
       </div>
     );
   }
-  return <SiteImage src={url} alt={alt} className="w-full aspect-[4/5] object-cover rounded-2xl shadow-sm" loading="eager" />;
+
+  return (
+    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+      <SiteImage
+        src={url}
+        alt={alt}
+        className="h-full w-full object-cover object-center"
+        loading="eager"
+      />
+    </div>
+  );
 };
 
 const waHref = (value: string) => {
@@ -124,7 +137,7 @@ const FarmerDetail = () => {
         </Link>
       </section>
 
-      <section className="container-full pb-16 grid gap-12 lg:grid-cols-[360px_1fr] items-start">
+      <section className="container-full pb-16 grid gap-12 lg:grid-cols-[minmax(440px,0.95fr)_1fr] items-start">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
           <FarmerPortrait src={farmer.photo_url} alt={`${farmer.name}, ${farmer.role}`} />
         </motion.div>
