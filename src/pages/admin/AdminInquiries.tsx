@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AtSign, Building2, Globe2, Smartphone } from "lucide-react";
+import { AtSign, Building2, Globe2, Smartphone, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { AdminCard, AdminHeading, inputCls } from "./ui";
+import { AdminCard, AdminHeading, ghostBtn, inputCls } from "./ui";
 
 interface InquiryRow {
   id: string;
@@ -46,6 +46,20 @@ const AdminInquiries = () => {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const remove = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("inquiries").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Inquiry deleted");
+      qc.invalidateQueries({ queryKey: ["admin", "inquiries"] });
+      qc.invalidateQueries({ queryKey: ["admin", "dashboard"] });
+      qc.invalidateQueries({ queryKey: ["admin", "system-notifications"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   return (
     <>
       <AdminHeading title="Inquiries" subtitle="Buyer requests submitted through the website." />
@@ -65,15 +79,26 @@ const AdminInquiries = () => {
                   {new Date(r.created_at).toLocaleString()} / via {r.source}
                 </p>
               </div>
-              <select
-                className={`${inputCls} w-auto`}
-                value={r.status}
-                onChange={(e) => update.mutate({ id: r.id, patch: { status: e.target.value } })}
-              >
-                {STATUSES.map((s) => (
-                  <option key={s} value={s}>{s.replace("_", " ")}</option>
-                ))}
-              </select>
+              <div className="flex flex-wrap items-center gap-2">
+                <select
+                  className={`${inputCls} w-auto`}
+                  value={r.status}
+                  onChange={(e) => update.mutate({ id: r.id, patch: { status: e.target.value } })}
+                >
+                  {STATUSES.map((s) => (
+                    <option key={s} value={s}>{s.replace("_", " ")}</option>
+                  ))}
+                </select>
+                <button
+                  className={ghostBtn}
+                  disabled={remove.isPending}
+                  onClick={() => {
+                    if (confirm(`Delete inquiry from "${r.name}"?`)) remove.mutate(r.id);
+                  }}
+                >
+                  <Trash2 className="h-4 w-4" /> Delete
+                </button>
+              </div>
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2 text-sm text-foreground/85 mb-4">

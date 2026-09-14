@@ -34,7 +34,7 @@ const LeadershipPortrait = ({ leader }: { leader: LeadershipMemberRow }) => {
         <SiteImage
           src={image}
           alt={`${leader.name}, ${leader.title}`}
-          className="h-52 w-full object-contain object-center"
+          className="h-72 w-full object-cover object-center"
         />
       </div>
     );
@@ -43,7 +43,7 @@ const LeadershipPortrait = ({ leader }: { leader: LeadershipMemberRow }) => {
   return (
     <div className="relative overflow-hidden rounded-xl bg-tertiary/55 p-4 shadow-[inset_8px_8px_18px_hsl(var(--clay-shadow-outer)/0.16),inset_-8px_-8px_18px_hsl(0_0%_100%/0.86)]">
       <div className="absolute inset-x-8 top-0 h-1 bg-accent" />
-      <div className="flex min-h-44 items-end justify-between gap-4">
+      <div className="flex min-h-72 items-end justify-between gap-4">
         <div className="flex h-28 w-28 items-center justify-center rounded-full bg-white text-3xl font-bold text-primary shadow-[10px_10px_22px_hsl(var(--clay-shadow-outer)/0.22),-10px_-10px_22px_hsl(0_0%_100%/0.92)]">
           {leaderInitials(leader)}
         </div>
@@ -265,7 +265,7 @@ const About = () => {
           </h2>
         </div>
 
-        <div className="grid gap-7 md:grid-cols-3">
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
           {leadershipMembers.map((leader, index) => (
             <motion.article
               key={leader.id}
@@ -289,13 +289,9 @@ const About = () => {
                   </div>
                 </div>
 
-                <p className="mt-5 flex-1 text-sm leading-relaxed text-foreground">
-                  {leader.quote.split(/\.\s+/).filter(Boolean).slice(0, 1).join(".") + "."}
-                </p>
-
                 <Link
                   to={`/about/leadership/${leader.id}`}
-                  className="neo-button mt-6 flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-primary"
+                  className="neo-button mt-auto flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-primary"
                   aria-label={`View ${leader.name} profile`}
                 >
                   View Profile

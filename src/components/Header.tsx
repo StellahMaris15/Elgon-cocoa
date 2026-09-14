@@ -79,12 +79,6 @@ export const Header = () => {
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Link
-              to="/inquire"
-              className="neo-button hidden px-5 py-2.5 text-xs btn-label bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
-            >
-              Request Quote
-            </Link>
             <button
               className="neo-button btn-label bg-card px-3 py-2 text-[11px] hover:text-primary sm:px-4 sm:text-xs lg:hidden"
               onClick={() => setOpen(!open)}
@@ -138,12 +132,6 @@ export const Header = () => {
                     </RouterNavLink>
                   </motion.div>
                 ))}
-                <Link
-                  to="/inquire"
-                  className="neo-button mt-4 block px-5 py-3 text-center text-xs btn-label bg-primary text-primary-foreground hover:bg-accent hover:text-accent-foreground"
-                >
-                  Request Quote
-                </Link>
               </div>
             </motion.div>
           )}

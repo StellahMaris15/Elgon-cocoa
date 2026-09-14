@@ -77,7 +77,7 @@ export const Footer = () => {
             <p className="text-xs text-primary-foreground/50">Mbale Industrial City, Uganda</p>
             <Link
               to="/auth"
-              className="btn-label text-[11px] border border-primary-foreground/25 text-primary-foreground px-4 py-2 rounded-md hover:border-accent hover:bg-accent hover:text-accent-foreground transition-colors"
+              className="text-xs text-primary-foreground/50 transition-colors hover:text-accent"
             >
               Admin
             </Link>

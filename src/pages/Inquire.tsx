@@ -9,6 +9,7 @@ import { siteVideos } from "@/data/videos";
 import { products, categories } from "@/data/products";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().trim().min(2).max(100),
@@ -52,7 +53,7 @@ const Inquire = () => {
     }));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -63,11 +64,48 @@ const Inquire = () => {
     }
     setErrors({});
     setSubmitting(true);
-    setTimeout(() => {
+    const selectedProducts = products.filter((product) => parsed.data.productIds.includes(product.id));
+    const inquiryPayload = {
+      name: parsed.data.name,
+      company: parsed.data.company || null,
+      country: parsed.data.country || null,
+      email: parsed.data.email,
+      phone: parsed.data.phone || null,
+      product_slugs: selectedProducts.map((product) => product.slug),
+      volume: parsed.data.volume || null,
+      message: parsed.data.message || null,
+      source: "inquire",
+      status: "new",
+    };
+    try {
+      const { data, error } = await supabase.functions.invoke("submit-inquiry", {
+        body: {
+          name: inquiryPayload.name,
+          company: parsed.data.company,
+          country: parsed.data.country,
+          email: inquiryPayload.email,
+          phone: parsed.data.phone,
+          productSlugs: inquiryPayload.product_slugs,
+          volume: parsed.data.volume,
+          message: parsed.data.message,
+          source: "inquire",
+        },
+      });
+
+      if (error) {
+        const { error: insertError } = await supabase.from("inquiries").insert(inquiryPayload);
+        if (insertError) throw insertError;
+      }
+      if (data?.error) throw new Error(data.error);
+
       setSubmitting(false);
       setForm({ name: "", company: "", country: "", email: "", phone: "", productIds: [], volume: "", message: "" });
-      toast.success("Inquiry received. We'll respond within 2 business days.");
-    }, 900);
+      toast.success(data?.message ?? "Inquiry received. We'll respond within 2 business days.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "We could not submit your inquiry. Please try again.";
+      toast.error(message);
+      setSubmitting(false);
+    }
   };
 
   return (

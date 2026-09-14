@@ -1,8 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Layout } from "@/components/Layout";
-import { PageHero } from "@/components/PageHero";
+import { PageHero, heroBtn } from "@/components/PageHero";
 import { pageHeroImages } from "@/data/cropImages";
 import { ProductCard } from "@/components/ProductCard";
 import { categories, products, CategorySlug } from "@/data/products";
@@ -44,7 +45,11 @@ const Products = () => {
         subtitle="Explore our organically grown, expertly processed exports, available in raw and value added forms, from container scale to bespoke quantities."
         image={pageHeroImages.products}
         imageAlt="Cocoa pods growing on a tree in the Elgon region"
-      />
+      >
+        <Link to="/inquire" className={heroBtn("solid")}>
+          Request Quote
+        </Link>
+      </PageHero>
 
       <section className="container-full py-16">
         <div className="flex flex-wrap gap-3 mb-12">

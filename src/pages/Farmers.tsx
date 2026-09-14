@@ -39,44 +39,43 @@ const FarmerCard = ({ farmer, index }: { farmer: FarmerRow; index: number }) => 
       className="group h-full overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:border-primary/35 hover:shadow-xl"
     >
       <Link to={`/farmers/${farmer.slug ?? farmer.id}`} className="block h-full">
-        <div className="relative aspect-[4/5] min-h-[20rem] overflow-hidden bg-muted sm:min-h-[24rem] md:min-h-[28rem] lg:min-h-[30rem]">
+        <div className="relative aspect-[4/5] min-h-[24rem] overflow-hidden bg-white sm:min-h-[27rem] lg:min-h-[31rem]">
           {photo ? (
-            <SiteImage
-              src={photo}
-              alt={`${farmer.name}, ${farmer.role} in ${farmer.district}`}
-              loading="lazy"
-              className="h-full w-full object-cover brightness-110 contrast-110 saturate-115 transition-transform duration-700 group-hover:scale-105"
-            />
+            <>
+              <SiteImage
+                src={photo}
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full scale-110 object-cover opacity-25 blur-2xl"
+              />
+              <div className="absolute inset-x-2 top-2 bottom-[8.75rem] grid place-items-center overflow-hidden rounded-[1.35rem] bg-white/85">
+                <SiteImage
+                  src={photo}
+                  alt={`${farmer.name}, ${farmer.role} in ${farmer.district}`}
+                  loading="lazy"
+                  className="h-full w-full object-contain object-center brightness-110 contrast-110 saturate-115"
+                />
+              </div>
+            </>
           ) : (
-            <div className="grid h-full w-full place-items-center bg-secondary text-secondary-foreground">
+            <div className="absolute inset-x-2 top-2 bottom-[8.75rem] grid place-items-center rounded-[1.35rem] bg-secondary text-secondary-foreground">
               <span className="font-heading text-4xl font-bold">{initials(farmer.name)}</span>
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#062516]/18 via-transparent to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-[28%]">
-            <div className="flex h-full w-full min-w-0 flex-col justify-center rounded-b-[1.75rem] border-t border-white/25 bg-[#062516]/50 px-4 py-2 text-primary-foreground shadow-2xl shadow-black/20 backdrop-blur-md backdrop-saturate-150 sm:px-5 md:px-6">
-              <h3 className="break-words font-heading text-[clamp(1.3rem,7.5vw,1.55rem)] font-semibold leading-none text-primary-foreground drop-shadow-sm md:text-[1.7rem]">
+          <div className="absolute inset-x-0 bottom-0 min-h-[8.5rem]">
+            <div className="flex h-full w-full min-w-0 flex-col justify-center rounded-b-[1.75rem] border-t border-white/20 bg-[#20341f]/72 px-5 py-4 text-primary-foreground shadow-[0_-18px_42px_rgba(6,37,22,0.34)] backdrop-blur-xl backdrop-saturate-150 md:px-6">
+              {farmer.role && <p className="btn-label mb-1 text-[0.62rem] uppercase tracking-normal text-accent">{farmer.role}</p>}
+              <h3 className="break-words font-heading text-[clamp(1.65rem,7.5vw,2rem)] font-bold leading-none text-primary">
                 {farmer.name}
               </h3>
-              {farmer.role && <p className="btn-label mt-1 text-[0.62rem] text-accent">{farmer.role}</p>}
               {farmer.district && (
-                <p className="mt-1 text-[0.72rem] leading-snug text-primary-foreground/85">
+                <p className="mt-2 text-sm font-semibold leading-snug text-primary/85">
                   {farmer.district} District
                 </p>
               )}
-              {(farmer.crops?.length ?? 0) > 0 && (
-                <div className="mt-1.5 flex flex-wrap gap-1.5">
-                  {farmer.crops.slice(0, 2).map((c) => (
-                    <span
-                      key={c}
-                      className="btn-label rounded-full border border-white/20 bg-white/15 px-2.5 py-0.5 text-[0.58rem] capitalize text-primary-foreground"
-                    >
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span className="mt-1.5 inline-flex text-[0.68rem] font-semibold text-accent transition-colors group-hover:text-primary-foreground">
+              <span className="mt-3 inline-flex text-sm font-bold text-white transition-colors group-hover:text-accent">
                 View profile
               </span>
             </div>
