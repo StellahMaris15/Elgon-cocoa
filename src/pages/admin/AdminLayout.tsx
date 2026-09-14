@@ -177,7 +177,7 @@ export const AdminLayout = () => {
 
   return (
     <div className="admin-shell flex min-h-screen w-full bg-[#f8faf6]">
-      <Seo title="Admin dashboard | Elgon Cooperative" description="Manage products, farmers and inquiries." path="/admin" />
+      <Seo title="Admin dashboard | Elgon Cooperative" description="Manage products, farmers and inquiries." path="/admin" noindex />
 
       {/* Desktop sidebar */}
       <aside

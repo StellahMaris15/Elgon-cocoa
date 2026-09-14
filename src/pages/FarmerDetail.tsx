@@ -7,6 +7,7 @@ import { Product3DViewer } from "@/components/Product3DViewer";
 import { useFarmer } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
 import type { CategorySlug } from "@/data/products";
+import { absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
 const CropViewer = ({ crop, value, name }: { crop: CategorySlug; value?: string | null; name: string }) => {
   const backdrop = useMediaUrl(value);
@@ -72,6 +73,35 @@ const FarmerDetail = () => {
         title={`${farmer.name} | Elgon Cooperative Farmer`}
         description={(farmer.story || `${farmer.name}, ${farmer.role} in ${farmer.district} District.`).slice(0, 155)}
         path={`/farmers/${farmer.slug ?? farmer.id}`}
+        type="profile"
+        keywords={[farmer.name, farmer.role ?? "", farmer.district ?? "", ...crops].filter(Boolean)}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Farmers", path: "/farmers" },
+            { name: farmer.name, path: `/farmers/${farmer.slug ?? farmer.id}` },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: farmer.name,
+            jobTitle: farmer.role,
+            description: farmer.story,
+            url: absoluteUrl(`/farmers/${farmer.slug ?? farmer.id}`),
+            address: farmer.district
+              ? {
+                  "@type": "PostalAddress",
+                  addressLocality: farmer.district,
+                  addressCountry: "UG",
+                }
+              : undefined,
+            worksFor: {
+              "@type": "Organization",
+              name: "Elgon Cooperative",
+            },
+            knowsAbout: crops,
+          },
+        ]}
       />
 
       <section className="container-full pt-12 pb-6">

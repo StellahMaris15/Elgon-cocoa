@@ -5,6 +5,7 @@ import { useLeadershipMember, type LeadershipMemberRow } from "@/hooks/useCatalo
 import { useMediaUrl } from "@/lib/media";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
 const initialsFor = (leader: LeadershipMemberRow) =>
   leader.initials || leader.name.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -79,6 +80,27 @@ const LeadershipMemberDetail = () => {
         title={`${leader.name} | Elgon Cooperative Leadership`}
         description={(leader.quote || `${leader.name}, ${leader.title}.`).slice(0, 155)}
         path={`/about/leadership/${leader.id}`}
+        type="profile"
+        keywords={[leader.name, leader.title, "Elgon Cooperative leadership"].filter(Boolean)}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "About", path: "/about" },
+            { name: leader.name, path: `/about/leadership/${leader.id}` },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: leader.name,
+            jobTitle: leader.title,
+            description: leader.quote,
+            url: absoluteUrl(`/about/leadership/${leader.id}`),
+            worksFor: {
+              "@type": "Organization",
+              name: "Elgon Cooperative",
+            },
+          },
+        ]}
       />
 
       <section className="container-full pt-12">

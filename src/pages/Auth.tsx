@@ -83,6 +83,7 @@ const Auth = () => {
         title="Administrator sign in | Elgon Cooperative"
         description="Secure sign-in for Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society administrators."
         path="/auth"
+        noindex
       />
       <div className="w-full max-w-md">
         <Link to="/" className="flex flex-col items-center gap-3 justify-center mb-8 text-primary">

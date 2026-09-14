@@ -5,6 +5,8 @@ import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
 import { siteVideos } from "@/data/videos";
+import { Seo } from "@/components/Seo";
+import { absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
 import { products, categories } from "@/data/products";
 import { toast } from "sonner";
@@ -110,6 +112,25 @@ const Inquire = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Request a Quote | Ugandan Vanilla, Coffee & Cocoa Exports"
+        description="Request pricing, lead times and shipping details for Ugandan vanilla, Arabica coffee and cocoa from Elgon Cooperative."
+        path="/inquire"
+        image={cropHero.vanilla}
+        keywords={["request vanilla quote", "Uganda coffee export quote", "Uganda cocoa supplier quote"]}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Request Quote", path: "/inquire" },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            name: "Request a Quote",
+            url: absoluteUrl("/inquire"),
+          },
+        ]}
+      />
       <PageHero
         eyebrow="From Our Farms to the World"
         title="Request a"

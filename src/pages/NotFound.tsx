@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
+import { Seo } from "@/components/Seo";
 
 const NotFound = () => (
   <Layout>
+    <Seo
+      title="Page Not Found | Elgon Cooperative"
+      description="The page could not be found. Return to Elgon Cooperative to explore Ugandan vanilla, coffee and cocoa."
+      path="/404"
+      noindex
+    />
     <section className="container-full py-32 md:py-40 text-center">
       <p className="eyebrow mb-4">404</p>
       <h1 className="font-heading font-bold text-5xl md:text-7xl text-primary mb-6">Page not found</h1>

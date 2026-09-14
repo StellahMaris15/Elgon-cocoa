@@ -10,6 +10,8 @@ import { HeroVideoBand } from "@/components/HeroVideoBand";
 import { useFarmers, usePartners, type FarmerRow, type PartnerLogoRow } from "@/hooks/useCatalog";
 import { useMediaUrl } from "@/lib/media";
 import { categories, type CategorySlug } from "@/data/products";
+import { Seo } from "@/components/Seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 const PRINCIPLES = [
   { label: "Sustainability" },
@@ -132,6 +134,14 @@ const Index = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Ugandan Vanilla, Coffee & Cocoa Exporter | Elgon Cooperative"
+        description="Organic Ugandan vanilla, Arabica coffee and cocoa from 3,000+ Mount Elgon farmers. Traceable, export-ready crops for buyers, roasters and processors."
+        path="/"
+        image={cropHero.cocoa}
+        keywords={["Ugandan vanilla exporter", "Uganda Arabica coffee", "Uganda cocoa exporter", "Mount Elgon cooperative"]}
+        jsonLd={[organizationJsonLd(), websiteJsonLd()]}
+      />
       <PageHero
         eyebrow="From Our Farms to the World"
         title="Premium Ugandan"

@@ -69,19 +69,50 @@ export const Footer = () => {
       </div>
 
       <div className="border-t border-primary-foreground/10">
-        <div className="container-full py-6 flex flex-col md:flex-row justify-between items-center gap-3">
-          <p className="text-xs text-primary-foreground/50">
-            Copyright {new Date().getFullYear()} Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society. All rights reserved.
+        <div className="container-full flex flex-col items-center gap-2 py-6 text-center lg:hidden">
+          <p className="text-[10px] leading-tight text-primary-foreground/50 sm:text-xs">
+            Copyright {new Date().getFullYear()} Elgon Cooperative. All rights reserved.
           </p>
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            <p className="text-xs text-primary-foreground/50">Mbale Industrial City, Uganda</p>
+          <p className="text-[10px] leading-tight text-primary-foreground/50 sm:text-xs">
             <Link
               to="/auth"
-              className="text-xs text-primary-foreground/50 transition-colors hover:text-accent"
+              className="font-semibold text-accent transition-colors hover:text-primary-foreground"
             >
               Admin
             </Link>
-          </div>
+            <span className="mx-2">|</span>
+            <span>Developed By </span>
+            <a
+              href="https://ritebyte-technologies.im/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-accent transition-colors hover:text-primary-foreground"
+            >
+              Ritebyte Technologies Limited
+            </a>
+          </p>
+        </div>
+        <div className="container-full hidden items-center justify-between gap-8 py-6 lg:flex">
+          <p className="text-xs leading-tight text-primary-foreground/50">
+            Developed By{" "}
+            <a
+              href="https://ritebyte-technologies.im/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-accent transition-colors hover:text-primary-foreground"
+            >
+              Ritebyte Technologies Limited
+            </a>
+          </p>
+          <p className="text-xs leading-tight text-primary-foreground/50">
+            Copyright {new Date().getFullYear()} Elgon Cooperative. All rights reserved.{" "}
+            <Link
+              to="/auth"
+              className="font-semibold text-accent transition-colors hover:text-primary-foreground"
+            >
+              Admin
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

@@ -5,6 +5,8 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { PageHero } from "@/components/PageHero";
 import { cropHero } from "@/data/cropImages";
+import { Seo } from "@/components/Seo";
+import { absoluteUrl, breadcrumbJsonLd, organizationJsonLd } from "@/lib/seo";
 
 import { toast } from "sonner";
 
@@ -40,6 +42,26 @@ const Contact = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Contact Elgon Cooperative | Export Orders & Partnerships"
+        description="Contact Elgon Cooperative in Uganda for vanilla, coffee and cocoa export orders, farmer membership, partnerships and buyer inquiries."
+        path="/contact"
+        image={cropHero.cocoa}
+        keywords={["contact Elgon Cooperative", "Uganda vanilla supplier contact", "coffee cocoa export inquiries"]}
+        jsonLd={[
+          organizationJsonLd(),
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            name: "Contact Elgon Cooperative",
+            url: absoluteUrl("/contact"),
+          },
+        ]}
+      />
       <PageHero
         eyebrow="From Our Farms to the World"
         title="Get in"
@@ -166,15 +188,15 @@ const Contact = () => {
       </section>
 
       <section className="w-full">
-        <div className="relative min-h-[480px] w-full overflow-hidden bg-card md:min-h-[560px]">
+        <div className="relative h-[360px] w-full overflow-hidden bg-card sm:h-[420px] md:h-[560px]">
           <iframe
             title="Elgon Cooperative Map"
             src="https://www.google.com/maps?q=Mbale%20Industrial%20City%20Division%20Council%20Bilinda%20Village%20Bumateba%20Parish%20Sironko%20District%20Uganda&z=12&output=embed"
-            className="h-[420px] w-full border-0 grayscale-[35%] contrast-125 md:h-[560px]"
+            className="h-full w-full border-0 grayscale-[35%] contrast-125"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-          <span className="absolute left-4 top-4 rounded-full bg-primary px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-lg">
+          <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-2 text-[9px] font-semibold uppercase tracking-normal text-primary-foreground shadow-lg sm:left-4 sm:top-4 sm:px-4 sm:text-[10px] sm:tracking-[0.2em]">
             Elgon Location
           </span>
         </div>

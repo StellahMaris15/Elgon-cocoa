@@ -9,6 +9,8 @@ import { useLeadership, usePartners, type LeadershipMemberRow, type PartnerLogoR
 import { useMediaUrl } from "@/lib/media";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Seo } from "@/components/Seo";
+import { breadcrumbJsonLd, organizationJsonLd } from "@/lib/seo";
 
 const OBJECTIVES = [
   "Promote organic farming of vanilla, coffee and cocoa.",
@@ -108,6 +110,20 @@ const About = () => {
 
   return (
   <Layout>
+    <Seo
+      title="About Elgon Cooperative | Women-Led Organic Farming in Uganda"
+      description="Learn about Elgon Vanilla, Coffee & Cocoa Growers' Cooperative Society, a women-driven Ugandan cooperative supporting organic farming and agro exports."
+      path="/about"
+      image={pageHeroImages.about}
+      keywords={["women farmers Uganda", "Elgon Cooperative", "organic farming Uganda", "Mount Elgon agro exports"]}
+      jsonLd={[
+        organizationJsonLd(),
+        breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ]),
+      ]}
+    />
     <PageHero
       eyebrow="From Our Farms to the World"
       title="Women driven"

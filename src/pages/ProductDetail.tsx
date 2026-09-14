@@ -9,6 +9,8 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { categories } from "@/data/products";
 import { useProducts } from "@/hooks/useCatalog";
 import { cn } from "@/lib/utils";
+import { Seo } from "@/components/Seo";
+import { absoluteAssetUrl, absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -35,9 +37,49 @@ const ProductDetail = () => {
   const galleryImages = Array.from(
     new Set([...product.images, ...categoryProducts.flatMap((p) => p.images)].filter(Boolean)),
   );
+  const productPath = `/products/${product.slug}`;
+  const productImage = galleryImages[0] || cropHero[product.category];
+  const productDescription = product.description.slice(0, 155);
 
   return (
     <Layout>
+      <Seo
+        title={`${product.name} | Elgon Cooperative Products`}
+        description={productDescription}
+        path={productPath}
+        image={productImage}
+        type="product"
+        keywords={[product.name, category?.name ?? product.category, product.origin, ...product.grades]}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/products" },
+            { name: product.name, path: productPath },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.name,
+            description: product.description,
+            image: galleryImages.map(absoluteAssetUrl),
+            category: category?.name,
+            brand: {
+              "@type": "Brand",
+              name: "Elgon Cooperative",
+            },
+            offers: {
+              "@type": "Offer",
+              url: absoluteUrl(productPath),
+              availability: "https://schema.org/InStock",
+              priceCurrency: "USD",
+              seller: {
+                "@type": "Organization",
+                name: "Elgon Cooperative",
+              },
+            },
+          },
+        ]}
+      />
       <section className="container-full pt-12 pb-6">
         <Link
           to="/products"

@@ -11,6 +11,7 @@ import { useFarmers, type FarmerRow } from "@/hooks/useCatalog";
 import { cropHero, pageHeroImages } from "@/data/cropImages";
 import { useMediaUrl } from "@/lib/media";
 import { siteVideos } from "@/data/videos";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 const CROPS = ["vanilla", "coffee", "cocoa"];
 
@@ -125,6 +126,12 @@ const Farmers = () => {
         title="Our Farmers | Elgon Vanilla, Coffee & Cocoa Cooperative"
         description="Meet the 3,000+ smallholder farmers of the Elgon region growing organic vanilla, coffee and cocoa with the cooperative."
         path="/farmers"
+        image={pageHeroImages.farmers}
+        keywords={["Mount Elgon farmers", "Uganda smallholder farmers", "organic farmer cooperative"]}
+        jsonLd={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Farmers", path: "/farmers" },
+        ])}
       />
 
       {/* Hero */}

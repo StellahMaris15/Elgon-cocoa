@@ -9,6 +9,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { categories, products, CategorySlug } from "@/data/products";
 import { siteVideos } from "@/data/videos";
 import { HeroVideoBand } from "@/components/HeroVideoBand";
+import { Seo } from "@/components/Seo";
+import { absoluteUrl, breadcrumbJsonLd } from "@/lib/seo";
 
 import { cn } from "@/lib/utils";
 
@@ -38,6 +40,30 @@ const Products = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Products | Ugandan Vanilla, Arabica Coffee & Cocoa"
+        description="Explore export-ready Ugandan vanilla beans, Arabica coffee and fermented cocoa beans grown by smallholder farmers in the Mount Elgon region."
+        path="/products"
+        image={pageHeroImages.products}
+        keywords={["Ugandan vanilla products", "Arabica green beans Uganda", "fermented cocoa beans Uganda", "bulk agro commodities"]}
+        jsonLd={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/products" },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Elgon Cooperative Products",
+            itemListElement: products.map((product, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: product.name,
+              url: absoluteUrl(`/products/${product.slug}`),
+            })),
+          },
+        ]}
+      />
       <PageHero
         eyebrow="From Our Farms to the World"
         title="Vanilla. Coffee."
